@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Tango.Linq")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Linq extensions library of Tango Framework")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Gabriel Schade Cardoso")]
 [assembly: AssemblyProduct("Tango.Linq")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]

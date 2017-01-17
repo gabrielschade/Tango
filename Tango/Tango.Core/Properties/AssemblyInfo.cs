@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Tango.Core")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Core library of Tango Framework, a really, really tiny functional C# framework")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Gabriel Schade Cardoso")]
 [assembly: AssemblyProduct("Tango.Core")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
