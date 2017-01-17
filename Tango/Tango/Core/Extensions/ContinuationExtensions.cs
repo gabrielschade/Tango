@@ -5,5 +5,8 @@
         public static Continuation<TSuccess, TFail> MapToContinuation<TSuccess, TFail>(this TSuccess value)
             where TFail : FailResult
             => new Continuation<TSuccess, TFail>(value);
+
+        public static Continuation<TSuccess> MapToContinuation<TSuccess>(this TSuccess value)
+            => new Continuation<TSuccess>(value);
     }
 }

@@ -13,7 +13,7 @@ namespace Tango.Test
         [TestMethod]
         public void TestAddAndSub()
         {
-            int result = 1.MapToContinuation<int, FailResult>()
+            int result = 1.MapToContinuation()
                             .Then(number => number + 5)
                             .Then(number => number + 10)
                             .Then(number => number - 2);
@@ -26,7 +26,7 @@ namespace Tango.Test
         {
             int zero = 0;
             IEnumerable<string> errors = Enumerable.Empty<string>();
-            int result = 5.MapToContinuation<int, FailResult>()
+            int result = 5.MapToContinuation()
                             .Then(number => number + 5)
                             .Then(number => number / zero)
                             .Fail(fail => {
@@ -66,7 +66,7 @@ namespace Tango.Test
         }
 
         private Continuation<int, FailResult> TestEvenNumberThenDoubleIt(int numberForTest)
-         => numberForTest.MapToContinuation<int, FailResult>()
+         => numberForTest.MapToContinuation()
                          .Bypass(IsEven)
                          .Then(number => number * 2);
 

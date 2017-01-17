@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Continuation.cs" />
+    <Compile Include="Core\Continuation.DefaultFail.cs" />
     <Compile Include="Core\Extensions\ContinuationExtensions.cs" />
     <Compile Include="Core\Extensions\OptionExtensions.cs" />
     <Compile Include="Core\FailResult.cs" />
