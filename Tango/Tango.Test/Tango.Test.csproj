@@ -54,13 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tango.Core\Tango.Core.csproj">
-      <Project>{91af3a01-80f8-4b86-b16b-828e18f7e95a}</Project>
-      <Name>Tango.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tango.Linq\Tango.Linq.csproj">
-      <Project>{e5c4ba70-e733-4d4d-a7b1-f4ffbd9dee05}</Project>
-      <Name>Tango.Linq</Name>
+    <ProjectReference Include="..\Tango\Tango.csproj">
+      <Project>{780be12e-09d8-4423-a06f-685d919ef8af}</Project>
+      <Name>Tango</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
