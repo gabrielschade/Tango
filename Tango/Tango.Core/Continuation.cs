@@ -16,7 +16,6 @@ namespace Tango.Core
             FailResult = default(TFail);
             IsSuccess = true;
         }
-
         public Continuation(TFail fail)
         {
             FailResult = fail;
@@ -30,6 +29,12 @@ namespace Tango.Core
             SuccessResult = default(TSuccess);
             IsSuccess = false;
         }
+
+        public static implicit operator TSuccess(Continuation<TSuccess, TFail> continuation)
+            => continuation.SuccessResult;
+
+        public static implicit operator TFail(Continuation<TSuccess, TFail> continuation)
+            => continuation.FailResult;
 
         public static implicit operator Continuation<TSuccess, TFail>(TSuccess success)
             => new Continuation<TSuccess, TFail>(success);
@@ -55,8 +60,8 @@ namespace Tango.Core
             => (result) =>
             {
                 TFail fail = bypass(result);
-                return fail.Equals(default(TFail)) ? this
-                                                    : new Continuation<TSuccess, TFail>(fail);
+                return fail == null || fail.Equals(default(TFail)) ? 
+                       this : new Continuation<TSuccess, TFail>(fail);
             };
 
 
