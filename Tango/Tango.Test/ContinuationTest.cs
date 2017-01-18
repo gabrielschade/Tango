@@ -71,7 +71,7 @@ namespace Tango.Test
                          .Then(number => number * 2);
 
         private FailResult IsEven(int number)
-            => number % 2 == 0 ? default(FailResult) 
+            => number % 2 == 0 ? ContinuationFail.Ignore()
                                  :new FailResult("This number is odd.");
     }
 }

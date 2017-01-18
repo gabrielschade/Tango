@@ -9,4 +9,19 @@
         public static Continuation<TSuccess> MapToContinuation<TSuccess>(this TSuccess value)
             => new Continuation<TSuccess>(value);
     }
+
+    public static class ContinuationFail
+    {
+        public static FailResult Ignore()
+            => default(FailResult);
+        public static TFail Ignore<TFail>()
+            where TFail : FailResult
+            => default(TFail);
+    }
+
+    public static class ContinuationSuccess
+    {
+        public static TSuccess Ignore<TSuccess>()
+            => default(TSuccess);
+    }
 }
