@@ -1,4 +1,4 @@
-﻿namespace Tango.Core.Types
+﻿namespace Tango.Types
 {
     public struct Unit
     { }

@@ -41,18 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Continuation.cs" />
-    <Compile Include="Core\Continuation.DefaultFail.cs" />
-    <Compile Include="Core\Extensions\ContinuationExtensions.cs" />
-    <Compile Include="Core\Extensions\OptionExtensions.cs" />
-    <Compile Include="Core\FailResult.cs" />
-    <Compile Include="Core\Option.cs" />
-    <Compile Include="Core\Potential.cs" />
-    <Compile Include="Core\Types\Unit.cs" />
+    <Compile Include="Functional\FunctionExtensions.cs" />
     <Compile Include="Linq\EnumExtensions.cs" />
+    <Compile Include="Linq\EqualityComparerBuilder.cs" />
+    <Compile Include="Linq\Extensions\OptionExtensions.cs" />
     <Compile Include="Linq\IQueryableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\Either.cs" />
+    <Compile Include="Types\Option.cs" />
+    <Compile Include="Types\Potential.cs" />
+    <Compile Include="Types\Continuation.cs" />
+    <Compile Include="Types\Unit.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
