@@ -9,13 +9,13 @@ namespace Tango.Types
         public bool IsLeft { get; }
         public bool IsRight => !IsLeft;
 
-        private Either(TLeft left)
+        public Either(TLeft left)
         {
             IsLeft = true;
             Left = left;
             Right = default(TRight);
         }
-        private Either(TRight right)
+        public Either(TRight right)
         {
             IsLeft = false;
             Right = right;

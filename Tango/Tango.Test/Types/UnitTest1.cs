@@ -1,6 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tango.Types;
+using System.Linq;
+using System.Collections.Generic;
+using Tango.Linq;
 
 namespace Tango.Test.Types
 {
@@ -186,6 +189,13 @@ namespace Tango.Test.Types
                 () => false);
 
             Assert.AreEqual(result, true);
+        }
+
+        [TestMethod]
+        public void Test()
+        {
+            IEnumerable<int> values1 = Collection.Range(1, 10);
+            
         }
 
     }

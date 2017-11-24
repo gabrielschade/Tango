@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tango.Types;
 
-namespace Tango.Linq.Extensions
+namespace Tango.Linq
 {
     public static class OptionExtensions
     {

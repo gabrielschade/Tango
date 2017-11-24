@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Tango.Types
 {
@@ -21,6 +22,12 @@ namespace Tango.Types
             Success = default(TSuccess);
             IsSuccess = false;
         }
+
+        public static Continuation<TSuccess, TFail> Return(TSuccess success)
+            => new Continuation<TSuccess, TFail>(success);
+
+        public static Continuation<TSuccess, TFail> Return(TFail fail)
+            => new Continuation<TSuccess, TFail>(fail);
 
         public static implicit operator Continuation<TSuccess, TFail>(TSuccess success)
             => new Continuation<TSuccess, TFail>(success);
