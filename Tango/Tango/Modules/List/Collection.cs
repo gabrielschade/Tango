@@ -68,7 +68,13 @@ namespace Tango
         /// <summary>Compares two collections using the given comparison function, element by element.
         /// Returns the first non-zero result from the comparison function.  If the end of a collection
         /// is reached it returns a -1 if the first collection is shorter and a 1 if the second collection
-        /// is shorter.</summary>
+        /// is shorter.
+        /// </summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.
+        /// This function causes IEnumerable evaluation.
+        /// </remarks>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="comparer">A function that takes an element from each collection and returns an int.
         /// If it evaluates to a non-zero value iteration is stopped and that value is returned.</param>
@@ -79,10 +85,11 @@ namespace Tango
         public static int CompareWith<T>(Func<T, T, int> comparer, IEnumerable<T> source1, IEnumerable<T> source2)
         {
             int result = 0;
-            IterateIndexed2((_, element1, element2) =>
+            Map2((element1, element2) =>
                {
                    result = comparer(element1, element2);
-               }, source1, source2, () => result == 0);
+                   return result;
+               }, source1, source2, () => result == 0).Count();
             return result;
         }
 
@@ -132,7 +139,8 @@ namespace Tango
         /// <summary>Tests if any element of the collection satisfies the given predicate.</summary>
         /// <remarks>The predicate is applied to the elements of the input collection. If any application 
         /// returns true then the overall result is true and no further elements are tested. 
-        /// Otherwise, false is returned.</remarks>
+        /// Otherwise, false is returned.
+        /// </remarks>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="predicate">The function to test the input elements.</param>
         /// <param name="source">The input collection.</param>
@@ -144,15 +152,28 @@ namespace Tango
         /// <remarks>The predicate is applied to matching elements in the two collections up to the lesser of the 
         /// two lengths of the collections. If any application returns true then the overall result is 
         /// true and no further elements are tested.
-        /// Otherwise, false is returned.</remarks>
+        /// Otherwise, false is returned.
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.
+        /// This function causes IEnumerable evaluation.
+        /// </remarks>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="predicate">The function to test the input elements.</param>
         /// <param name="source1">The first input collection.</param>
         /// <param name="source2">The second input collection.</param>
         /// <returns>True if any pair of elements satisfy the predicate.</returns>
         public static bool Exists2<T>(Func<T, T, bool> predicate, IEnumerable<T> source1, IEnumerable<T> source2)
-            => source1.Map2(source2, predicate)
-                      .Reduce((accumulator, element) => accumulator |= element);
+        {
+            bool result = false;
+            Map2(
+                (element1, element2) =>
+                {
+                    result |= predicate(element1, element2);
+                    return result;
+                }
+                , source1, source2, () => !result).Count();
+            return result;
+        }
 
         /// <summary>Returns a new collection containing only the elements of the collection
         /// for which the given predicate returns "true"</summary>
@@ -165,11 +186,11 @@ namespace Tango
 
         /// <summary>Returns the index of the first element in the collection
         /// that satisfies the given predicate.
-        /// Raises <c>KeyNotFoundException</c> if no such element exists.</summary>
+        /// Raises <c>InvalidOperationException</c> if no such element exists.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="predicate">The function to test the input elements.</param>
         /// <param name="source">The input collection.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown if the predicate evaluates to false for all the
+        /// <exception cref="System.InvalidOperationException">Thrown if the predicate evaluates to false for all the
         /// elements of the collection.</exception>
         /// <returns>The index of the first element that satisfies the predicate.</returns>
         public static int FindIndex<T>(Func<T, bool> predicate, IEnumerable<T> source)
@@ -196,6 +217,10 @@ namespace Tango
         /// through the computation.
         /// If the input function is <c>f</c> and the elements are <c>i0...iN</c> and <c>j0...jN</c>
         /// then computes <c>f (... (f s i0 j0)...) iN jN</c>.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.
+        /// </remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="TState">The type of initial and final states</typeparam>
@@ -224,6 +249,10 @@ namespace Tango
         /// through the computation.
         /// If the input function is <c>f</c> and the elements are <c>i0...iN</c> and <c>j0...jN</c>
         /// then computes <c>f i0 j0 (...(f iN jN s))</c>.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.
+        /// </remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="TState">The type of initial and final states</typeparam>
@@ -242,14 +271,22 @@ namespace Tango
         ///
         /// <remarks>The predicate is applied to the elements of the input collection. If any application 
         /// returns false then the overall result is false and no further elements are tested. 
-        /// Otherwise, true is returned.</remarks>
+        /// Otherwise, true is returned.
+        /// This function causes IEnumerable evaluation.</remarks>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="predicate">The function to test the input elements.</param>
         /// <param name="source">The input list.</param>
         /// <returns>True if all of the elements satisfy the predicate.</returns>
         public static bool ForAll<T>(Func<T, bool> predicate, IEnumerable<T> source)
-        => source.Map(predicate)
-                 .Reduce((accumulator, element) => accumulator &= element);
+        {
+            bool result = true;
+            Map((element) =>
+            {
+                result = predicate(element);
+                return result;
+            }, source, () => result).Count();
+            return result;
+        }
 
 
         /// <summary>Tests if all corresponding elements of the collection satisfy the given predicate pairwise.</summary>
@@ -257,7 +294,11 @@ namespace Tango
         /// <remarks>The predicate is applied to matching elements in the two collections up to the lesser of the 
         /// two lengths of the collections. If any application returns false then the overall result is 
         /// false and no further elements are tested.
-        /// Otherwise, true is returned.</remarks>
+        /// Otherwise, true is returned.
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.
+        /// This function causes IEnumerable evaluation.
+        /// </remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <param name="predicate">The function to test the input elements.</param>
@@ -265,13 +306,20 @@ namespace Tango
         /// <param name="source2">The second input collection.</param>
         /// <returns>True if all of the pairs of elements satisfy the predicate.</returns>
         public static bool ForAll2<T, T2>(Func<T, T2, bool> predicate, IEnumerable<T> source, IEnumerable<T2> source2)
-            => source.Map2(source2, predicate)
-                     .Reduce((accumulator, element) => accumulator &= element);
+        {
+            bool result = true;
+            Map2((element1, element2) =>
+            {
+                result = predicate(element1, element2);
+                return result;
+            }, source, source2, () => result).Count();
+            return result;
+        }
 
         /// <summary>Returns the first element of the collection.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="source">The input collection.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown when the list is empty.</exception>
+        /// <exception cref="System.InvalidOperationException">Thrown when the list is empty.</exception>
         /// <returns>The first element of the collection.</returns>
         public static T Head<T>(IEnumerable<T> source)
             => source.First();
@@ -279,7 +327,7 @@ namespace Tango
         /// <summary>Returns the first and the last element of the collection.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="source">The input collection.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown when the list is empty.</exception>
+        /// <exception cref="System.InvalidOperationException">Thrown when the list is empty.</exception>
         /// <returns>A Tuple with first and last element of the collection.</returns>
         public static (T, T) HeadAndTailEnd<T>(IEnumerable<T> source)
             => (source.First(), source.Last());
@@ -326,6 +374,7 @@ namespace Tango
 
 
         /// <summary>Applies the given function to each element of the collection.</summary>
+        /// <remarks>This function causes IEnumerable evaluation.</remarks>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="action">The function to apply to elements from the input collection.</param>
         /// <param name="source">The input collection.</param>
@@ -335,6 +384,10 @@ namespace Tango
                 source);
 
         /// <summary>Applies the given function to two collections simultaneously.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.
+        /// </remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <param name="action">The function to apply to pairs of elements from the input collections.</param>
@@ -348,6 +401,8 @@ namespace Tango
 
         /// <summary>Applies the given function to each element of the collection. The integer passed to the
         /// function indicates the index of element.</summary>
+        /// <remarks>
+        /// This function causes IEnumerable evaluation.</remarks>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="action">The function to apply to the elements of the collection along with their index.</param>
         /// <param name="source">The input collection.</param>
@@ -355,20 +410,25 @@ namespace Tango
             => IterateIndexed(action, source, () => true);
 
         private static void IterateIndexed<T>(Action<int, T> action, IEnumerable<T> source, Func<bool> conditionToBreak)
-            => MapIndexed(action.ToFunction(), source, conditionToBreak);
+            => MapIndexed(action.ToFunction(), source, conditionToBreak).Count();
 
         /// <summary>Applies the given function to two collections simultaneously. The integer passed to the
         /// function indicates the index of element.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.
+        /// <remarks>This function causes IEnumerable evaluation.
+        /// </remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <param name="action">The function to apply to a pair of elements from the input collection along with their index.</param>
         /// <param name="source">The first input collection.</param>
         /// <param name="source2">The second input collection.</param>
         public static void IterateIndexed2<T, T2>(Action<int, T, T2> action, IEnumerable<T> source, IEnumerable<T2> source2)
-            => MapIndexed2(action.ToFunction(), source, source2, () => true);
+            => IterateIndexed2(action, source, source2, () => true);
 
         private static void IterateIndexed2<T, T2>(Action<int, T, T2> action, IEnumerable<T> source, IEnumerable<T2> source2, Func<bool> conditionToBreak)
-            => MapIndexed2(action.ToFunction(), source, source2, conditionToBreak);
+            => MapIndexed2(action.ToFunction(), source, source2, conditionToBreak).Count();
 
         /// <summary>Builds a new collection whose elements are the results of applying the given function
         /// to each of the elements of the collection.</summary>
@@ -384,6 +444,10 @@ namespace Tango
 
         /// <summary>Builds a new collection whose elements are the results of applying the given function
         /// to the corresponding elements of the two collections pairwise.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.
+        /// </remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <param name="mapping">The function to transform pairs of elements from the input collection.</param>
@@ -393,8 +457,15 @@ namespace Tango
         public static IEnumerable<TResult> Map2<T, T2, TResult>(Func<T, T2, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2)
             => MapIndexed2((_, element1, element2) => mapping(element1, element2), source, source2);
 
+        private static IEnumerable<TResult> Map2<T, T2, TResult>(Func<T, T2, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2, Func<bool> conditionToBreak)
+            => MapIndexed2((_, element1, element2) => mapping(element1, element2), source, source2, conditionToBreak);
+
         /// <summary>Builds a new collection whose elements are the results of applying the given function
         /// to the corresponding elements of the three collections simultaneously.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the others then the loop runs only run until the smallest collection length.
+        /// </remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="T3">The element type of third collection.</typeparam>
@@ -431,6 +502,10 @@ namespace Tango
         }
 
         /// <summary>Like MapIndexed, but mapping corresponding elements from two collections.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.
+        /// </remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <param name="mapping">The function to transform pairs of elements from the two collections and their index.</param>
@@ -457,6 +532,9 @@ namespace Tango
         }
 
         /// <summary>Like MapIndexed, but mapping corresponding elements from three collections.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the others then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="T3">The element type of third collection.</typeparam>
@@ -584,6 +662,9 @@ namespace Tango
         }
 
         /// <summary>Like <c>Fold2</c>, but returns both the intermediary and final results</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="TState">The element type of states collection</typeparam>
@@ -620,6 +701,9 @@ namespace Tango
                      .Scan((accumulator, element) => folder(element, accumulator), state);
 
         /// <summary>Like <c>FoldBack2</c>, but returns both the intermediary and final results</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="TState">The element type of states collection</typeparam>

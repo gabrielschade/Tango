@@ -101,7 +101,9 @@ namespace Tango.Linq
         /// <remarks>The predicate is applied to matching elements in the two collections up to the lesser of the 
         /// two lengths of the collections. If any application returns true then the overall result is 
         /// true and no further elements are tested.
-        /// Otherwise, false is returned.</remarks>
+        /// Otherwise, false is returned.
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="predicate">The function to test the input elements.</param>
         /// <param name="source">The first input collection.</param>
@@ -150,6 +152,9 @@ namespace Tango.Linq
         /// through the computation.
         /// If the input function is <c>f</c> and the elements are <c>i0...iN</c> and <c>j0...jN</c>
         /// then computes <c>f (... (f s i0 j0)...) iN jN</c>.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="TState">The type of initial and final states</typeparam>
@@ -177,6 +182,9 @@ namespace Tango.Linq
         /// through the computation.
         /// If the input function is <c>f</c> and the elements are <c>i0...iN</c> and <c>j0...jN</c>
         /// then computes <c>f i0 j0 (...(f iN jN s))</c>.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="TState">The type of initial and final states</typeparam>
@@ -205,7 +213,9 @@ namespace Tango.Linq
         /// <remarks>The predicate is applied to matching elements in the two collections up to the lesser of the 
         /// two lengths of the collections. If any application returns false then the overall result is 
         /// false and no further elements are tested.
-        /// Otherwise, true is returned.</remarks>
+        /// Otherwise, true is returned.
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <param name="predicate">The function to test the input elements.</param>
@@ -239,6 +249,9 @@ namespace Tango.Linq
             => Collection.Iterate(action, source);
 
         /// <summary>Applies the given function to two collections simultaneously.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <param name="action">The function to apply to pairs of elements from the input collections.</param>
@@ -257,6 +270,9 @@ namespace Tango.Linq
 
         /// <summary>Applies the given function to two collections simultaneously. The integer passed to the
         /// function indicates the index of element.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <param name="action">The function to apply to a pair of elements from the input collection along with their index.</param>
@@ -276,6 +292,9 @@ namespace Tango.Linq
 
         /// <summary>Builds a new collection whose elements are the results of applying the given function
         /// to the corresponding elements of the two collections pairwise.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <param name="mapping">The function to transform pairs of elements from the input collection.</param>
@@ -287,6 +306,9 @@ namespace Tango.Linq
 
         /// <summary>Builds a new collection whose elements are the results of applying the given function
         /// to the corresponding elements of the three collections simultaneously.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the others then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="T3">The element type of third collection.</typeparam>
@@ -309,6 +331,9 @@ namespace Tango.Linq
             => Collection.MapIndexed(mapping, source);
 
         /// <summary>Like MapIndexed, but mapping corresponding elements from two collections.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <param name="mapping">The function to transform pairs of elements from the two collections and their index.</param>
@@ -319,6 +344,9 @@ namespace Tango.Linq
             => Collection.MapIndexed2(mapping, source, second);
 
         /// <summary>Like MapIndexed, but mapping corresponding elements from three collections.</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the others then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="T3">The element type of third collection.</typeparam>
@@ -402,6 +430,9 @@ namespace Tango.Linq
             => Collection.Scan(folder, state, source);
 
         /// <summary>Like <c>Fold2</c>, but returns both the intermediary and final results</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="TState">The element type of states collection</typeparam>
@@ -424,6 +455,9 @@ namespace Tango.Linq
             => Collection.ScanBack(folder, source, state);
 
         /// <summary>Like <c>FoldBack2</c>, but returns both the intermediary and final results</summary>
+        /// <remarks>
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="TState">The element type of states collection</typeparam>

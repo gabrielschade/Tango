@@ -5,7 +5,7 @@ namespace Tango.Types
     public struct Option<T>
     {
         private readonly T _value;
-        public bool IsNone => _value.Equals(default(T));
+        public bool IsNone => _value == null || _value.Equals(default(T));
         public bool IsSome => !IsNone;
 
         public Option(T value)

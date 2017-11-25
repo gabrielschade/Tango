@@ -8,7 +8,7 @@ using Tango.Linq;
 namespace Tango.Test.Types
 {
     [TestClass]
-    public class ContinuationTest
+    public class ContinuationTests
 
     {
         [TestMethod]
@@ -189,13 +189,6 @@ namespace Tango.Test.Types
                 () => false);
 
             Assert.AreEqual(result, true);
-        }
-
-        [TestMethod]
-        public void Test()
-        {
-            IEnumerable<int> values1 = Collection.Range(1, 10);
-            
         }
 
     }
