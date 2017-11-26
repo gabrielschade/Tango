@@ -574,7 +574,7 @@ namespace Tango.Test.Types
                     (index, element1, element2, element3) => index + Math.Max(Math.Max(element1, element2), element3) * 2,
                 Collection.Generate(1, 2, 3),
                 Collection.Generate(3, 2, 1),
-                Collection.Generate(3, 3, 3));
+                Collection.Generate(3, 3, 3)).ToArray();
 
             IEnumerable<int> expected =
                 Collection.Generate(6, 7, 8);

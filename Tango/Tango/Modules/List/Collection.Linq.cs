@@ -552,6 +552,82 @@ namespace Tango.Linq
         /// <returns>A single collection containing triples of matching elements from the input collections.</returns>
         public static IEnumerable<(T, T2, T3)> Zip3<T, T2, T3>(this IEnumerable<T> source, IEnumerable<T2> second, IEnumerable<T3> third)
             => Collection.Zip3(source, second, third);
+
+        internal static IEnumerable<TResult> LazyLoop<T, TResult>(
+            this IEnumerable<T> source
+            , Func<int, T, TResult> function)
+            => source.LazyLoop(function, () => true);
+        internal static IEnumerable<TResult> LazyLoop<T, TResult>(
+            this IEnumerable<T> source,
+            Func<int, T, TResult> function,
+            Func<bool> conditionToContinue)
+        {
+            int currentIndex = 0;
+            using (IEnumerator<T> enumeratorSource = source.GetEnumerator())
+            {
+                while (enumeratorSource.MoveNext() && conditionToContinue())
+                {
+                    yield return function(currentIndex, enumeratorSource.Current);
+                    currentIndex++;
+                }
+            }
+        }
+
+        internal static IEnumerable<TResult> LazyLoop2<T, T2, TResult>(
+            this IEnumerable<T> source,
+            IEnumerable<T2> source2,
+            Func<int, T, T2, TResult> function)
+            => source.LazyLoop2(source2,function, () => true);
+
+        internal static IEnumerable<TResult> LazyLoop2<T, T2, TResult>(
+        this IEnumerable<T> source,
+        IEnumerable<T2> source2,
+        Func<int, T, T2, TResult> function,
+        Func<bool> conditionToContinue)
+        {
+            int currentIndex = 0;
+            using (IEnumerator<T> enumeratorSource = source.GetEnumerator())
+            {
+                using (IEnumerator<T2> enumeratorSource2 = source2.GetEnumerator())
+                {
+                    while (enumeratorSource.MoveNext() && enumeratorSource2.MoveNext() && conditionToContinue())
+                    {
+                        yield return function(currentIndex, enumeratorSource.Current, enumeratorSource2.Current);
+                        currentIndex++;
+                    }
+                }
+            }
+        }
+        internal static IEnumerable<TResult> LazyLoop3<T, T2, T3, TResult>(
+            this IEnumerable<T> source,
+            IEnumerable<T2> source2,
+            IEnumerable<T3> source3,
+            Func<int, T, T2, T3, TResult> function)
+            => source.LazyLoop3(source2, source3, function, () => true);
+
+        internal static IEnumerable<TResult> LazyLoop3<T, T2, T3, TResult>(
+        this IEnumerable<T> source,
+        IEnumerable<T2> source2,
+        IEnumerable<T3> source3,
+        Func<int, T, T2, T3, TResult> function,
+        Func<bool> conditionToContinue)
+        {
+            int currentIndex = 0;
+            using (IEnumerator<T> enumeratorSource = source.GetEnumerator())
+            {
+                using (IEnumerator<T2> enumeratorSource2 = source2.GetEnumerator())
+                {
+                    using (IEnumerator<T3> enumeratorSource3 = source3.GetEnumerator())
+                    {
+                        while (enumeratorSource.MoveNext() && enumeratorSource2.MoveNext() && enumeratorSource3.MoveNext() && conditionToContinue())
+                        {
+                            yield return function(currentIndex, enumeratorSource.Current, enumeratorSource2.Current, enumeratorSource3.Current);
+                            currentIndex++;
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

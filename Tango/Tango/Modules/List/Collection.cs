@@ -36,7 +36,7 @@ namespace Tango
                    .Filter(optionResult => optionResult.IsSome)
                    .Map(optionResult => optionResult.Match(
                         some => some,
-                        () => default(TResult)));
+                        () => default));
 
         /// <summary>Divides the input collection into chunks of size at most <c>chunkSize</c>.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
@@ -433,10 +433,10 @@ namespace Tango
         /// <param name="action">The function to apply to the elements of the collection along with their index.</param>
         /// <param name="source">The input collection.</param>
         public static void IterateIndexed<T>(Action<int, T> action, IEnumerable<T> source)
-            => IterateIndexed(action, source, () => true);
+            => source.LazyLoop(action.ToFunction(), () => true).Count();
 
         private static void IterateIndexed<T>(Action<int, T> action, IEnumerable<T> source, Func<bool> conditionToBreak)
-            => MapIndexed(action.ToFunction(), source, conditionToBreak).Count();
+            => source.LazyLoop(action.ToFunction(), conditionToBreak).Count();
 
         /// <summary>Applies the given function to two collections simultaneously. The integer passed to the
         /// function indicates the index of element.</summary>
@@ -451,10 +451,10 @@ namespace Tango
         /// <param name="source">The first input collection.</param>
         /// <param name="source2">The second input collection.</param>
         public static void IterateIndexed2<T, T2>(Action<int, T, T2> action, IEnumerable<T> source, IEnumerable<T2> source2)
-            => IterateIndexed2(action, source, source2, () => true);
+            => source.LazyLoop2(source2, action.ToFunction(), () => true).Count();
 
         private static void IterateIndexed2<T, T2>(Action<int, T, T2> action, IEnumerable<T> source, IEnumerable<T2> source2, Func<bool> conditionToBreak)
-            => MapIndexed2(action.ToFunction(), source, source2, conditionToBreak).Count();
+            => source.LazyLoop2(source2, action.ToFunction(), conditionToBreak).Count();
 
         /// <summary>Builds a new collection whose elements are the results of applying the given function
         /// to each of the elements of the collection.</summary>
@@ -463,10 +463,10 @@ namespace Tango
         /// <param name="source">The input collection.</param>
         /// <returns>The collection of transformed elements.</returns>
         public static IEnumerable<TResult> Map<T, TResult>(Func<T, TResult> mapping, IEnumerable<T> source)
-            => MapIndexed((_, element) => mapping(element), source);
+            => source.LazyLoop((_, element) => mapping(element));
 
         private static IEnumerable<TResult> Map<T, TResult>(Func<T, TResult> mapping, IEnumerable<T> source, Func<bool> conditionToBreak)
-            => MapIndexed((_, element) => mapping(element), source, conditionToBreak);
+            => source.LazyLoop((_, element) => mapping(element), conditionToBreak);
 
         /// <summary>Builds a new collection whose elements are the results of applying the given function
         /// to the corresponding elements of the two collections pairwise.</summary>
@@ -481,10 +481,10 @@ namespace Tango
         /// <param name="source2">The second input collection.</param>
         /// <returns>The collection of transformed elements.</returns>
         public static IEnumerable<TResult> Map2<T, T2, TResult>(Func<T, T2, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2)
-            => MapIndexed2((_, element1, element2) => mapping(element1, element2), source, source2);
+            => source.LazyLoop2(source2, (_, element1, element2) => mapping(element1, element2));
 
         private static IEnumerable<TResult> Map2<T, T2, TResult>(Func<T, T2, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2, Func<bool> conditionToBreak)
-            => MapIndexed2((_, element1, element2) => mapping(element1, element2), source, source2, conditionToBreak);
+            => source.LazyLoop2(source2, (_, element1, element2) => mapping(element1, element2), conditionToBreak);
 
         /// <summary>Builds a new collection whose elements are the results of applying the given function
         /// to the corresponding elements of the three collections simultaneously.</summary>
@@ -501,12 +501,14 @@ namespace Tango
         /// <param name="source3">The third input collection.</param>
         /// <returns>The collection of transformed elements.</returns>
         public static IEnumerable<TResult> Map3<T, T2, T3, TResult>(Func<T, T2, T3, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2, IEnumerable<T3> source3)
-            => MapIndexed3((_, element1, element2, element3) => mapping(element1, element2, element3),
-                             source, source2, source3);
+            => source.LazyLoop3(source2, source3,
+                (_, element1, element2, element3) => mapping(element1, element2, element3)
+                             );
 
         private static IEnumerable<TResult> Map3<T, T2, T3, TResult>(Func<T, T2, T3, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2, IEnumerable<T3> source3, Func<bool> conditionToBreak)
-            => MapIndexed3((_, element1, element2, element3) => mapping(element1, element2, element3),
-                             source, source2, source3, conditionToBreak);
+            => source.LazyLoop3(source2, source3,
+                (_, element1, element2, element3) => mapping(element1, element2, element3),
+                              conditionToBreak);
 
         /// <summary>Builds a new collection whose elements are the results of applying the given function
         /// to each of the elements of the collection. The integer index passed to the
@@ -516,20 +518,10 @@ namespace Tango
         /// <param name="source">The input collection.</param>
         /// <returns>The collection of transformed elements.</returns>
         public static IEnumerable<TResult> MapIndexed<T, TResult>(Func<int, T, TResult> mapping, IEnumerable<T> source)
-            => MapIndexed(mapping, source, () => true);
+            => source.LazyLoop(mapping);
 
-        private static IEnumerable<TResult> MapIndexed<T, TResult>(Func<int, T, TResult> mapping, IEnumerable<T> source, Func<bool> conditionToBreak)
-        {
-            int currentIndex = 0;
-            using (IEnumerator<T> enumeratorSource = source.GetEnumerator())
-            {
-                while (enumeratorSource.MoveNext() && conditionToBreak())
-                {
-                    yield return mapping(currentIndex, enumeratorSource.Current);
-                    currentIndex++;
-                }
-            }
-        }
+        private static IEnumerable<TResult> MapIndexed<T, TResult>(Func<int, T, TResult> mapping, IEnumerable<T> source, Func<bool> conditionToContinue)
+            => source.LazyLoop(mapping, conditionToContinue);
 
         /// <summary>Like MapIndexed, but mapping corresponding elements from two collections.</summary>
         /// <remarks>
@@ -543,23 +535,10 @@ namespace Tango
         /// <param name="source2">The second input collection.</param>
         /// <returns>The collection of transformed elements.</returns>
         public static IEnumerable<TResult> MapIndexed2<T, T2, TResult>(Func<int, T, T2, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2)
-            => MapIndexed2(mapping, source, source2, () => true);
+            => source.LazyLoop2(source2, mapping);
 
-        private static IEnumerable<TResult> MapIndexed2<T, T2, TResult>(Func<int, T, T2, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2, Func<bool> conditionToBreak)
-        {
-            int currentIndex = 0;
-            using (IEnumerator<T> enumeratorSource = source.GetEnumerator())
-            {
-                using (IEnumerator<T2> enumeratorSource2 = source2.GetEnumerator())
-                {
-                    while (enumeratorSource.MoveNext() && enumeratorSource2.MoveNext() && conditionToBreak())
-                    {
-                        yield return mapping(currentIndex, enumeratorSource.Current, enumeratorSource2.Current);
-                        currentIndex++;
-                    }
-                }
-            }
-        }
+        private static IEnumerable<TResult> MapIndexed2<T, T2, TResult>(Func<int, T, T2, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2, Func<bool> conditionToContinue)
+            => source.LazyLoop2(source2, mapping, conditionToContinue);
 
         /// <summary>Like MapIndexed, but mapping corresponding elements from three collections.</summary>
         /// <remarks>
@@ -574,26 +553,10 @@ namespace Tango
         /// <param name="source3">The third input collection.</param>
         /// <returns>The collection of transformed elements.</returns>
         public static IEnumerable<TResult> MapIndexed3<T, T2, T3, TResult>(Func<int, T, T2, T3, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2, IEnumerable<T3> source3)
-            => MapIndexed3(mapping, source, source2, source3, () => true);
+            => source.LazyLoop3(source2, source3, mapping, () => true);
 
-        private static IEnumerable<TResult> MapIndexed3<T, T2, T3, TResult>(Func<int, T, T2, T3, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2, IEnumerable<T3> source3, Func<bool> conditionToBreak)
-        {
-            int currentIndex = 0;
-            using (IEnumerator<T> enumeratorSource = source.GetEnumerator())
-            {
-                using (IEnumerator<T2> enumeratorSource2 = source2.GetEnumerator())
-                {
-                    using (IEnumerator<T3> enumeratorSource3 = source3.GetEnumerator())
-                    {
-                        while (enumeratorSource.MoveNext() && enumeratorSource2.MoveNext() && enumeratorSource3.MoveNext() && conditionToBreak())
-                        {
-                            yield return mapping(currentIndex, enumeratorSource.Current, enumeratorSource2.Current, enumeratorSource3.Current);
-                            currentIndex++;
-                        }
-                    }
-                }
-            }
-        }
+        private static IEnumerable<TResult> MapIndexed3<T, T2, T3, TResult>(Func<int, T, T2, T3, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2, IEnumerable<T3> source3, Func<bool> conditionToContinue)
+            => source.LazyLoop3(source2, source3, mapping, conditionToContinue);
 
         /// <summary>Splits the collection into two collections, containing the 
         /// elements for which the given predicate returns <c>true</c> and <c>false</c>
@@ -684,14 +647,12 @@ namespace Tango
         public static IEnumerable<TState> Scan<T, TState>(Func<TState, T, TState> folder, TState state, IEnumerable<T> source)
         {
             TState accumulator = state;
-            using (IEnumerator<T> enumeratorSource = source.GetEnumerator())
-            {
-                while (enumeratorSource.MoveNext())
+            return source.LazyLoop(
+                (index, element) =>
                 {
-                    accumulator = folder(accumulator, enumeratorSource.Current);
-                    yield return accumulator;
-                }
-            }
+                    accumulator = folder(accumulator, element);
+                    return accumulator;
+                });
         }
 
         /// <summary>Like <c>Fold2</c>, but returns both the intermediary and final results</summary>
@@ -709,17 +670,13 @@ namespace Tango
         public static IEnumerable<TState> Scan2<T, T2, TState>(Func<TState, T, T2, TState> folder, TState state, IEnumerable<T> source, IEnumerable<T2> source2)
         {
             TState accumulator = state;
-            using (IEnumerator<T> enumeratorSource = source.GetEnumerator())
-            {
-                using (IEnumerator<T2> enumeratorSource2 = source2.GetEnumerator())
+            return source.LazyLoop2(
+                source2,
+                (index, element1, element2) =>
                 {
-                    while (enumeratorSource.MoveNext() && enumeratorSource2.MoveNext())
-                    {
-                        accumulator = folder(accumulator, enumeratorSource.Current, enumeratorSource2.Current);
-                        yield return accumulator;
-                    }
-                }
-            }
+                    accumulator = folder(accumulator, element1, element2);
+                    return accumulator;
+                });
         }
 
         /// <summary>Like <c>FoldBack</c>, but returns both the intermediary and final results</summary>
@@ -730,9 +687,15 @@ namespace Tango
         /// <param name="state">The initial state.</param>
         /// <returns>The collection of states.</returns>
         public static IEnumerable<TState> ScanBack<T, TState>(Func<T, TState, TState> folder, IEnumerable<T> source, TState state)
-            => source.Reverse()
-                     .Scan(state, (accumulator, element) => folder(element, accumulator))
-                     .Reverse();
+        {
+            TState accumulator = state;
+            return source.Reverse().LazyLoop(
+                (index, element) =>
+                {
+                    accumulator = folder(element, accumulator);
+                    return accumulator;
+                }).Reverse();
+        }
 
         /// <summary>Like <c>FoldBack2</c>, but returns both the intermediary and final results</summary>
         /// <remarks>
@@ -747,11 +710,17 @@ namespace Tango
         /// <param name="state">The initial state.</param>
         /// <returns>The collection of states.</returns>
         public static IEnumerable<TState> ScanBack2<T, T2, TState>(Func<T, T2, TState, TState> folder, IEnumerable<T> source, IEnumerable<T2> source2, TState state)
-            => source.Reverse()
-                     .Scan2(source2.Reverse(), state,
-                            (accumulator, element1, element2) =>
-                                folder(element1, element2, accumulator))
-                     .Reverse();
+        {
+            TState accumulator = state;
+            return source.Reverse().LazyLoop2(
+                source2.Reverse(),
+                (index, element1, element2) =>
+                {
+                    accumulator = folder(element1, element2, accumulator);
+                    return accumulator;
+                })
+                .Reverse();
+        }
 
         /// <summary>Returns the collection after removing the first element.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
@@ -809,18 +778,10 @@ namespace Tango
         /// <param name="source2">The second input collection.</param>
         /// <returns>A single collection containing pairs of matching elements from the input collection.</returns>
         public static IEnumerable<(T, T2)> Zip<T, T2>(IEnumerable<T> source, IEnumerable<T2> source2)
-        {
-            using (IEnumerator<T> enumeratorSource = source.GetEnumerator())
-            {
-                using (IEnumerator<T2> enumeratorSource2 = source2.GetEnumerator())
-                {
-                    while (enumeratorSource.MoveNext() && enumeratorSource2.MoveNext())
-                    {
-                        yield return (enumeratorSource.Current, enumeratorSource2.Current);
-                    }
-                }
-            }
-        }
+            => source.LazyLoop2(
+                source2,
+                (_, element1, element2) => (element1, element2));
+
 
         /// <summary>Combines the three collections into a collections of triples.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
@@ -831,21 +792,9 @@ namespace Tango
         /// <param name="source3">The third input collection.</param>
         /// <returns>A single collection containing triples of matching elements from the input collections.</returns>
         public static IEnumerable<(T, T2, T3)> Zip3<T, T2, T3>(IEnumerable<T> source, IEnumerable<T2> source2, IEnumerable<T3> source3)
-        {
-            using (IEnumerator<T> enumeratorSource = source.GetEnumerator())
-            {
-                using (IEnumerator<T2> enumeratorSource2 = source2.GetEnumerator())
-                {
-                    using (IEnumerator<T3> enumeratorSource3 = source3.GetEnumerator())
-                    {
-                        while (enumeratorSource.MoveNext() && enumeratorSource2.MoveNext() && enumeratorSource3.MoveNext())
-                        {
-                            yield return (enumeratorSource.Current, enumeratorSource2.Current, enumeratorSource3.Current);
-                        }
-                    }
-                }
-            }
-        }
+        => source.LazyLoop3(source2,source3,
+            (_, element1, element2, element3) => (element1, element2, element3));
+
     }
 
 }
