@@ -21,6 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -46,7 +49,10 @@
   <ItemGroup>
     <Compile Include="Exceptions\ExceptionMessages.cs" />
     <Compile Include="Functional\Currying.cs" />
-    <Compile Include="Functional\Operations.cs" />
+    <Compile Include="Operations\BoolOperations.cs" />
+    <Compile Include="Operations\DecimalOperations.cs" />
+    <Compile Include="Operations\DoubleOperations.cs" />
+    <Compile Include="Operations\IntegerOperations.cs" />
     <Compile Include="Functional\PartialApplication.cs" />
     <Compile Include="Functional\FunctionExtensions.cs" />
     <Compile Include="Linq\EnumExtensions.cs" />
@@ -55,6 +61,7 @@
     <Compile Include="Linq\IQueryableExtensions.cs" />
     <Compile Include="Modules\List\Collection.cs" />
     <Compile Include="Modules\List\Collection.Linq.cs" />
+    <Compile Include="Operations\StringOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\Either.cs" />
     <Compile Include="Types\Extensions\EnumExtensions.cs" />
@@ -66,6 +73,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

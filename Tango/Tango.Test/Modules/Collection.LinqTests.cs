@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tango.Types;
-
+using Tango.Linq;
 namespace Tango.Test.Types
 {
     [TestClass]
-    public class CollectionTests
+    public class CollectionLinqTests
 
     {
         IEnumerable<int> _0to5values;
@@ -49,544 +49,471 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void CollectionForAllFalse()
+        public void LinqCollectionForAllFalse()
         {
-            bool result = Collection.ForAll(_isEven, _100evens1Odd);
+            bool result = _100evens1Odd.ForAll(_isEven);
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void CollectionForAllTrue()
+        public void LinqCollectionForAllTrue()
         {
-            bool result = Collection.ForAll(_isEven, _100evens);
+            bool result = _100evens.ForAll(_isEven);
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void CollectionForAll2False()
-        {
-            bool result = Collection.ForAll2(_elementsAreEqual, _100evens1Odd, _100evens);
-            Assert.IsFalse(result);
-        }
-
-        [TestMethod]
-        public void CollectionForAll2True()
-        {
-            bool result = Collection.ForAll2(_elementsAreEqual, _100evens, _100evens);
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public void CollectionForAll3False()
-        {
-            bool result = Collection.ForAll3( 
-                (element1, element2, element3) => element1 == element2 && element1 == element3, 
-                _100evens1Odd, _100evens, _10000evens);
-            Assert.IsFalse(result);
-        }
-
-        [TestMethod]
-        public void CollectionForAll3True()
-        {
-            bool result = Collection.ForAll3(
-               (element1, element2, element3) => element1 == element2 && element1 == element3,
-               _100evens, _100evens, _100evens);
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public void CollectionSameValuesRange()
+        public void LinqCollectionSameValuesRange()
         {
             IEnumerable<int> generated = Collection.Range(1, 1);
             int[] expected = { 1 };
 
-            bool result = Collection.ForAll2(_elementsAreEqual, generated, expected);
+            bool result = generated.ForAll2(expected, _elementsAreEqual);
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void CollectionDecreasingRange()
+        public void LinqCollectionDecreasingRange()
         {
             IEnumerable<int> generated = Collection.Range(10, 1);
             int[] expected = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
 
-            bool result = Collection.ForAll2(_elementsAreEqual, generated, expected);
+            bool result = generated.ForAll2(expected, _elementsAreEqual);
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void CollectionIncreasingRange()
+        public void LinqCollectionIncreasingRange()
         {
             IEnumerable<int> generated = Collection.Range(1, 10);
             int[] expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-            bool result = Collection.ForAll2(_elementsAreEqual, generated, expected);
+            bool result = generated.ForAll2(expected, _elementsAreEqual);
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void CollectionAppend()
+        public void LinqCollectionAppend()
         {
             IEnumerable<int> first = Collection.Range(1, 500);
             IEnumerable<int> second = Collection.Range(501, 1000);
             IEnumerable<int> expected = Collection.Range(1, 1000);
 
-            bool result = Collection.ForAll2(_elementsAreEqual, Collection.Append(first, second), expected);
+            bool result = expected.ForAll2(first.Append(second), _elementsAreEqual);
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void CollectionChoose()
+        public void LinqCollectionChoose()
         {
             string _evenValue = "Even";
             Func<int, Option<string>> chooser =
                 element => _isEven(element) ? _evenValue : null;
 
             IEnumerable<string> result =
-                Collection.Choose(chooser, _1000values);
+                _1000values.Choose(chooser);
 
             Assert.IsTrue(
                 result.Count() == 500
-                && Collection.ForAll(element => element == _evenValue, result)
+                && result.ForAll(element => element == _evenValue)
                 );
         }
 
         [TestMethod]
-        public void CollectionChooseToEmpty()
+        public void LinqCollectionChooseToEmpty()
         {
             Func<int, Option<string>> chooser =
                 element => element == 10000 ? "Even" : null;
 
             IEnumerable<string> result =
-                Collection.Choose(chooser, _1000values);
+                _1000values.Choose(chooser);
 
             Assert.AreEqual(0, result.Count());
         }
 
         [TestMethod]
-        public void CollectionChunk()
+        public void LinqCollectionChunk()
         {
-            IEnumerable<IEnumerable<int>> chunks = Collection.ChunkBySize(10, _10000evens);
+            IEnumerable<IEnumerable<int>> chunks = _10000evens.ChunkBySize(10);
             Assert.AreEqual(chunks.Count(), 10000 / 10);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void CollectionChunkArgumentExceptionWith0()
+        public void LinqCollectionChunkArgumentExceptionWith0()
         {
-            IEnumerable<IEnumerable<int>> chunks = Collection.ChunkBySize(0, _10000evens);
+            IEnumerable<IEnumerable<int>> chunks = _10000evens.ChunkBySize(0);
             Assert.AreEqual(chunks.Count(), 10000 / 10);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void CollectionChunkArgumentExceptionWithNegative()
+        public void LinqCollectionChunkArgumentExceptionWithNegative()
         {
-            IEnumerable<IEnumerable<int>> chunks = Collection.ChunkBySize(-10, _10000evens);
+            IEnumerable<IEnumerable<int>> chunks = _10000evens.ChunkBySize(-10);
             Assert.AreEqual(chunks.Count(), 10000 / 10);
         }
 
         [TestMethod]
-        public void CollectionChunkAndConcat100()
+        public void LinqCollectionChunkAndConcat100()
         {
             IEnumerable<IEnumerable<int>> chunks =
-                Collection.ChunkBySize(10, _100evens);
+                _100evens.ChunkBySize(10);
 
-            IEnumerable<int> concat = Collection.Concat(chunks);
+            IEnumerable<int> concat = chunks.Concat();
             Assert.AreEqual(concat.Count(), _100evens.Count());
         }
 
         [TestMethod]
-        public void CollectionChunkAndConcat1000()
+        public void LinqCollectionChunkAndConcat1000()
         {
             IEnumerable<IEnumerable<int>> chunks =
-                Collection.ChunkBySize(10, _1000evens);
+                _1000evens.ChunkBySize(10);
 
-            IEnumerable<int> concat = Collection.Concat(chunks);
+            IEnumerable<int> concat = chunks.Concat();
             Assert.AreEqual(concat.Count(), _1000evens.Count());
         }
 
         [TestMethod]
-        public void CollectionChunkAndConcat10000()
+        public void LinqCollectionChunkAndConcat10000()
         {
             IEnumerable<IEnumerable<int>> chunks =
-                Collection.ChunkBySize(10, _10000evens);
-            IEnumerable<int> concat = Collection.Concat(chunks);
+                _10000evens.ChunkBySize(10);
+            IEnumerable<int> concat = chunks.Concat();
             Assert.AreEqual(concat.Count(), _10000evens.Count());
         }
 
         [TestMethod]
-        public void CollectionCollect()
+        public void LinqCollectionCollect()
         {
             int expected = 5050;
             IEnumerable<int> result =
-                Collection.Collect(element => Collection.Range(1, element), _100values);
+                _100values.Collect(element => Collection.Range(1, element));
 
             Assert.AreEqual(expected, result.Count());
         }
 
         [TestMethod]
-        public void CollectionCompareWithEqualLists()
+        public void LinqCollectionCompareWithEqualLists()
         {
             int expected = 0;
             int result =
-            Collection.CompareWith(
+            _1000values.CompareWith<int, int>(_1000values,
                 (element1, element2) => element1 > element2 ? 1
                                         : element1 < element2 ? -1
                                         : 0
-                , _1000values, _1000values);
+                );
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void CollectionCompareWithFirstListBigger()
+        public void LinqCollectionCompareWithFirstListBigger()
         {
             int expected = 1;
             int result =
-            Collection.CompareWith(
+            _1000values.CompareWith<int, int>(_1000evens,
                 (element1, element2) => element1 > element2 ? 1
                                         : element1 < element2 ? -1
                                         : 0
-                , _1000values, _1000evens);
+                 );
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void CollectionCompareWithFirstListSmaller()
+        public void LinqCollectionCompareWithFirstListSmaller()
         {
             int expected = -1;
             int result =
-            Collection.CompareWith(
+            _1000evens.CompareWith<int, int>(_1000values,
                 (element1, element2) => element1 > element2 ? 1
                                         : element1 < element2 ? -1
                                         : 0
-                , _1000evens, _1000values);
+                );
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void CollectionCountBy()
+        public void LinqCollectionCountBy()
         {
             IEnumerable<(bool Key, int Count)> result =
-                Collection.CountBy(_isEven, _10000values);
+                _10000values.CountBy(_isEven);
 
             int expected = 10000;
-            var headAndTailEnd = Collection.HeadAndTailEnd(result);
-
+            var headAndTailEnd = result.HeadAndTailEnd();
             int oddsCount = headAndTailEnd.Head.Count;
             int evensCount = headAndTailEnd.TailEnd.Count;
-            
+
             Assert.AreEqual(expected, evensCount + oddsCount);
         }
 
         [TestMethod]
-        public void CollectionDistinct()
+        public void LinqCollectionDistinct()
         {
             IEnumerable<int> result =
-                Collection.Collect(element => Collection.Range(1, element), _100values);
+                _100values.Collect(element => Collection.Range(1, element));
 
             IEnumerable<int> distinctedResult =
-            Collection.Distinct(_elementsAreEqual, element => element, result);
+                result.Distinct(_elementsAreEqual, element => element);
 
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, distinctedResult, Collection.Range(1, 100)));
+            Assert.IsTrue(distinctedResult.ForAll2(Collection.Range(1, 100), _elementsAreEqual));
         }
 
         [TestMethod]
-        public void CollectionEmpty()
-        {
-            int expected = 0;
-            IEnumerable<int> result = Collection.Empty<int>();
-
-            Assert.AreEqual(expected, result.Count());
-        }
-
-        [TestMethod]
-        public void CollectionExists2FirstTrue()
+        public void LinqCollectionExists2FirstTrue()
         {
             bool expected = true;
             bool result =
-            Collection.Exists2(_elementsAreEqual, _10000evens, _10000evens);
+                _10000evens.Exists2(_10000evens, _elementsAreEqual);
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void CollectionExists2True()
+        public void LinqCollectionExists2True()
         {
             bool expected = true;
             bool result =
-            Collection.Exists2(_elementsAreEqual, Collection.Range(0, 100000), Collection.Range(100000, 0));
+            Collection.Range(0, 100000).Exists2(Collection.Range(100000, 0), _elementsAreEqual);
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void CollectionExists2False()
+        public void LinqCollectionExists2False()
         {
             bool expected = false;
             bool result =
-            Collection.Exists2(_elementsAreEqual, Collection.Range(0, 100000), Collection.Range(1, 100001));
+            Collection.Range(0, 100000).Exists2(Collection.Range(1, 100001), _elementsAreEqual);
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void CollectionFindIndex()
+        public void LinqCollectionFindIndex()
         {
             int expected = 99;
             int index =
-                Collection.FindIndex(element => element == 100, _10000evens);
+                _10000evens.FindIndex(element => element == 100);
 
             Assert.AreEqual(expected, index);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void CollectionFindIndexException()
+        public void LinqCollectionFindIndexException()
         {
             int index =
-                Collection.FindIndex(element => element == -100, _10000evens);
+                _10000evens.FindIndex(element => element == -100);
         }
 
         [TestMethod]
-        public void CollectionFold()
+        public void LinqCollectionFold()
         {
             int expected = 65;
             int result =
-                Collection.Fold((accumulator, element) => accumulator + element, 10, _0to10values);
+                _0to10values.Fold(10, (accumulator, element) => accumulator + element);
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void CollectionFold2()
+        public void LinqCollectionFold2()
         {
             int expected = 20;
             int result =
-                Collection.Fold2(
+                Collection.Range(1, 3).Fold2(
+                    Collection.Range(3, 1),
+                    12,
                     (accumulator, element1, element2) =>
-                        accumulator + Math.Max(element1, element2),
-                    12, Collection.Range(1, 3), Collection.Range(3, 1));
+                        accumulator + Math.Max(element1, element2));
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void CollectionFoldBack()
+        public void LinqCollectionFoldBack()
         {
             int expected = -5;
             int result =
-                Collection.FoldBack((accumulator, element) => accumulator - element, _0to10values, 10);
+                _0to10values.FoldBack((accumulator, element) => accumulator - element, 10);
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void CollectionFoldBack2()
+        public void LinqCollectionFoldBack2()
         {
             int expected = -10;
             int result =
-                Collection.FoldBack2(
+                _0to10values.FoldBack2(_10to0values,
                     (accumulator, element1, element2) =>
-                        accumulator - Math.Max(element1, element2),
-                    _0to10values, _10to0values, 10);
+                        accumulator - Math.Max(element1, element2), 10);
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void CollectionHead()
+        public void LinqCollectionHead()
         {
             int expected = 0;
-            int result = Collection.Head(_0to10values);
+            int result = _0to10values.Head();
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void CollectionHeadException()
+        public void LinqCollectionHeadException()
         {
-            Collection.Head(Collection.Empty<int>());
+            var empty = Collection.Empty<int>();
+            empty.Head();
         }
 
         [TestMethod]
-        public void CollectionHeadAndTail()
+        public void LinqCollectionHeadAndTail()
         {
-            (int, int) expected = (0, 10);
-            (int, int) result = Collection.HeadAndTailEnd(_0to10values);
+            (int Head, int TailEnd) expected = (0, 10);
+            (int Head, int TailEnd) result =
+                _0to10values.HeadAndTailEnd();
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void CollectionHeadAndTail10000Elements()
+        public void LinqCollectionHeadAndTail10000Elements()
         {
-            (int, int) expected = (1, 10000);
-            (int, int) result = Collection.HeadAndTailEnd(_10000values);
+            (int Head, int TailEnd) expected = (1, 10000);
+            (int Head, int TailEnd) result =
+                _10000values.HeadAndTailEnd();
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void CollectionHeadAndTailException()
+        public void LinqCollectionHeadAndTailException()
         {
-            Collection.HeadAndTailEnd(Collection.Empty<int>());
+            var empty = Collection.Empty<int>();
+            empty.Head();
         }
 
         [TestMethod]
-        public void CollectionGenerate()
-        {
-            IEnumerable<int> generated = Collection.Generate(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-            int[] expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, generated));
-        }
-
-        [TestMethod]
-        public void CollectionGenerate2()
-        {
-            IEnumerable<int> generated = Collection.Generate(1, 10, 5, 3, 12, 5, 7, 9);
-            int[] expected = { 1, 10, 5, 3, 12, 5, 7, 9 };
-
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, generated));
-        }
-
-        [TestMethod]
-        public void CollectionGenerateAndRange()
-        {
-            IEnumerable<int> generated = Collection.Generate(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-            IEnumerable<int> rangeGenerated = Collection.Range(1, 10);
-
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, rangeGenerated, generated));
-        }
-
-        [TestMethod]
-        public void CollectionInitialize()
-        {
-            IEnumerable<int> generated = Collection.Initialize(11, (index) => index * 2);
-            IEnumerable<int> expected = Collection.Map(n => n * 2, _0to10values);
-
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, generated));
-        }
-
-        [TestMethod]
-        public void CollectionIterate()
+        public void LinqCollectionIterate()
         {
             int expected = 55;
             int result = 0;
-            Collection.Iterate(element => result += element, _0to10values);
+            _0to10values.Iterate(element => result += element);
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void CollectionIterate2()
+        public void LinqCollectionIterate2()
         {
             int expected = 110;
             int result = 0;
-            Collection.Iterate2((element1, element2) => result += element1 + element2, _0to10values, _10to0values);
+            _0to10values.Iterate2(_10to0values,
+                (element1, element2) => result += element1 + element2);
 
             Assert.AreEqual(expected, result);
         }
 
 
         [TestMethod]
-        public void CollectionMap()
+        public void LinqCollectionMap()
         {
             IEnumerable<int> generated =
-                Collection.Map(element => element * 2, Collection.Generate(1, 2, 3));
+                Collection.Generate(1, 2, 3).Map(element => element * 2);
 
             IEnumerable<int> expected =
                 Collection.Generate(2, 4, 6);
 
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, generated));
+            Assert.IsTrue(generated.ForAll2(expected, _elementsAreEqual));
         }
 
         [TestMethod]
-        public void CollectionMap2()
+        public void LinqCollectionMap2()
         {
             IEnumerable<int> generated =
-                Collection.Map2(
-                    (element1, element2) => Math.Max(element1, element2) * 2,
-                Collection.Generate(1, 2, 3),
-                Collection.Generate(3, 2, 1));
+                Collection.Generate(1, 2, 3).Map2(
+                    Collection.Generate(3, 2, 1),
+                    (element1, element2) => Math.Max(element1, element2) * 2
+                );
 
             IEnumerable<int> expected =
                 Collection.Generate(6, 4, 6);
 
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, generated));
+            Assert.IsTrue(generated.ForAll2(expected, _elementsAreEqual));
         }
         [TestMethod]
-        public void CollectionMap3()
+        public void LinqCollectionMap3()
         {
             IEnumerable<int> generated =
-                Collection.Map3(
-                    (element1, element2, element3) => Math.Max(Math.Max(element1, element2), element3) * 2,
-                Collection.Generate(1, 2, 3),
-                Collection.Generate(3, 2, 1),
-                Collection.Generate(3, 3, 3));
+                Collection.Generate(1, 2, 3).Map3(
+                    Collection.Generate(3, 2, 1),
+                    Collection.Generate(3, 3, 3),
+                    (element1, element2, element3) =>
+                        Math.Max(Math.Max(element1, element2), element3) * 2
+                );
 
             IEnumerable<int> expected =
                 Collection.Generate(6, 6, 6);
 
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, generated));
+            Assert.IsTrue(expected.ForAll2(generated, _elementsAreEqual));
         }
 
         [TestMethod]
-        public void CollectionMapIndexed()
+        public void LinqCollectionMapIndexed()
         {
             IEnumerable<int> generated =
-                Collection.MapIndexed(
-                    (index, element) => index + element * 2,
-                    Collection.Generate(1, 2, 3));
+                Collection.Generate(1, 2, 3).MapIndexed(
+                    (index, element) => index + element * 2);
 
             IEnumerable<int> expected =
                 Collection.Generate(2, 5, 8);
 
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, generated));
+            Assert.IsTrue(generated.ForAll2(expected,_elementsAreEqual));
         }
 
         [TestMethod]
-        public void CollectionMapIndexed2()
+        public void LinqCollectionMapIndexed2()
         {
             IEnumerable<int> generated =
-                Collection.MapIndexed2(
-                    (index, element1, element2) => index + Math.Max(element1, element2) * 2,
-                Collection.Generate(1, 2, 3),
-                Collection.Generate(3, 2, 1));
+                Collection.Generate(1, 2, 3).MapIndexed2(
+                     Collection.Generate(3, 2, 1),
+                    (index, element1, element2) => 
+                        index + Math.Max(element1, element2) * 2);
 
             IEnumerable<int> expected =
                 Collection.Generate(6, 5, 8);
 
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, generated));
+            Assert.IsTrue(generated.ForAll2(expected,_elementsAreEqual));
         }
 
         [TestMethod]
-        public void CollectionMapIndexed3()
+        public void LinqCollectionMapIndexed3()
         {
             IEnumerable<int> generated =
-                Collection.MapIndexed3(
-                    (index, element1, element2, element3) => index + Math.Max(Math.Max(element1, element2), element3) * 2,
-                Collection.Generate(1, 2, 3),
-                Collection.Generate(3, 2, 1),
-                Collection.Generate(3, 3, 3));
+                Collection.Generate(1, 2, 3).MapIndexed3(
+                    Collection.Generate(3, 2, 1),
+                    Collection.Generate(3, 3, 3),
+                    (index, element1, element2, element3) => 
+                        index + Math.Max(Math.Max(element1, element2), element3) * 2);
 
             IEnumerable<int> expected =
                 Collection.Generate(6, 7, 8);
 
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, generated));
+            Assert.IsTrue(expected.ForAll2(generated, _elementsAreEqual));
         }
 
         [TestMethod]
-        public void CollectionPartition()
+        public void LinqCollectionPartition()
         {
             var (evens, odds) =
-                Collection.Partition(element => element % 2 == 0, Collection.Range(0, 1000));
+                Collection.Range(0, 1000).Partition(element => element % 2 == 0);
 
             IEnumerable<int> expectedEvens =
                 Collection.Initialize(500, index => index * 2);
@@ -596,92 +523,89 @@ namespace Tango.Test.Types
 
 
             Assert.IsTrue(
-                Collection.ForAll2(_elementsAreEqual, expectedEvens, evens)
-                && Collection.ForAll2(_elementsAreEqual, expectedOdds, odds));
+                evens.ForAll2(expectedEvens, _elementsAreEqual)
+                && odds.ForAll2(expectedOdds, _elementsAreEqual));
         }
 
         [TestMethod]
-        public void CollectionPermute()
+        public void LinqCollectionPermute()
         {
             IEnumerable<int> original =
                 _0to5values;
 
             IEnumerable<int> permuted =
-                Collection.Permute(index => (index + 3) % 6, original);
+                original.Permute(index => (index + 3) % 6);
 
             IEnumerable<int> expected =
                 Collection.Generate(3, 4, 5, 0, 1, 2);
 
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, permuted));
+            Assert.IsTrue(permuted.ForAll2(expected,_elementsAreEqual));
         }
 
         [TestMethod]
-        public void CollectionPick()
+        public void LinqCollectionPick()
         {
             int expected = 400;
             int value =
-                Collection.Pick(
+                _1000values.Pick(
                     element => element == 400 ?
                                 element
-                                : Option<int>.None()
-                , _1000values);
+                                : Option<int>.None());
 
             Assert.AreEqual(expected, value);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void CollectionPickInvalidOperationException()
+        public void LinqCollectionPickInvalidOperationException()
         {
-            Collection.Pick(
+            _1000values.Pick(
                     element => element == 4000 ?
                                 element
-                                : Option<int>.None()
-                , _1000values);
+                                : Option<int>.None());
         }
 
         [TestMethod]
-        public void CollectionScan()
+        public void LinqCollectionScan()
         {
             IEnumerable<int> expected =
                 Collection.Generate(10, 11, 13, 16, 20, 25, 31, 38, 46, 55, 65);
 
             IEnumerable<int> result =
-                Collection.Scan((accumulator, element) => accumulator + element, 10, _0to10values);
+                _0to10values.Scan(10, (accumulator, element) => accumulator + element);
 
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, result));
+            Assert.IsTrue(result.ForAll2(expected, _elementsAreEqual));
         }
 
         [TestMethod]
-        public void CollectionScanBack()
+        public void LinqCollectionScanBack()
         {
             IEnumerable<int> expected =
                 Collection.Generate(65, 65, 64, 62, 59, 55, 50, 44, 37, 29, 20);
 
             IEnumerable<int> result =
-                Collection.ScanBack((accumulator, element) => accumulator + element, _0to10values, 10);
+                _0to10values.ScanBack((accumulator, element) => accumulator + element, 10);
 
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, result));
+            Assert.IsTrue(result.ForAll2(expected, _elementsAreEqual));
         }
 
 
         [TestMethod]
-        public void CollectionScan2()
+        public void LinqCollectionScan2()
         {
             IEnumerable<int> expected =
                 Collection.Generate(15, 20, 25, 30, 35, 40);
 
             IEnumerable<int> result =
-                Collection.Scan2(
-                    (accumulator, element1, element2) => accumulator + element1 + element2, 10,
-                    Collection.Range(0, 5),
-                    Collection.Range(5, 0));
+                Collection.Range(0, 5).Scan2(
+                    Collection.Range(5, 0), 10,
+                    (accumulator, element1, element2) => accumulator + element1 + element2);
 
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, result));
+            Assert.IsTrue(result.ForAll2(expected,_elementsAreEqual));
         }
 
         [TestMethod]
-        public void CollectionScanBack2()
+        public void LinqCollectionScanBack2()
         {
             IEnumerable<int> expected =
                 Collection.Generate(40, 35, 30, 25, 20, 15);
@@ -697,24 +621,24 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void CollectionTail()
+        public void LinqCollectionTail()
         {
             IEnumerable<int> expected =
                 Collection.Range(1, 5);
 
             IEnumerable<int> result =
-                Collection.Tail(_0to5values);
+                _0to5values.Tail();
 
             Assert.IsTrue(
-                Collection.ForAll2(_elementsAreEqual, expected, result)
+                result.ForAll2(expected, _elementsAreEqual)
                 && expected.Count() == result.Count());
         }
 
         [TestMethod]
-        public void CollectionTryFind()
+        public void LinqCollectionTryFind()
         {
             Option<int> result =
-            Collection.TryFind(element => element == 400, _10000values);
+                _10000values.TryFind(element => element == 400);
 
             int someResult = result.Match(value => value, () => 0);
 
@@ -722,23 +646,23 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void CollectionTryFindNone()
+        public void LinqCollectionTryFindNone()
         {
             Option<int> result =
-            Collection.TryFind(element => element == 4000, _1000values);
+             _1000values.TryFind(element => element == 4000);
 
             Assert.IsTrue(result.IsNone);
         }
 
         [TestMethod]
-        public void CollectionTryPick()
+        public void LinqCollectionTryPick()
         {
             Option<int> result =
-                Collection.TryPick(element =>
-                    element % 2 == 0 ?
-                    element
-                    : Option<int>.None(), 
-                Collection.Generate(11, 15, 19, 22, 20));
+                Collection.Generate(11, 15, 19, 22, 20)
+                    .TryPick(element =>
+                        element % 2 == 0 ?
+                        element
+                        : Option<int>.None());
 
             int someResult = result.Match(value => value, () => 0);
 
@@ -746,25 +670,25 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void CollectionTryPickNone()
+        public void LinqCollectionTryPickNone()
         {
             Option<int> result =
-                Collection.TryPick(element =>
+                Collection.Generate(11, 15, 19, 23, 29)
+                    .TryPick(element =>
                         element % 2 == 0 ?
                         element
-                        : Option<int>.None(), 
-                    Collection.Generate(11, 15, 19, 23, 29));
+                        : Option<int>.None());
             Assert.IsTrue(result.IsNone);
         }
 
         [TestMethod]
-        public void CollectionUnzip()
+        public void LinqCollectionUnzip()
         {
             IEnumerable<(int, bool)> numbersAndBools =
                 Collection.Generate((10, true), (2, false), (33, true), (9, false), (42, true));
 
-            var (numbers,booleans) =
-                Collection.Unzip(numbersAndBools);
+            var (numbers, booleans) =
+                numbersAndBools.Unzip();
 
             IEnumerable<int> expectedNumbers =
                 Collection.Generate(10, 2, 33, 9, 42);
@@ -773,25 +697,24 @@ namespace Tango.Test.Types
                 Collection.Generate(true, false, true, false, true);
 
             Assert.IsTrue(
-                Collection.ForAll2(_elementsAreEqual, expectedNumbers, numbers)
-                && Collection.ForAll2( 
-                    (element1, element2) => element1 == element2, 
-                    expectedBooleans, booleans) );
+                numbers.ForAll2(expectedNumbers, _elementsAreEqual)
+                && booleans.ForAll2(expectedBooleans,
+                    (element1, element2) => element1 == element2));
         }
 
         [TestMethod]
-        public void CollectionUnzip3()
+        public void LinqCollectionUnzip3()
         {
-            IEnumerable<(int, bool,int)> numbersBoolsAndRange =
+            IEnumerable<(int, bool, int)> numbersBoolsAndRange =
                 Collection.Generate(
-                    (10, true,1), 
-                    (2, false,2), 
-                    (33, true,3), 
-                    (9, false,4), 
-                    (42, true,5));
+                    (10, true, 1),
+                    (2, false, 2),
+                    (33, true, 3),
+                    (9, false, 4),
+                    (42, true, 5));
 
             var (numbers, booleans, numbers2) =
-                Collection.Unzip3(numbersBoolsAndRange);
+                numbersBoolsAndRange.Unzip3();
 
             IEnumerable<int> expectedNumbers =
                 Collection.Generate(10, 2, 33, 9, 42);
@@ -800,32 +723,30 @@ namespace Tango.Test.Types
                 Collection.Generate(true, false, true, false, true);
 
             Assert.IsTrue(
-                Collection.ForAll2(_elementsAreEqual, expectedNumbers, numbers)
-                && Collection.ForAll2(
-                    (element1, element2) => element1 == element2,
-                    expectedBooleans, booleans)
-                && Collection.ForAll2(_elementsAreEqual, Collection.Range(1,5), numbers2)
+                numbers.ForAll2(expectedNumbers,_elementsAreEqual)
+                && booleans.ForAll2(expectedBooleans,
+                    (element1, element2) => element1 == element2)
+                && numbers2.ForAll2(Collection.Range(1, 5), _elementsAreEqual )
                     );
         }
 
         [TestMethod]
-        public void CollectionZip()
+        public void LinqCollectionZip()
         {
-            IEnumerable<(int,int)> pairs =
-                Collection.Zip(_0to10values, _10to0values);
+            IEnumerable<(int, int)> pairs =
+                _0to10values.Zip(_10to0values);
 
             Assert.IsTrue(
-                Collection.ForAll3( 
+                pairs.ForAll3(
+                    _0to10values, _10to0values,
                     (element1, element2, element3) => 
-                        element1.Item1 == element2
-                        && element1.Item2 == element3
-                        , pairs, _0to10values, _10to0values));
+                        element1.Item1 == element2 && element1.Item2 == element3));
         }
 
         [TestMethod]
-        public void CollectionZip3()
+        public void LinqCollectionZip3()
         {
-            IEnumerable<(int, int,int)> triples =
+            IEnumerable<(int, int, int)> triples =
                 Collection.Zip3(_0to10values, _10to0values, _100values);
 
             Assert.IsTrue(

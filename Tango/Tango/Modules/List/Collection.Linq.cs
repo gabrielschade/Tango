@@ -66,7 +66,7 @@ namespace Tango.Linq
         /// compared against the others.</param>
         /// <param name="source">The input collection.</param>
         /// <returns>The result collection is a tuple with key and the quantity of elements with this same key.</returns>
-        public static IEnumerable<(TKey, int)> CountBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> projection)
+        public static IEnumerable<(TKey Key, int Count)> CountBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> projection)
             => Collection.CountBy(projection, source);
 
         /// <summary>Returns a new collection that contains the elements of each the collection in order.</summary>
@@ -175,7 +175,7 @@ namespace Tango.Linq
         /// <param name="source">The input collection.</param>
         /// <param name="state">The initial state.</param>
         /// <returns>The state object after the folding function is applied to each element of the collection.</returns>
-        public static TState FoldBack<T, TState>(this IEnumerable<T> source, TState state, Func<T, TState, TState> folder)
+        public static TState FoldBack<T, TState>(this IEnumerable<T> source, Func<T, TState, TState> folder, TState state)
             => Collection.FoldBack(folder, source, state);
 
         /// <summary>Applies a function to corresponding elements of two collections, threading an accumulator argument
@@ -193,7 +193,7 @@ namespace Tango.Linq
         /// <param name="second">The second input collection.</param>
         /// <param name="state">The initial state.</param>
         /// <returns>The final state value.</returns>
-        public static TState FoldBack2<T, T2, TState>(this IEnumerable<T> source, IEnumerable<T2> second, TState state, Func<T, T2, TState, TState> folder)
+        public static TState FoldBack2<T, T2, TState>(this IEnumerable<T> source, IEnumerable<T2> second, Func<T, T2, TState, TState> folder, TState state)
             => Collection.FoldBack2(folder, source,second, state);
 
         /// <summary>Tests if all elements of the collection satisfy the given predicate.</summary>
@@ -225,6 +225,25 @@ namespace Tango.Linq
         public static bool ForAll2<T, T2>(this IEnumerable<T> source, IEnumerable<T2> second, Func<T, T2, bool> predicate)
             => Collection.ForAll2(predicate, source, second);
 
+        /// <summary>Tests if all corresponding elements of the collection satisfy the given predicate.</summary>
+        ///
+        /// <remarks>The predicate is applied to matching elements in the three collections up to the lesser of the 
+        /// three lengths of the collections. If any application returns false then the overall result is 
+        /// false and no further elements are tested.
+        /// Otherwise, true is returned.
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
+        /// <typeparam name="T">The element type of first collection.</typeparam>
+        /// <typeparam name="T2">The element type of second collection.</typeparam>
+        /// /// <typeparam name="T2">The element type of third collection.</typeparam>
+        /// <param name="predicate">The function to test the input elements.</param>
+        /// <param name="source">The first input collection.</param>
+        /// <param name="second">The second input collection.</param>
+        /// <param name="third">The third input collection.</param>
+        /// <returns>True if all of the pairs of elements satisfy the predicate.</returns>
+        public static bool ForAll3<T, T2, T3>(this IEnumerable<T> source, IEnumerable<T2> second, IEnumerable<T3> third, Func<T, T2,T3, bool> predicate)
+            => Collection.ForAll3(predicate, source, second, third);
+
         /// <summary>Returns the first element of the collection.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="source">The input collection.</param>
@@ -238,7 +257,7 @@ namespace Tango.Linq
         /// <param name="source">The input collection.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when the list is empty.</exception>
         /// <returns>A Tuple with first and last element of the collection.</returns>
-        public static (T, T) HeadAndTailEnd<T>(this IEnumerable<T> source)
+        public static (T Head, T TailEnd) HeadAndTailEnd<T>(this IEnumerable<T> source)
             => Collection.HeadAndTailEnd(source);
 
         /// <summary>Applies the given function to each element of the collection.</summary>
@@ -366,7 +385,7 @@ namespace Tango.Linq
         /// <param name="source">The input collection.</param>
         /// <returns>A collection containing the elements for which the predicate evaluated to true and a collection
         /// containing the elements for which the predicate evaluated to false, respectively.</returns>
-        public static (IEnumerable<T>, IEnumerable<T>) Partition<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        public static (IEnumerable<T> Trues, IEnumerable<T> Falses) Partition<T>(this IEnumerable<T> source, Func<T, bool> predicate)
             => Collection.Partition(predicate, source);
 
         /// <summary>Returns a collection with all elements permuted according to the
@@ -426,7 +445,7 @@ namespace Tango.Linq
         /// <param name="state">The initial state.</param>
         /// <param name="source">The input collection.</param>
         /// <returns>The collection of states.</returns>
-        public static IEnumerable<TState> Scan<T, TState>(this IEnumerable<T> source, Func<TState, T, TState> folder, TState state)
+        public static IEnumerable<TState> Scan<T, TState>(this IEnumerable<T> source, TState state, Func<TState, T, TState> folder)
             => Collection.Scan(folder, state, source);
 
         /// <summary>Like <c>Fold2</c>, but returns both the intermediary and final results</summary>
@@ -441,7 +460,7 @@ namespace Tango.Linq
         /// <param name="second">The second input collection.</param>
         /// <param name="state">The initial state.</param>
         /// <returns>The collection of states.</returns>
-        public static IEnumerable<TState> Scan2<T, T2, TState>(this IEnumerable<T> source, IEnumerable<T2> second, Func<TState, T, T2, TState> folder, TState state)
+        public static IEnumerable<TState> Scan2<T, T2, TState>(this IEnumerable<T> source, IEnumerable<T2> second, TState state, Func<TState, T, T2, TState> folder)
             => Collection.Scan2(folder, state, source, second);
 
         /// <summary>Like <c>FoldBack</c>, but returns both the intermediary and final results</summary>

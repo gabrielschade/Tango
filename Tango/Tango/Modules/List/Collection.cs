@@ -101,10 +101,10 @@ namespace Tango
         /// compared against the others.</param>
         /// <param name="source">The input collection.</param>
         /// <returns>The result collection is a tuple with key and the quantity of elements with this same key.</returns>
-        public static IEnumerable<(TKey, int)> CountBy<T, TKey>(Func<T, TKey> projection, IEnumerable<T> source)
+        public static IEnumerable<(TKey Key, int Count)> CountBy<T, TKey>(Func<T, TKey> projection, IEnumerable<T> source)
             => source.Map(element => new { Key = projection(element), Value = element })
                        .GroupBy(element => element.Key)
-                       .Map(groupedElements => (groupedElements.Key, groupedElements.Count()));
+                       .Map(groupedElements => (Key: groupedElements.Key, Count: groupedElements.Count()));
 
         /// <summary>Returns a new collection that contains the elements of each the collection in order.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
@@ -196,7 +196,7 @@ namespace Tango
         public static int FindIndex<T>(Func<T, bool> predicate, IEnumerable<T> source)
          => source.MapIndexed((currentIndex, element) => (currentIndex, predicate(element)))
                   .First(element => element.Item2)
-                  .Item1;
+                  .currentIndex;
 
         /// <summary>Applies a function to each element of the collection, threading an accumulator argument
         /// through the computation. Take the second argument, and apply the function to it
@@ -211,7 +211,7 @@ namespace Tango
         /// <param name="source">The input collection.</param>
         /// <returns>The final state value.</returns>
         public static TState Fold<T, TState>(Func<TState, T, TState> folder, TState state, IEnumerable<T> source)
-            => source.Scan(folder, state).Last();
+            => Scan(folder, state, source).Last();
 
         /// <summary>Applies a function to corresponding elements of two collections, threading an accumulator argument
         /// through the computation.
@@ -230,7 +230,7 @@ namespace Tango
         /// <param name="source2">The second input collection.</param>
         /// <returns>The final state value.</returns>
         public static TState Fold2<T, T2, TState>(Func<TState, T, T2, TState> folder, TState state, IEnumerable<T> source, IEnumerable<T2> source2)
-            => source.Scan2(source2, folder, state).Last();
+            => Scan2(folder, state, source, source2).Last();
 
         /// <summary>Applies a function to each element of the collection, starting from the end, threading an accumulator argument
         /// through the computation. If the input function is <c>f</c> and the elements are <c>i0...iN</c> then 
@@ -316,6 +316,32 @@ namespace Tango
             return result;
         }
 
+        /// <summary>Tests if all corresponding elements of the collection satisfy the given predicate.</summary>
+        ///
+        /// <remarks>The predicate is applied to matching elements in the three collections up to the lesser of the 
+        /// three lengths of the collections. If any application returns false then the overall result is 
+        /// false and no further elements are tested.
+        /// Otherwise, true is returned.
+        /// if one collections is longer 
+        /// than the other then the loop runs only run until the smallest collection length.</remarks>
+        /// <typeparam name="T">The element type of first collection.</typeparam>
+        /// <typeparam name="T2">The element type of second collection.</typeparam>
+        /// /// <typeparam name="T2">The element type of third collection.</typeparam>
+        /// <param name="predicate">The function to test the input elements.</param>
+        /// <param name="source">The first input collection.</param>
+        /// <param name="source2">The second input collection.</param>
+        /// <param name="source3">The third input collection.</param>
+        /// <returns>True if all of the pairs of elements satisfy the predicate.</returns>
+        public static bool ForAll3<T, T2, T3>(Func<T, T2, T3, bool> predicate, IEnumerable<T> source, IEnumerable<T2> source2, IEnumerable<T3> source3)
+        {
+            bool result = true;
+            Map3((element1, element2, element3) =>
+            {
+                result = predicate(element1, element2, element3);
+                return result;
+            }, source, source2, source3, () => result).Count();
+            return result;
+        }
         /// <summary>Returns the first element of the collection.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="source">The input collection.</param>
@@ -329,8 +355,8 @@ namespace Tango
         /// <param name="source">The input collection.</param>
         /// <exception cref="System.InvalidOperationException">Thrown when the collection is empty.</exception>
         /// <returns>A Tuple with first and last element of the collection.</returns>
-        public static (T, T) HeadAndTailEnd<T>(IEnumerable<T> source)
-            => (source.First(), source.Last());
+        public static (T Head, T TailEnd) HeadAndTailEnd<T>(IEnumerable<T> source)
+            => (Head: source.First(), TailEnd: source.Last());
 
         /// <summary>Creates a collection of integers between first and second parameter.</summary>
         /// <param name="first">First value of the Range.</param>
@@ -478,6 +504,10 @@ namespace Tango
             => MapIndexed3((_, element1, element2, element3) => mapping(element1, element2, element3),
                              source, source2, source3);
 
+        private static IEnumerable<TResult> Map3<T, T2, T3, TResult>(Func<T, T2, T3, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2, IEnumerable<T3> source3, Func<bool> conditionToBreak)
+            => MapIndexed3((_, element1, element2, element3) => mapping(element1, element2, element3),
+                             source, source2, source3, conditionToBreak);
+
         /// <summary>Builds a new collection whose elements are the results of applying the given function
         /// to each of the elements of the collection. The integer index passed to the
         /// function indicates the index (from 0) of element being transformed.</summary>
@@ -544,6 +574,9 @@ namespace Tango
         /// <param name="source3">The third input collection.</param>
         /// <returns>The collection of transformed elements.</returns>
         public static IEnumerable<TResult> MapIndexed3<T, T2, T3, TResult>(Func<int, T, T2, T3, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2, IEnumerable<T3> source3)
+            => MapIndexed3(mapping, source, source2, source3, () => true);
+
+        private static IEnumerable<TResult> MapIndexed3<T, T2, T3, TResult>(Func<int, T, T2, T3, TResult> mapping, IEnumerable<T> source, IEnumerable<T2> source2, IEnumerable<T3> source3, Func<bool> conditionToBreak)
         {
             int currentIndex = 0;
             using (IEnumerator<T> enumeratorSource = source.GetEnumerator())
@@ -552,7 +585,7 @@ namespace Tango
                 {
                     using (IEnumerator<T3> enumeratorSource3 = source3.GetEnumerator())
                     {
-                        while (enumeratorSource.MoveNext() && enumeratorSource2.MoveNext() && enumeratorSource3.MoveNext())
+                        while (enumeratorSource.MoveNext() && enumeratorSource2.MoveNext() && enumeratorSource3.MoveNext() && conditionToBreak())
                         {
                             yield return mapping(currentIndex, enumeratorSource.Current, enumeratorSource2.Current, enumeratorSource3.Current);
                             currentIndex++;
@@ -570,7 +603,7 @@ namespace Tango
         /// <param name="source">The input collection.</param>
         /// <returns>A collection containing the elements for which the predicate evaluated to true and a collection
         /// containing the elements for which the predicate evaluated to false, respectively.</returns>
-        public static (IEnumerable<T>, IEnumerable<T>) Partition<T>(Func<T, bool> predicate, IEnumerable<T> source)
+        public static (IEnumerable<T> Trues, IEnumerable<T> Falses) Partition<T>(Func<T, bool> predicate, IEnumerable<T> source)
             => source.Map(element => new { Key = predicate(element), Value = element })
                          .GroupBy(element => element.Key)
                          .OrderByDescending(element => element.Key)
@@ -698,7 +731,7 @@ namespace Tango
         /// <returns>The collection of states.</returns>
         public static IEnumerable<TState> ScanBack<T, TState>(Func<T, TState, TState> folder, IEnumerable<T> source, TState state)
             => source.Reverse()
-                     .Scan((accumulator, element) => folder(element, accumulator), state)
+                     .Scan(state, (accumulator, element) => folder(element, accumulator))
                      .Reverse();
 
         /// <summary>Like <c>FoldBack2</c>, but returns both the intermediary and final results</summary>
@@ -715,7 +748,9 @@ namespace Tango
         /// <returns>The collection of states.</returns>
         public static IEnumerable<TState> ScanBack2<T, T2, TState>(Func<T, T2, TState, TState> folder, IEnumerable<T> source, IEnumerable<T2> source2, TState state)
             => source.Reverse()
-                     .Scan2(source2.Reverse(), (accumulator, element1, element2) => folder(element1, element2, accumulator), state)
+                     .Scan2(source2.Reverse(), state,
+                            (accumulator, element1, element2) =>
+                                folder(element1, element2, accumulator))
                      .Reverse();
 
         /// <summary>Returns the collection after removing the first element.</summary>
