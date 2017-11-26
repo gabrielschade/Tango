@@ -16,6 +16,9 @@ namespace Tango.Types
         public static implicit operator Option<T>(T value)
             => new Option<T>(value);
 
+        public static Option<T> None()
+            => new Option<T>(default(T));
+
         public TResult Match<TResult>(
             Func<T, TResult> methodWhenSome, 
             Func<TResult> methodWhenNone)

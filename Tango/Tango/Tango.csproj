@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\ExceptionMessages.cs" />
     <Compile Include="Functional\Currying.cs" />
+    <Compile Include="Functional\Operations.cs" />
     <Compile Include="Functional\PartialApplication.cs" />
     <Compile Include="Functional\FunctionExtensions.cs" />
     <Compile Include="Linq\EnumExtensions.cs" />

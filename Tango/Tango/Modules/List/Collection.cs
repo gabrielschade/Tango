@@ -200,7 +200,7 @@ namespace Tango
 
         /// <summary>Applies a function to each element of the collection, threading an accumulator argument
         /// through the computation. Take the second argument, and apply the function to it
-        /// and the first element of the list. Then feed this result into the function along
+        /// and the first element of the licollectionst. Then feed this result into the function along
         /// with the second element and so on. Return the final result.
         /// If the input function is <c>f</c> and the elements are <c>i0...iN</c> then 
         /// computes <c>f (... (f s i0) i1 ...) iN</c>.</summary>
@@ -275,7 +275,7 @@ namespace Tango
         /// This function causes IEnumerable evaluation.</remarks>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="predicate">The function to test the input elements.</param>
-        /// <param name="source">The input list.</param>
+        /// <param name="source">The input collection.</param>
         /// <returns>True if all of the elements satisfy the predicate.</returns>
         public static bool ForAll<T>(Func<T, bool> predicate, IEnumerable<T> source)
         {
@@ -319,7 +319,7 @@ namespace Tango
         /// <summary>Returns the first element of the collection.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="source">The input collection.</param>
-        /// <exception cref="System.InvalidOperationException">Thrown when the list is empty.</exception>
+        /// <exception cref="System.InvalidOperationException">Thrown when the collection is empty.</exception>
         /// <returns>The first element of the collection.</returns>
         public static T Head<T>(IEnumerable<T> source)
             => source.First();
@@ -327,7 +327,7 @@ namespace Tango
         /// <summary>Returns the first and the last element of the collection.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="source">The input collection.</param>
-        /// <exception cref="System.InvalidOperationException">Thrown when the list is empty.</exception>
+        /// <exception cref="System.InvalidOperationException">Thrown when the collection is empty.</exception>
         /// <returns>A Tuple with first and last element of the collection.</returns>
         public static (T, T) HeadAndTailEnd<T>(IEnumerable<T> source)
             => (source.First(), source.Last());
@@ -365,7 +365,7 @@ namespace Tango
 
         /// <summary>Creates a collection by calling the given generator on each index.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
-        /// <param name="length">The length of the list to generate.</param>
+        /// <param name="length">The length of the collection to generate.</param>
         /// <param name="initializer">The function to generate an element from an index.</param>
         /// <returns>The collection of generated elements.</returns>
         public static IEnumerable<T> Initialize<T>(int length, Func<int, T> initializer)
@@ -469,7 +469,7 @@ namespace Tango
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="T3">The element type of third collection.</typeparam>
-        /// <param name="mapping">The function to transform triples of elements from the input lists.</param>
+        /// <param name="mapping">The function to transform triples of elements from the input collections.</param>
         /// <param name="source">The first input collection.</param>
         /// <param name="source2">The second input collection.</param>
         /// <param name="source3">The third input collection.</param>
@@ -595,13 +595,13 @@ namespace Tango
         /// <typeparam name="T2">The type of resulting value.</typeparam>
         /// <param name="chooser">The function to generate options from the elements.</param>
         /// <param name="source">The input collection.</param>
-        /// <exception cref="System.Collections.Generic.KeyNotFoundException">Thrown when the collection is empty.</exception>
+        /// <exception cref="System.Collections.Generic.InvalidOperationException">Thrown when the collection is empty.</exception>
         /// <returns>The first resulting value.</returns>
         public static T2 Pick<T, T2>(Func<T, Option<T2>> chooser, IEnumerable<T> source)
             => source.TryPick(chooser)
                      .Match(
                         value => value,
-                        () => throw new KeyNotFoundException());
+                        () => throw new InvalidOperationException());
 
         /// <summary>Apply a function to each element of the collection, threading an accumulator argument
         /// through the computation. Apply the function to the first two elements of the collection.
@@ -612,7 +612,7 @@ namespace Tango
         /// <remarks>Raises <c>System.ArgumentNullException</c> if <c>source</c> is empty</remarks>
         /// <param name="reduction">The function to reduce two collection elements to a single element.</param>
         /// <param name="source">The input collection.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown when the collection is empty.</exception>
+        /// <exception cref="System.InvalidOperationException">Thrown when the collection is empty.</exception>
         /// <returns>The final reduced value.</returns>
         public static T Reduce<T>(Func<T, T, T> reduction, IEnumerable<T> source)
             => source.Aggregate(reduction);
@@ -624,7 +624,7 @@ namespace Tango
         /// <param name="reduction">A function that takes in the next-to-last element of the collection and the
         /// current accumulated result to produce the next accumulated result.</param>
         /// <param name="source">The input collection.</param>
-        /// <exception cref="System.ArgumentException">Thrown when the collection is empty.</exception>
+        /// <exception cref="System.InvalidOperationException">Thrown when the collection is empty.</exception>
         /// <returns>The final result of the reductions.</returns>
         public static T ReduceBack<T>(Func<T, T, T> reduction, IEnumerable<T> source)
             => source.Reverse()
@@ -640,8 +640,8 @@ namespace Tango
 
         /// <summary>Applies a function to each element of the collection, threading an accumulator argument
         /// through the computation. Take the second argument, and apply the function to it
-        /// and the first element of the list. Then feed this result into the function along
-        /// with the second element and so on. Returns the list of intermediate results and the final result.</summary>
+        /// and the first element of the collection. Then feed this result into the function along
+        /// with the second element and so on. Returns the collection of intermediate results and the final result.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <typeparam name="TState">The element type of states collection</typeparam>
         /// <param name="folder">The function to update the state given the input elements.</param>
@@ -698,7 +698,8 @@ namespace Tango
         /// <returns>The collection of states.</returns>
         public static IEnumerable<TState> ScanBack<T, TState>(Func<T, TState, TState> folder, IEnumerable<T> source, TState state)
             => source.Reverse()
-                     .Scan((accumulator, element) => folder(element, accumulator), state);
+                     .Scan((accumulator, element) => folder(element, accumulator), state)
+                     .Reverse();
 
         /// <summary>Like <c>FoldBack2</c>, but returns both the intermediary and final results</summary>
         /// <remarks>
@@ -714,12 +715,13 @@ namespace Tango
         /// <returns>The collection of states.</returns>
         public static IEnumerable<TState> ScanBack2<T, T2, TState>(Func<T, T2, TState, TState> folder, IEnumerable<T> source, IEnumerable<T2> source2, TState state)
             => source.Reverse()
-                     .Scan2(source2, (accumulator, element1, element2) => folder(element1, element2, accumulator), state);
+                     .Scan2(source2.Reverse(), (accumulator, element1, element2) => folder(element1, element2, accumulator), state)
+                     .Reverse();
 
         /// <summary>Returns the collection after removing the first element.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
-        /// <param name="source">The collection list.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown when the list is empty.</exception>
+        /// <param name="source">The collection collection.</param>
+        /// <exception cref="System.ArgumentNullException">Thrown when the collection is empty.</exception>
         /// <returns>The collection after removing the first element.</returns>
         public static IEnumerable<T> Tail<T>(IEnumerable<T> source)
             => source.Skip(1);
@@ -744,9 +746,9 @@ namespace Tango
         /// <returns>The first resulting value or None.</returns>
         public static Option<T2> TryPick<T, T2>(Func<T, Option<T2>> chooser, IEnumerable<T> source)
             => source.Map(chooser)
-                     .First(element => element.IsSome);
+                     .FirstOrDefault(element => element.IsSome);
 
-        /// <summary>Splits a list of pairs into two collections.</summary>
+        /// <summary>Splits a collection of pairs into two collections.</summary>
         /// <typeparam name="T">The type of the first element of collection.</typeparam>
         /// <typeparam name="T2">The type of the second element of collection.</typeparam>
         /// <param name="source">The input collection.</param>
@@ -755,7 +757,7 @@ namespace Tango
             => (source.Map(e => e.Item1),
                 source.Map(e => e.Item2));
 
-        /// <summary>Splits a list of triples into three lists.</summary>
+        /// <summary>Splits a collection of triples into three collections.</summary>
         /// <typeparam name="T">The type of the first element of collection.</typeparam>
         /// <typeparam name="T2">The type of the second element of collection.</typeparam>
         /// <typeparam name="T3">The type of the third element of collection.</typeparam>
@@ -765,7 +767,7 @@ namespace Tango
                  source.Map(e => e.Item2),
                  source.Map(e => e.Item3));
 
-        /// <summary>Combines the two collection into a list of pairs.</summary>
+        /// <summary>Combines the two collection into a collection of pairs.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <param name="source">The first input collection.</param>
