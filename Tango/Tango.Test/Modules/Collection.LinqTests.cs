@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Tango.Types;
 using Tango.Linq;
+using Tango.Modules;
+
 namespace Tango.Test.Types
 {
     [TestClass]
@@ -33,17 +35,17 @@ namespace Tango.Test.Types
             Func<int, int> evensFunction = (index) => index % 2 == 0 ? index : index + 1;
             Func<int, int> evensOddFunction = (index) => index % 2 == 0 || index == 1 ? index : index + 1;
 
-            _100evens = Collection.Initialize(100, evensFunction).ToArray();
-            _1000evens = Collection.Initialize(1000, evensFunction).ToArray();
-            _10000evens = Collection.Initialize(10000, evensFunction).ToArray();
-            _100evens1Odd = Collection.Initialize(100, evensOddFunction).ToArray();
-            _1000evens1Odd = Collection.Initialize(1000, evensOddFunction).ToArray();
-            _10000evens1Odd = Collection.Initialize(10000, evensOddFunction).ToArray();
-            _100values = Collection.Range(1, 100).ToArray();
-            _1000values = Collection.Range(1, 1000).ToArray();
-            _10000values = Collection.Range(1, 10000).ToArray();
-            _0to5values = Collection.Range(0, 5).ToArray();
-            _0to10values = Collection.Range(0, 10).ToArray();
+            _100evens = CollectionModule.Initialize(100, evensFunction).ToArray();
+            _1000evens = CollectionModule.Initialize(1000, evensFunction).ToArray();
+            _10000evens = CollectionModule.Initialize(10000, evensFunction).ToArray();
+            _100evens1Odd = CollectionModule.Initialize(100, evensOddFunction).ToArray();
+            _1000evens1Odd = CollectionModule.Initialize(1000, evensOddFunction).ToArray();
+            _10000evens1Odd = CollectionModule.Initialize(10000, evensOddFunction).ToArray();
+            _100values = CollectionModule.Range(1, 100).ToArray();
+            _1000values = CollectionModule.Range(1, 1000).ToArray();
+            _10000values = CollectionModule.Range(1, 10000).ToArray();
+            _0to5values = CollectionModule.Range(0, 5).ToArray();
+            _0to10values = CollectionModule.Range(0, 10).ToArray();
             _10to0values = _0to10values.Reverse();
             _5to0values = _0to5values.Reverse();
         }
@@ -65,7 +67,7 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqCollectionSameValuesRange()
         {
-            IEnumerable<int> generated = Collection.Range(1, 1);
+            IEnumerable<int> generated = CollectionModule.Range(1, 1);
             int[] expected = { 1 };
 
             bool result = generated.ForAll2(expected, _elementsAreEqual);
@@ -75,7 +77,7 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqCollectionDecreasingRange()
         {
-            IEnumerable<int> generated = Collection.Range(10, 1);
+            IEnumerable<int> generated = CollectionModule.Range(10, 1);
             int[] expected = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
 
             bool result = generated.ForAll2(expected, _elementsAreEqual);
@@ -85,7 +87,7 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqCollectionIncreasingRange()
         {
-            IEnumerable<int> generated = Collection.Range(1, 10);
+            IEnumerable<int> generated = CollectionModule.Range(1, 10);
             int[] expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
             bool result = generated.ForAll2(expected, _elementsAreEqual);
@@ -95,9 +97,9 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqCollectionAppend()
         {
-            IEnumerable<int> first = Collection.Range(1, 500);
-            IEnumerable<int> second = Collection.Range(501, 1000);
-            IEnumerable<int> expected = Collection.Range(1, 1000);
+            IEnumerable<int> first = CollectionModule.Range(1, 500);
+            IEnumerable<int> second = CollectionModule.Range(501, 1000);
+            IEnumerable<int> expected = CollectionModule.Range(1, 1000);
 
             bool result = expected.ForAll2(first.Append(second), _elementsAreEqual);
             Assert.IsTrue(result);
@@ -188,7 +190,7 @@ namespace Tango.Test.Types
         {
             int expected = 5050;
             IEnumerable<int> result =
-                _100values.Collect(element => Collection.Range(1, element));
+                _100values.Collect(element => CollectionModule.Range(1, element));
 
             Assert.AreEqual(expected, result.Count());
         }
@@ -253,12 +255,12 @@ namespace Tango.Test.Types
         public void LinqCollectionDistinct()
         {
             IEnumerable<int> result =
-                _100values.Collect(element => Collection.Range(1, element));
+                _100values.Collect(element => CollectionModule.Range(1, element));
 
             IEnumerable<int> distinctedResult =
                 result.Distinct(_elementsAreEqual, element => element);
 
-            Assert.IsTrue(distinctedResult.ForAll2(Collection.Range(1, 100), _elementsAreEqual));
+            Assert.IsTrue(distinctedResult.ForAll2(CollectionModule.Range(1, 100), _elementsAreEqual));
         }
 
         [TestMethod]
@@ -276,7 +278,7 @@ namespace Tango.Test.Types
         {
             bool expected = true;
             bool result =
-            Collection.Range(0, 100000).Exists2(Collection.Range(100000, 0), _elementsAreEqual);
+            CollectionModule.Range(0, 100000).Exists2(CollectionModule.Range(100000, 0), _elementsAreEqual);
 
             Assert.AreEqual(expected, result);
         }
@@ -286,7 +288,7 @@ namespace Tango.Test.Types
         {
             bool expected = false;
             bool result =
-            Collection.Range(0, 100000).Exists2(Collection.Range(1, 100001), _elementsAreEqual);
+            CollectionModule.Range(0, 100000).Exists2(CollectionModule.Range(1, 100001), _elementsAreEqual);
 
             Assert.AreEqual(expected, result);
         }
@@ -324,8 +326,8 @@ namespace Tango.Test.Types
         {
             int expected = 20;
             int result =
-                Collection.Range(1, 3).Fold2(
-                    Collection.Range(3, 1),
+                CollectionModule.Range(1, 3).Fold2(
+                    CollectionModule.Range(3, 1),
                     12,
                     (accumulator, element1, element2) =>
                         accumulator + Math.Max(element1, element2));
@@ -368,7 +370,7 @@ namespace Tango.Test.Types
         [ExpectedException(typeof(InvalidOperationException))]
         public void LinqCollectionHeadException()
         {
-            var empty = Collection.Empty<int>();
+            var empty = CollectionModule.Empty<int>();
             empty.Head();
         }
 
@@ -396,7 +398,7 @@ namespace Tango.Test.Types
         [ExpectedException(typeof(InvalidOperationException))]
         public void LinqCollectionHeadAndTailException()
         {
-            var empty = Collection.Empty<int>();
+            var empty = CollectionModule.Empty<int>();
             empty.Head();
         }
 
@@ -426,10 +428,10 @@ namespace Tango.Test.Types
         public void LinqCollectionMap()
         {
             IEnumerable<int> generated =
-                Collection.Generate(1, 2, 3).Map(element => element * 2);
+                CollectionModule.Generate(1, 2, 3).Map(element => element * 2);
 
             IEnumerable<int> expected =
-                Collection.Generate(2, 4, 6);
+                CollectionModule.Generate(2, 4, 6);
 
             Assert.IsTrue(generated.ForAll2(expected, _elementsAreEqual));
         }
@@ -438,13 +440,13 @@ namespace Tango.Test.Types
         public void LinqCollectionMap2()
         {
             IEnumerable<int> generated =
-                Collection.Generate(1, 2, 3).Map2(
-                    Collection.Generate(3, 2, 1),
+                CollectionModule.Generate(1, 2, 3).Map2(
+                    CollectionModule.Generate(3, 2, 1),
                     (element1, element2) => Math.Max(element1, element2) * 2
                 );
 
             IEnumerable<int> expected =
-                Collection.Generate(6, 4, 6);
+                CollectionModule.Generate(6, 4, 6);
 
             Assert.IsTrue(generated.ForAll2(expected, _elementsAreEqual));
         }
@@ -452,15 +454,15 @@ namespace Tango.Test.Types
         public void LinqCollectionMap3()
         {
             IEnumerable<int> generated =
-                Collection.Generate(1, 2, 3).Map3(
-                    Collection.Generate(3, 2, 1),
-                    Collection.Generate(3, 3, 3),
+                CollectionModule.Generate(1, 2, 3).Map3(
+                    CollectionModule.Generate(3, 2, 1),
+                    CollectionModule.Generate(3, 3, 3),
                     (element1, element2, element3) =>
                         Math.Max(Math.Max(element1, element2), element3) * 2
                 );
 
             IEnumerable<int> expected =
-                Collection.Generate(6, 6, 6);
+                CollectionModule.Generate(6, 6, 6);
 
             Assert.IsTrue(expected.ForAll2(generated, _elementsAreEqual));
         }
@@ -469,11 +471,11 @@ namespace Tango.Test.Types
         public void LinqCollectionMapIndexed()
         {
             IEnumerable<int> generated =
-                Collection.Generate(1, 2, 3).MapIndexed(
+                CollectionModule.Generate(1, 2, 3).MapIndexed(
                     (index, element) => index + element * 2);
 
             IEnumerable<int> expected =
-                Collection.Generate(2, 5, 8);
+                CollectionModule.Generate(2, 5, 8);
 
             Assert.IsTrue(generated.ForAll2(expected,_elementsAreEqual));
         }
@@ -482,13 +484,13 @@ namespace Tango.Test.Types
         public void LinqCollectionMapIndexed2()
         {
             IEnumerable<int> generated =
-                Collection.Generate(1, 2, 3).MapIndexed2(
-                     Collection.Generate(3, 2, 1),
+                CollectionModule.Generate(1, 2, 3).MapIndexed2(
+                     CollectionModule.Generate(3, 2, 1),
                     (index, element1, element2) => 
                         index + Math.Max(element1, element2) * 2);
 
             IEnumerable<int> expected =
-                Collection.Generate(6, 5, 8);
+                CollectionModule.Generate(6, 5, 8);
 
             Assert.IsTrue(generated.ForAll2(expected,_elementsAreEqual));
         }
@@ -497,14 +499,14 @@ namespace Tango.Test.Types
         public void LinqCollectionMapIndexed3()
         {
             IEnumerable<int> generated =
-                Collection.Generate(1, 2, 3).MapIndexed3(
-                    Collection.Generate(3, 2, 1),
-                    Collection.Generate(3, 3, 3),
+                CollectionModule.Generate(1, 2, 3).MapIndexed3(
+                    CollectionModule.Generate(3, 2, 1),
+                    CollectionModule.Generate(3, 3, 3),
                     (index, element1, element2, element3) => 
                         index + Math.Max(Math.Max(element1, element2), element3) * 2);
 
             IEnumerable<int> expected =
-                Collection.Generate(6, 7, 8);
+                CollectionModule.Generate(6, 7, 8);
 
             Assert.IsTrue(expected.ForAll2(generated, _elementsAreEqual));
         }
@@ -513,13 +515,13 @@ namespace Tango.Test.Types
         public void LinqCollectionPartition()
         {
             var (evens, odds) =
-                Collection.Range(0, 1000).Partition(element => element % 2 == 0);
+                CollectionModule.Range(0, 1000).Partition(element => element % 2 == 0);
 
             IEnumerable<int> expectedEvens =
-                Collection.Initialize(500, index => index * 2);
+                CollectionModule.Initialize(500, index => index * 2);
 
             IEnumerable<int> expectedOdds =
-                Collection.Initialize(500, index => index * 2 + 1);
+                CollectionModule.Initialize(500, index => index * 2 + 1);
 
 
             Assert.IsTrue(
@@ -537,7 +539,7 @@ namespace Tango.Test.Types
                 original.Permute(index => (index + 3) % 6);
 
             IEnumerable<int> expected =
-                Collection.Generate(3, 4, 5, 0, 1, 2);
+                CollectionModule.Generate(3, 4, 5, 0, 1, 2);
 
             Assert.IsTrue(permuted.ForAll2(expected,_elementsAreEqual));
         }
@@ -569,7 +571,7 @@ namespace Tango.Test.Types
         public void LinqCollectionScan()
         {
             IEnumerable<int> expected =
-                Collection.Generate(10, 11, 13, 16, 20, 25, 31, 38, 46, 55, 65);
+                CollectionModule.Generate(10, 11, 13, 16, 20, 25, 31, 38, 46, 55, 65);
 
             IEnumerable<int> result =
                 _0to10values.Scan(10, (accumulator, element) => accumulator + element);
@@ -581,7 +583,7 @@ namespace Tango.Test.Types
         public void LinqCollectionScanBack()
         {
             IEnumerable<int> expected =
-                Collection.Generate(65, 65, 64, 62, 59, 55, 50, 44, 37, 29, 20);
+                CollectionModule.Generate(65, 65, 64, 62, 59, 55, 50, 44, 37, 29, 20);
 
             IEnumerable<int> result =
                 _0to10values.ScanBack((accumulator, element) => accumulator + element, 10);
@@ -594,11 +596,11 @@ namespace Tango.Test.Types
         public void LinqCollectionScan2()
         {
             IEnumerable<int> expected =
-                Collection.Generate(15, 20, 25, 30, 35, 40);
+                CollectionModule.Generate(15, 20, 25, 30, 35, 40);
 
             IEnumerable<int> result =
-                Collection.Range(0, 5).Scan2(
-                    Collection.Range(5, 0), 10,
+                CollectionModule.Range(0, 5).Scan2(
+                    CollectionModule.Range(5, 0), 10,
                     (accumulator, element1, element2) => accumulator + element1 + element2);
 
             Assert.IsTrue(result.ForAll2(expected,_elementsAreEqual));
@@ -608,23 +610,23 @@ namespace Tango.Test.Types
         public void LinqCollectionScanBack2()
         {
             IEnumerable<int> expected =
-                Collection.Generate(40, 35, 30, 25, 20, 15);
+                CollectionModule.Generate(40, 35, 30, 25, 20, 15);
 
             IEnumerable<int> result =
-                Collection.ScanBack2(
+                CollectionModule.ScanBack2(
                     (accumulator, element1, element2) => accumulator + element1 + element2,
                     _0to5values,
                     _5to0values
                     , 10);
 
-            Assert.IsTrue(Collection.ForAll2(_elementsAreEqual, expected, result));
+            Assert.IsTrue(CollectionModule.ForAll2(_elementsAreEqual, expected, result));
         }
 
         [TestMethod]
         public void LinqCollectionTail()
         {
             IEnumerable<int> expected =
-                Collection.Range(1, 5);
+                CollectionModule.Range(1, 5);
 
             IEnumerable<int> result =
                 _0to5values.Tail();
@@ -658,7 +660,7 @@ namespace Tango.Test.Types
         public void LinqCollectionTryPick()
         {
             Option<int> result =
-                Collection.Generate(11, 15, 19, 22, 20)
+                CollectionModule.Generate(11, 15, 19, 22, 20)
                     .TryPick(element =>
                         element % 2 == 0 ?
                         element
@@ -673,7 +675,7 @@ namespace Tango.Test.Types
         public void LinqCollectionTryPickNone()
         {
             Option<int> result =
-                Collection.Generate(11, 15, 19, 23, 29)
+                CollectionModule.Generate(11, 15, 19, 23, 29)
                     .TryPick(element =>
                         element % 2 == 0 ?
                         element
@@ -685,16 +687,16 @@ namespace Tango.Test.Types
         public void LinqCollectionUnzip()
         {
             IEnumerable<(int, bool)> numbersAndBools =
-                Collection.Generate((10, true), (2, false), (33, true), (9, false), (42, true));
+                CollectionModule.Generate((10, true), (2, false), (33, true), (9, false), (42, true));
 
             var (numbers, booleans) =
                 numbersAndBools.Unzip();
 
             IEnumerable<int> expectedNumbers =
-                Collection.Generate(10, 2, 33, 9, 42);
+                CollectionModule.Generate(10, 2, 33, 9, 42);
 
             IEnumerable<bool> expectedBooleans =
-                Collection.Generate(true, false, true, false, true);
+                CollectionModule.Generate(true, false, true, false, true);
 
             Assert.IsTrue(
                 numbers.ForAll2(expectedNumbers, _elementsAreEqual)
@@ -706,7 +708,7 @@ namespace Tango.Test.Types
         public void LinqCollectionUnzip3()
         {
             IEnumerable<(int, bool, int)> numbersBoolsAndRange =
-                Collection.Generate(
+                CollectionModule.Generate(
                     (10, true, 1),
                     (2, false, 2),
                     (33, true, 3),
@@ -717,16 +719,16 @@ namespace Tango.Test.Types
                 numbersBoolsAndRange.Unzip3();
 
             IEnumerable<int> expectedNumbers =
-                Collection.Generate(10, 2, 33, 9, 42);
+                CollectionModule.Generate(10, 2, 33, 9, 42);
 
             IEnumerable<bool> expectedBooleans =
-                Collection.Generate(true, false, true, false, true);
+                CollectionModule.Generate(true, false, true, false, true);
 
             Assert.IsTrue(
                 numbers.ForAll2(expectedNumbers,_elementsAreEqual)
                 && booleans.ForAll2(expectedBooleans,
                     (element1, element2) => element1 == element2)
-                && numbers2.ForAll2(Collection.Range(1, 5), _elementsAreEqual )
+                && numbers2.ForAll2(CollectionModule.Range(1, 5), _elementsAreEqual )
                     );
         }
 
@@ -747,14 +749,14 @@ namespace Tango.Test.Types
         public void LinqCollectionZip3()
         {
             IEnumerable<(int, int, int)> triples =
-                Collection.Zip3(_0to10values, _10to0values, _100values);
+                CollectionModule.Zip3(_0to10values, _10to0values, _100values);
 
             Assert.IsTrue(
-                Collection.ForAll2(
+                CollectionModule.ForAll2(
                     (element1, element2) => element1.Item1 == element2, triples, _0to10values)
-                && Collection.ForAll2(
+                && CollectionModule.ForAll2(
                     (element1, element2) => element1.Item2 == element2, triples, _10to0values)
-                && Collection.ForAll2(
+                && CollectionModule.ForAll2(
                     (element1, element2) => element1.Item3 == element2, triples, _100values)
                     );
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tango.CommonOperations;
 using Tango.Linq;
+using Tango.Modules;
 
 namespace Tango.Test.Types
 {
@@ -27,7 +28,7 @@ namespace Tango.Test.Types
         public void OperationConcatInReduction()
         {
             string expected = "Hello World";
-            IEnumerable<string> generated = Collection.Generate("Hello", " ", "World");
+            IEnumerable<string> generated = CollectionModule.Generate("Hello", " ", "World");
             Assert.AreEqual(expected, generated.Reduce(StringOperations.Concat));
         }
 

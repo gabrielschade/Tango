@@ -5,8 +5,15 @@ namespace Tango.Functional
 {
     public static class FunctionExtensions
     {
+        public static Func<Unit> ToFunction(this Action action)
+            => () =>
+            {
+                action();
+                return new Unit();
+            };
+
         public static Func<T, Unit> ToFunction<T>(this Action<T> action)
-            => parameter =>
+            => parameter => 
             {
                 action(parameter);
                 return new Unit();

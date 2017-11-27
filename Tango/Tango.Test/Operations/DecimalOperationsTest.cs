@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tango.CommonOperations;
 using Tango.Linq;
+using Tango.Modules;
 
 namespace Tango.Test.Types
 {
@@ -41,7 +42,7 @@ namespace Tango.Test.Types
         public void OperationAddReduction()
         {
             decimal expected = 10.5m;
-            IEnumerable<decimal> generated = Collection.Generate(2, 3, 5.3m, 0.2m);
+            IEnumerable<decimal> generated = CollectionModule.Generate(2, 3, 5.3m, 0.2m);
             Assert.AreEqual(expected, generated.Reduce(DecimalOperations.Add));
         }
 
@@ -50,7 +51,7 @@ namespace Tango.Test.Types
         {
             decimal expected = 21m;
             IEnumerable<decimal> generated =
-                Collection.Generate(2, 3, 5.3m, 0.2m);
+                CollectionModule.Generate(2, 3, 5.3m, 0.2m);
 
 
             Assert.AreEqual(expected, generated.Fold2(generated, 0, DecimalOperations.Add3));
@@ -89,7 +90,7 @@ namespace Tango.Test.Types
         public void OperationSubtractReduction()
         {
             decimal expected = -6.5m;
-            IEnumerable<decimal> generated = Collection.Generate(2, 3, 5.3m, 0.2m);
+            IEnumerable<decimal> generated = CollectionModule.Generate(2, 3, 5.3m, 0.2m);
             Assert.AreEqual(expected, generated.Reduce(DecimalOperations.Subtract));
         }
 
@@ -98,7 +99,7 @@ namespace Tango.Test.Types
         {
             decimal expected = -21m;
             IEnumerable<decimal> generated =
-                Collection.Generate(2, 3, 5.3m, 0.2m);
+                CollectionModule.Generate(2, 3, 5.3m, 0.2m);
 
 
             Assert.AreEqual(expected, generated.Fold2(generated, 0, DecimalOperations.Subtract3));
@@ -137,7 +138,7 @@ namespace Tango.Test.Types
         public void OperationMultiplyReduction()
         {
             decimal expected = 5m;
-            IEnumerable<decimal> generated = Collection.Generate(2m, 2.5m, 2m, 0.5m);
+            IEnumerable<decimal> generated = CollectionModule.Generate(2m, 2.5m, 2m, 0.5m);
             Assert.AreEqual(expected, generated.Reduce(DecimalOperations.Multiply));
         }
 
@@ -146,7 +147,7 @@ namespace Tango.Test.Types
         {
             decimal expected = 25m;
             IEnumerable<decimal> generated =
-                Collection.Generate(2m, 2.5m, 2m, 0.5m);
+                CollectionModule.Generate(2m, 2.5m, 2m, 0.5m);
 
 
             Assert.AreEqual(expected, generated.Fold2(generated, 1, DecimalOperations.Multiply3));
@@ -184,7 +185,7 @@ namespace Tango.Test.Types
         public void OperationDivideReduction()
         {
             decimal expected = 5m;
-            IEnumerable<decimal> generated = Collection.Generate(10, 2, 2, 0.5m);
+            IEnumerable<decimal> generated = CollectionModule.Generate(10, 2, 2, 0.5m);
             Assert.AreEqual(expected, generated.Reduce(DecimalOperations.Divide));
         }
 
@@ -193,7 +194,7 @@ namespace Tango.Test.Types
         {
             decimal expected = 0.0025m;
             IEnumerable<decimal> generated =
-                Collection.Generate(10, 2, 2, 0.5m);
+                CollectionModule.Generate(10, 2, 2, 0.5m);
 
 
             Assert.AreEqual(expected, generated.Fold2(generated, 1, DecimalOperations.Divide3));

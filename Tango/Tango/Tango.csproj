@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,6 +13,8 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,6 +52,9 @@
   <ItemGroup>
     <Compile Include="Exceptions\ExceptionMessages.cs" />
     <Compile Include="Functional\Currying.cs" />
+    <Compile Include="Modules\Either\Either.Linq.cs" />
+    <Compile Include="Modules\Either\EitherModule.cs" />
+    <Compile Include="Modules\Option\OptionModule.cs" />
     <Compile Include="Operations\BoolOperations.cs" />
     <Compile Include="Operations\DecimalOperations.cs" />
     <Compile Include="Operations\DoubleOperations.cs" />
@@ -59,22 +65,28 @@
     <Compile Include="Linq\EqualityComparerBuilder.cs" />
     <Compile Include="Linq\OptionExtensions.cs" />
     <Compile Include="Linq\IQueryableExtensions.cs" />
-    <Compile Include="Modules\List\Collection.cs" />
-    <Compile Include="Modules\List\Collection.Linq.cs" />
+    <Compile Include="Modules\Collection\Collection.cs" />
+    <Compile Include="Modules\Collection\Collection.Linq.cs" />
     <Compile Include="Operations\StringOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\Either.cs" />
     <Compile Include="Types\Extensions\EnumExtensions.cs" />
     <Compile Include="Types\Option.cs" />
-    <Compile Include="Types\Potential.cs" />
     <Compile Include="Types\Continuation.cs" />
     <Compile Include="Types\Unit.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modules\Option\Option.Linq.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

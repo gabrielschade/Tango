@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tango.CommonOperations;
 using Tango.Linq;
+using Tango.Modules;
 
 namespace Tango.Test.Types
 {
@@ -42,7 +43,7 @@ namespace Tango.Test.Types
         {
             bool expected = true;
             IEnumerable<bool> generated = 
-                Collection.Generate(true, true, true, true);
+                CollectionModule.Generate(true, true, true, true);
             Assert.AreEqual(expected, generated.Reduce(BoolOperations.And));
         }
 
@@ -51,7 +52,7 @@ namespace Tango.Test.Types
         {
             bool expected = false;
             IEnumerable<bool> generated =
-                Collection.Generate(false, true, false, true);
+                CollectionModule.Generate(false, true, false, true);
             Assert.AreEqual(expected, generated.Reduce(BoolOperations.And));
         }
 
@@ -89,7 +90,7 @@ namespace Tango.Test.Types
         {
             bool expected = true;
             IEnumerable<bool> generated =
-                Collection.Generate(false, false, true, false);
+                CollectionModule.Generate(false, false, true, false);
             Assert.AreEqual(expected, generated.Reduce(BoolOperations.Or));
         }
 
@@ -98,7 +99,7 @@ namespace Tango.Test.Types
         {
             bool expected = false;
             IEnumerable<bool> generated =
-                Collection.Generate(false, false, false, false);
+                CollectionModule.Generate(false, false, false, false);
             Assert.AreEqual(expected, generated.Reduce(BoolOperations.Or));
         }
 

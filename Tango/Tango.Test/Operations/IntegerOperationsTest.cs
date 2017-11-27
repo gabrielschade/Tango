@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tango.CommonOperations;
 using Tango.Linq;
+using Tango.Modules;
 
 namespace Tango.Test.Types
 {
@@ -41,7 +42,7 @@ namespace Tango.Test.Types
         public void OperationAddReduction()
         {
             int expected = 10;
-            IEnumerable<int> generated = Collection.Generate(2, 3, 5, 0);
+            IEnumerable<int> generated = CollectionModule.Generate(2, 3, 5, 0);
             Assert.AreEqual(expected, generated.Reduce(IntegerOperations.Add));
         }
 
@@ -50,7 +51,7 @@ namespace Tango.Test.Types
         {
             int expected = 20;
             IEnumerable<int> generated =
-                Collection.Generate(2, 3, 5, 0);
+                CollectionModule.Generate(2, 3, 5, 0);
 
 
             Assert.AreEqual(expected, generated.Fold2(generated, 0, IntegerOperations.Add3));
@@ -89,7 +90,7 @@ namespace Tango.Test.Types
         public void OperationSubtractReduction()
         {
             int expected = -12;
-            IEnumerable<int> generated = Collection.Generate(2, 3, 5, 6);
+            IEnumerable<int> generated = CollectionModule.Generate(2, 3, 5, 6);
             Assert.AreEqual(expected, generated.Reduce(IntegerOperations.Subtract));
         }
 
@@ -98,7 +99,7 @@ namespace Tango.Test.Types
         {
             int expected = -20;
             IEnumerable<int> generated =
-                Collection.Generate(2, 3, 5, 0);
+                CollectionModule.Generate(2, 3, 5, 0);
 
 
             Assert.AreEqual(expected, generated.Fold2(generated, 0, IntegerOperations.Subtract3));
@@ -137,7 +138,7 @@ namespace Tango.Test.Types
         public void OperationMultiplyReduction()
         {
             int expected = 16;
-            IEnumerable<int> generated = Collection.Generate(2, 2, 2, 2);
+            IEnumerable<int> generated = CollectionModule.Generate(2, 2, 2, 2);
             Assert.AreEqual(expected, generated.Reduce(IntegerOperations.Multiply));
         }
 
@@ -146,7 +147,7 @@ namespace Tango.Test.Types
         {
             int expected = 256;
             IEnumerable<int> generated =
-                Collection.Generate(2, 2, 2, 2);
+                CollectionModule.Generate(2, 2, 2, 2);
 
 
             Assert.AreEqual(expected, generated.Fold2(generated, 1, IntegerOperations.Multiply3));
@@ -184,7 +185,7 @@ namespace Tango.Test.Types
         public void OperationDivideReduction()
         {
             int expected = 1;
-            IEnumerable<int> generated = Collection.Generate(10, 2, 2, 2);
+            IEnumerable<int> generated = CollectionModule.Generate(10, 2, 2, 2);
             Assert.AreEqual(expected, generated.Reduce(IntegerOperations.Divide));
         }
 
@@ -193,7 +194,7 @@ namespace Tango.Test.Types
         {
             int expected = 0;
             IEnumerable<int> generated =
-                Collection.Generate(10, 2, 2, 2);
+                CollectionModule.Generate(10, 2, 2, 2);
 
 
             Assert.AreEqual(expected, generated.Fold2(generated, 1, IntegerOperations.Divide3));
