@@ -6,7 +6,7 @@ using Tango.Types;
 using Tango.Linq;
 using Tango.Modules;
 
-namespace Tango.Test.Types
+namespace Tango.Test.Modules.Collection
 {
     [TestClass]
     public class CollectionLinqTests

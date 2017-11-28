@@ -11,35 +11,35 @@ namespace Tango.Test.Types
 
     {
         [TestMethod]
-        public void OperationAdd()
+        public void DoubleOperationAdd()
         {
             double expected = 10.5 ;
             Assert.AreEqual(expected, DoubleOperations.Add(5, 5.5 ));
         }
 
         [TestMethod]
-        public void OperationAddWith()
+        public void DoubleOperationAddWith()
         {
             double expected = 10.5 ;
             Assert.AreEqual(expected, DoubleOperations.AddWith(5)(5.5 ));
         }
 
         [TestMethod]
-        public void OperationAdd3With1()
+        public void DoubleOperationAdd3With1()
         {
             double expected = 10.5 ;
             Assert.AreEqual(expected, DoubleOperations.Add3With(2)(3, 5.5 ));
         }
 
         [TestMethod]
-        public void OperationAdd3With2()
+        public void DoubleOperationAdd3With2()
         {
             double expected = 10.5 ;
             Assert.AreEqual(expected, DoubleOperations.Add3With(2, 3)(5.5 ));
         }
 
         [TestMethod]
-        public void OperationAddReduction()
+        public void DoubleOperationAddReduction()
         {
             double expected = 10.5 ;
             IEnumerable<double> generated = CollectionModule.Generate(2, 3, 5.3 , 0.2 );
@@ -47,7 +47,7 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void OperationAddFold2()
+        public void DoubleOperationAddFold2()
         {
             double expected = 21 ;
             IEnumerable<double> generated =
@@ -59,35 +59,35 @@ namespace Tango.Test.Types
 
 
         [TestMethod]
-        public void OperationSubtract()
+        public void DoubleOperationSubtract()
         {
             double expected = -0.5 ;
             Assert.AreEqual(expected, DoubleOperations.Subtract(5, 5.5 ));
         }
 
         [TestMethod]
-        public void OperationSubtractWith()
+        public void DoubleOperationSubtractWith()
         {
             double expected = -0.5 ;
             Assert.AreEqual(expected, DoubleOperations.SubtractWith(5)(5.5 ));
         }
 
         [TestMethod]
-        public void OperationSubtract3With1()
+        public void DoubleOperationSubtract3With1()
         {
             double expected = -6.5 ;
             Assert.AreEqual(expected, DoubleOperations.Subtract3With(2)(3, 5.5 ));
         }
 
         [TestMethod]
-        public void OperationSubtract3With2()
+        public void DoubleOperationSubtract3With2()
         {
             double expected = -6.5 ;
             Assert.AreEqual(expected, DoubleOperations.Subtract3With(2, 3)(5.5 ));
         }
 
         [TestMethod]
-        public void OperationSubtractReduction()
+        public void DoubleOperationSubtractReduction()
         {
             double expected = -6.5 ;
             IEnumerable<double> generated = CollectionModule.Generate(2, 3, 5.3 , 0.2 );
@@ -95,7 +95,7 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void OperationSubtractFold2()
+        public void DoubleOperationSubtractFold2()
         {
             double expected = -21 ;
             IEnumerable<double> generated =
@@ -107,35 +107,35 @@ namespace Tango.Test.Types
 
 
         [TestMethod]
-        public void OperationMultiply()
+        public void DoubleOperationMultiply()
         {
             double expected = 5 ;
             Assert.AreEqual(expected, DoubleOperations.Multiply(2, 2.5 ));
         }
 
         [TestMethod]
-        public void OperationMultiplyWith()
+        public void DoubleOperationMultiplyWith()
         {
             double expected = 5 ;
             Assert.AreEqual(expected, DoubleOperations.MultiplyWith(2)(2.5 ));
         }
 
         [TestMethod]
-        public void OperationMultiply3With1()
+        public void DoubleOperationMultiply3With1()
         {
             double expected = 5 ;
             Assert.AreEqual(expected, DoubleOperations.Multiply3With(2)(1, 2.5 ));
         }
 
         [TestMethod]
-        public void OperationMultiply3With2()
+        public void DoubleOperationMultiply3With2()
         {
             double expected = 5 ;
             Assert.AreEqual(expected, DoubleOperations.Multiply3With(2, 1)(2.5 ));
         }
 
         [TestMethod]
-        public void OperationMultiplyReduction()
+        public void DoubleOperationMultiplyReduction()
         {
             double expected = 5 ;
             IEnumerable<double> generated = CollectionModule.Generate(2 , 2.5 , 2 , 0.5 );
@@ -143,7 +143,7 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void OperationMultiplyFold2()
+        public void DoubleOperationMultiplyFold2()
         {
             double expected = 25 ;
             IEnumerable<double> generated =
@@ -154,35 +154,35 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void OperationDivide()
+        public void DoubleOperationDivide()
         {
             double expected = 2.5 ;
             Assert.AreEqual(expected, DoubleOperations.Divide(5, 2 ));
         }
 
         [TestMethod]
-        public void OperationDivideWith()
+        public void DoubleOperationDivideWith()
         {
             double expected = 2.5 ;
             Assert.AreEqual(expected, DoubleOperations.DivideWith(5)(2 ));
         }
 
         [TestMethod]
-        public void OperationDivide3With1()
+        public void DoubleOperationDivide3With1()
         {
             double expected = 2.5 ;
             Assert.AreEqual(expected, DoubleOperations.Divide3With(10)(2, 2 ));
         }
 
         [TestMethod]
-        public void OperationDivide3With2()
+        public void DoubleOperationDivide3With2()
         {
             double expected = 2.5 ;
             Assert.AreEqual(expected, DoubleOperations.Divide3With(10, 2)(2 ));
         }
 
         [TestMethod]
-        public void OperationDivideReduction()
+        public void DoubleOperationDivideReduction()
         {
             double expected = 5 ;
             IEnumerable<double> generated = CollectionModule.Generate(10, 2, 2, 0.5 );
@@ -190,7 +190,7 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void OperationDivideFold2()
+        public void DoubleOperationDivideFold2()
         {
             double expected = 0.0025 ;
             IEnumerable<double> generated =

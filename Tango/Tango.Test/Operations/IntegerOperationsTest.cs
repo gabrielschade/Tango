@@ -11,35 +11,35 @@ namespace Tango.Test.Types
 
     {
         [TestMethod]
-        public void OperationAdd()
+        public void IntegerOperationAdd()
         {
             int expected = 10;
             Assert.AreEqual(expected, IntegerOperations.Add(5, 5));
         }
 
         [TestMethod]
-        public void OperationAddWith()
+        public void IntegerOperationAddWith()
         {
             int expected = 10;
             Assert.AreEqual(expected, IntegerOperations.AddWith(5)(5));
         }
 
         [TestMethod]
-        public void OperationAdd3With1()
+        public void IntegerOperationAdd3With1()
         {
             int expected = 10;
             Assert.AreEqual(expected, IntegerOperations.Add3With(2)(3, 5));
         }
 
         [TestMethod]
-        public void OperationAdd3With2()
+        public void IntegerOperationAdd3With2()
         {
             int expected = 10;
             Assert.AreEqual(expected, IntegerOperations.Add3With(2, 3)(5));
         }
 
         [TestMethod]
-        public void OperationAddReduction()
+        public void IntegerOperationAddReduction()
         {
             int expected = 10;
             IEnumerable<int> generated = CollectionModule.Generate(2, 3, 5, 0);
@@ -47,7 +47,7 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void OperationAddFold2()
+        public void IntegerOperationAddFold2()
         {
             int expected = 20;
             IEnumerable<int> generated =
@@ -59,35 +59,35 @@ namespace Tango.Test.Types
 
 
         [TestMethod]
-        public void OperationSubtract()
+        public void IntegerOperationSubtract()
         {
             int expected = -1;
             Assert.AreEqual(expected, IntegerOperations.Subtract(5, 6));
         }
 
         [TestMethod]
-        public void OperationSubtractWith()
+        public void IntegerOperationSubtractWith()
         {
             int expected = -1;
             Assert.AreEqual(expected, IntegerOperations.SubtractWith(5)(6));
         }
 
         [TestMethod]
-        public void OperationSubtract3With1()
+        public void IntegerOperationSubtract3With1()
         {
             int expected = -7;
             Assert.AreEqual(expected, IntegerOperations.Subtract3With(2)(3,6));
         }
 
         [TestMethod]
-        public void OperationSubtract3With2()
+        public void IntegerOperationSubtract3With2()
         {
             int expected = -7;
             Assert.AreEqual(expected, IntegerOperations.Subtract3With(2, 3)(6));
         }
 
         [TestMethod]
-        public void OperationSubtractReduction()
+        public void IntegerOperationSubtractReduction()
         {
             int expected = -12;
             IEnumerable<int> generated = CollectionModule.Generate(2, 3, 5, 6);
@@ -95,7 +95,7 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void OperationSubtractFold2()
+        public void IntegerOperationSubtractFold2()
         {
             int expected = -20;
             IEnumerable<int> generated =
@@ -107,35 +107,35 @@ namespace Tango.Test.Types
 
 
         [TestMethod]
-        public void OperationMultiply()
+        public void IntegerOperationMultiply()
         {
             int expected = 4;
             Assert.AreEqual(expected, IntegerOperations.Multiply(2, 2));
         }
 
         [TestMethod]
-        public void OperationMultiplyWith()
+        public void IntegerOperationMultiplyWith()
         {
             int expected = 4;
             Assert.AreEqual(expected, IntegerOperations.MultiplyWith(2)(2));
         }
 
         [TestMethod]
-        public void OperationMultiply3With1()
+        public void IntegerOperationMultiply3With1()
         {
             int expected = 4;
             Assert.AreEqual(expected, IntegerOperations.Multiply3With(2)(1, 2));
         }
 
         [TestMethod]
-        public void OperationMultiply3With2()
+        public void IntegerOperationMultiply3With2()
         {
             int expected = 4;
             Assert.AreEqual(expected, IntegerOperations.Multiply3With(2, 1)(2));
         }
 
         [TestMethod]
-        public void OperationMultiplyReduction()
+        public void IntegerOperationMultiplyReduction()
         {
             int expected = 16;
             IEnumerable<int> generated = CollectionModule.Generate(2, 2, 2, 2);
@@ -143,7 +143,7 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void OperationMultiplyFold2()
+        public void IntegerOperationMultiplyFold2()
         {
             int expected = 256;
             IEnumerable<int> generated =
@@ -154,35 +154,35 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void OperationDivide()
+        public void IntegerOperationDivide()
         {
             int expected = 2;
             Assert.AreEqual(expected, IntegerOperations.Divide(5, 2));
         }
 
         [TestMethod]
-        public void OperationDivideWith()
+        public void IntegerOperationDivideWith()
         {
             int expected = 2;
             Assert.AreEqual(expected, IntegerOperations.DivideWith(5)(2));
         }
 
         [TestMethod]
-        public void OperationDivide3With1()
+        public void IntegerOperationDivide3With1()
         {
             int expected = 2;
             Assert.AreEqual(expected, IntegerOperations.Divide3With(10)(2, 2));
         }
 
         [TestMethod]
-        public void OperationDivide3With2()
+        public void IntegerOperationDivide3With2()
         {
             int expected = 2;
             Assert.AreEqual(expected, IntegerOperations.Divide3With(10, 2)(2));
         }
 
         [TestMethod]
-        public void OperationDivideReduction()
+        public void IntegerOperationDivideReduction()
         {
             int expected = 1;
             IEnumerable<int> generated = CollectionModule.Generate(10, 2, 2, 2);
@@ -190,7 +190,7 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
-        public void OperationDivideFold2()
+        public void IntegerOperationDivideFold2()
         {
             int expected = 0;
             IEnumerable<int> generated =

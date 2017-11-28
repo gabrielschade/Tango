@@ -63,8 +63,6 @@
     <Compile Include="Functional\FunctionExtensions.cs" />
     <Compile Include="Linq\EnumExtensions.cs" />
     <Compile Include="Linq\EqualityComparerBuilder.cs" />
-    <Compile Include="Linq\OptionExtensions.cs" />
-    <Compile Include="Linq\IQueryableExtensions.cs" />
     <Compile Include="Modules\Collection\Collection.cs" />
     <Compile Include="Modules\Collection\Collection.Linq.cs" />
     <Compile Include="Operations\StringOperations.cs" />

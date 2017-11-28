@@ -57,8 +57,12 @@
   <ItemGroup>
     <Compile Include="Functional\CurryTests.cs" />
     <Compile Include="Functional\PartialApplicationTests.cs" />
-    <Compile Include="Modules\Collection.LinqTests.cs" />
-    <Compile Include="Modules\CollectionTests.cs" />
+    <Compile Include="Modules\Collection\Collection.LinqTests.cs" />
+    <Compile Include="Modules\Collection\CollectionModuleTests.cs" />
+    <Compile Include="Modules\Either\Either.LinqTests.cs" />
+    <Compile Include="Modules\Either\EitherModuleTests.cs" />
+    <Compile Include="Modules\Option\Option.LinqTests.cs" />
+    <Compile Include="Modules\Option\OptionModuleTests.cs" />
     <Compile Include="Operations\StringOperationsTests.cs" />
     <Compile Include="Operations\IntegerOperationsTest.cs" />
     <Compile Include="Operations\DoubleOperationsTest.cs" />
@@ -76,6 +80,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

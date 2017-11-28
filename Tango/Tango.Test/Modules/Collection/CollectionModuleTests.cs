@@ -5,10 +5,10 @@ using System.Linq;
 using Tango.Modules;
 using Tango.Types;
 
-namespace Tango.Test.Types
+namespace Tango.Test.Modules.Collection
 {
     [TestClass]
-    public class CollectionTests
+    public class CollectionModuleTests
 
     {
         IEnumerable<int> _0to5values;

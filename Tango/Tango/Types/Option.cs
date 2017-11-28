@@ -18,7 +18,7 @@ namespace Tango.Types
             => new Option<T>(value);
 
         public static Option<T> Some(T value)
-            => new Option<T>();
+            => new Option<T>(value);
 
         public static Option<T> None()
             => new Option<T>(default(T));

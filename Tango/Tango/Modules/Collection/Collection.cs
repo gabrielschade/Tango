@@ -738,7 +738,7 @@ namespace Tango.Modules
         /// <returns>The first element for which the predicate returns true, or None if
         /// every element evaluates to false.</returns>
         public static Option<T> TryFind<T>(Func<T, bool> predicate, IEnumerable<T> source)
-            => source.FirstOrNone(predicate);
+            => source.FirstOrDefault(predicate);
 
         /// <summary>Applies the given function to successive elements, returning <c>Some(x)</c> the first
         /// result where function returns <c>Some(x)</c> for some x. If no such element 

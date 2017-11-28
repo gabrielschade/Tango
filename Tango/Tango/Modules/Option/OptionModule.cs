@@ -10,7 +10,7 @@ namespace Tango.Modules
     {
         public static Option<T> OfNullable<T>(T? nullableValue)
             where T : struct
-            => nullableValue.Value;
+            => nullableValue.HasValue ? nullableValue.Value : Option<T>.None();
 
         public static T? ToNullable<T>(Option<T> option)
             where T : struct
