@@ -96,7 +96,7 @@ namespace Tango.Test.Functional
             Func < int,Func<int, Func<int, Action<int>>>> addCurried = add.Curry();
             addCurried(2)(3)(10)(5);
             curriedResult = result;
-
+            
             Assert.AreEqual(result, curriedResult);
         }
 

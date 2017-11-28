@@ -459,6 +459,7 @@ namespace Tango.Modules
         /// <summary>Builds a new collection whose elements are the results of applying the given function
         /// to each of the elements of the collection.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
+        /// <typeparam name="TResult">The element type of result collection.</typeparam>
         /// <param name="mapping">The function to transform elements from the input collection.</param>
         /// <param name="source">The input collection.</param>
         /// <returns>The collection of transformed elements.</returns>
