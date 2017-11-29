@@ -5,8 +5,8 @@ namespace Tango.Types
 {
     public struct Continuation<TSuccess, TFail>
     {
-        public TSuccess Success { get; }
-        public TFail Fail { get; }
+        private TSuccess Success { get; }
+        private TFail Fail { get; }
         public bool IsSuccess { get; }
         public bool IsFail => !IsSuccess;
 

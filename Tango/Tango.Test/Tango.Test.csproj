@@ -55,8 +55,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Functional\FunctionExtensionTests.cs" />
     <Compile Include="Functional\CurryTests.cs" />
     <Compile Include="Functional\PartialApplicationTests.cs" />
+    <Compile Include="Linq\EnumExtensionsTests.cs" />
     <Compile Include="Modules\Collection\Collection.LinqTests.cs" />
     <Compile Include="Modules\Collection\CollectionModuleTests.cs" />
     <Compile Include="Modules\Either\Either.LinqTests.cs" />
@@ -70,6 +72,8 @@
     <Compile Include="Operations\BoolOperationsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\ContinuationTests.cs" />
+    <Compile Include="Types\EitherTests.cs" />
+    <Compile Include="Types\OptionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tango\Tango.csproj">

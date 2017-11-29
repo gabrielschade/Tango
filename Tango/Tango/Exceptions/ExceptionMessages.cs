@@ -8,15 +8,15 @@ using Tango.Types.Extensions;
 
 namespace Tango.Exceptions
 {
-    public enum ExceptionMessages
+    internal enum ExceptionMessages
     {
         [Description("The input \"{0}\" must be positive")]
         MustBePositive
     }
 
-    public static class ExceptionMessagesMethods
+    internal static class ExceptionMessagesMethods
     {
-        public static string GetMessage(this ExceptionMessages message, params string[] args)
+        internal static string GetMessage(this ExceptionMessages message, params string[] args)
             => string.Format(message.GetDescription(), args);
         
     }

@@ -5,6 +5,10 @@ using Tango.Types;
 
 namespace Tango.Linq
 {
+    /// <summary>
+    /// Basic operations on <see cref="IEnumerable{T}"/> as extension methods.
+    /// The original operations are in <see cref="CollectionModule"/>.
+    /// </summary>
     public static class CollectionLinqExtensions
     {
         /// <summary>Returns a new collection that contains the elements of the first collection
@@ -52,11 +56,11 @@ namespace Tango.Linq
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="comparer">A function that takes an element from each collection and returns an int.
         /// If it evaluates to a non-zero value iteration is stopped and that value is returned.</param>
-        /// <param name="source1">The first input collection.</param>
-        /// <param name="source2">The second input collection.</param>
+        /// <param name="source">The first input collection.</param>
+        /// <param name="second">The second input collection.</param>
         ///
         /// <returns>The first non-zero value from the comparison function.</returns>
-        public static int CompareWith<T, TResult>(this IEnumerable<T> source, IEnumerable<T> second, Func<T, T, int> comparer)
+        public static int CompareWith<T>(this IEnumerable<T> source, IEnumerable<T> second, Func<T, T, int> comparer)
             => CollectionModule.CompareWith(comparer, source, second);
 
         /// <summary>Applies a key-generating function to each element of a collection and returns a collection yielding unique
@@ -114,7 +118,7 @@ namespace Tango.Linq
             => CollectionModule.Exists2(predicate, source, second);
 
         /// <summary>Returns a new collection containing only the elements of the collection
-        /// for which the given predicate returns "true"</summary>
+        /// for which the given predicate returns true</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
         /// <param name="predicate">The function to test the input elements.</param>
         /// <param name="source">The input collection.</param>
@@ -236,7 +240,7 @@ namespace Tango.Linq
         /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
-        /// /// <typeparam name="T2">The element type of third collection.</typeparam>
+        /// <typeparam name="T3">The element type of third collection.</typeparam>
         /// <param name="predicate">The function to test the input elements.</param>
         /// <param name="source">The first input collection.</param>
         /// <param name="second">The second input collection.</param>
@@ -304,6 +308,7 @@ namespace Tango.Linq
         /// <summary>Builds a new collection whose elements are the results of applying the given function
         /// to each of the elements of the collection.</summary>
         /// <typeparam name="T">The element type of collection.</typeparam>
+        /// <typeparam name="TResult">The element type of result collection.</typeparam>
         /// <param name="mapping">The function to transform elements from the input collection.</param>
         /// <param name="source">The input collection.</param>
         /// <returns>The collection of transformed elements.</returns>
@@ -317,6 +322,7 @@ namespace Tango.Linq
         /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
+        /// <typeparam name="TResult">The element type of result collection.</typeparam>
         /// <param name="mapping">The function to transform pairs of elements from the input collection.</param>
         /// <param name="source">The first input collection.</param>
         /// <param name="second">The second input collection.</param>
@@ -332,6 +338,7 @@ namespace Tango.Linq
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="T3">The element type of third collection.</typeparam>
+        /// <typeparam name="TResult">The element type of result collection.</typeparam>
         /// <param name="mapping">The function to transform triples of elements from the input lists.</param>
         /// <param name="source">The first input collection.</param>
         /// <param name="second">The second input collection.</param>
@@ -344,6 +351,7 @@ namespace Tango.Linq
         /// to each of the elements of the collection. The integer index passed to the
         /// function indicates the index (from 0) of element being transformed.</summary>
         /// <typeparam name="T">The type of collection elements.</typeparam>
+        /// <typeparam name="TResult">The element type of result collection.</typeparam>
         /// <param name="mapping">The function to transform elements and their indices.</param>
         /// <param name="source">The input collection.</param>
         /// <returns>The collection of transformed elements.</returns>
@@ -356,6 +364,7 @@ namespace Tango.Linq
         /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
+        /// <typeparam name="TResult">The element type of result collection.</typeparam>
         /// <param name="mapping">The function to transform pairs of elements from the two collections and their index.</param>
         /// <param name="source">The first input collection.</param>
         /// <param name="second">The second input collection.</param>
@@ -370,6 +379,7 @@ namespace Tango.Linq
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="T3">The element type of third collection.</typeparam>
+        /// <typeparam name="TResult">The element type of result collection.</typeparam>
         /// <param name="mapping">The function to transform trio of elements from the three collections and their index.</param>
         /// <param name="source">The first input collection.</param>
         /// <param name="second">The second input collection.</param>
@@ -483,7 +493,7 @@ namespace Tango.Linq
         /// <typeparam name="TState">The element type of states collection</typeparam>
         /// <param name="folder">The function to update the state given the input elements.</param>
         /// <param name="source">The first input collection.</param>
-        /// <param name="source2">The second input collection.</param>
+        /// <param name="second">The second input collection.</param>
         /// <param name="state">The initial state.</param>
         /// <returns>The collection of states.</returns>
         public static IEnumerable<TState> ScanBack2<T, T2, TState>(this IEnumerable<T> source, IEnumerable<T2> second, Func<T, T2, TState,TState> folder, TState state)

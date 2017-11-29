@@ -200,7 +200,7 @@ namespace Tango.Test.Modules.Collection
         {
             int expected = 0;
             int result =
-            _1000values.CompareWith<int, int>(_1000values,
+            _1000values.CompareWith(_1000values,
                 (element1, element2) => element1 > element2 ? 1
                                         : element1 < element2 ? -1
                                         : 0
@@ -214,7 +214,7 @@ namespace Tango.Test.Modules.Collection
         {
             int expected = 1;
             int result =
-            _1000values.CompareWith<int, int>(_1000evens,
+            _1000values.CompareWith(_1000evens,
                 (element1, element2) => element1 > element2 ? 1
                                         : element1 < element2 ? -1
                                         : 0
@@ -228,7 +228,7 @@ namespace Tango.Test.Modules.Collection
         {
             int expected = -1;
             int result =
-            _1000evens.CompareWith<int, int>(_1000values,
+            _1000evens.CompareWith(_1000values,
                 (element1, element2) => element1 > element2 ? 1
                                         : element1 < element2 ? -1
                                         : 0
@@ -261,6 +261,36 @@ namespace Tango.Test.Modules.Collection
                 result.Distinct(_elementsAreEqual, element => element);
 
             Assert.IsTrue(distinctedResult.ForAll2(CollectionModule.Range(1, 100), _elementsAreEqual));
+        }
+
+        [TestMethod]
+        public void LinqCollectionExistsFirstTrue()
+        {
+            bool expected = true;
+            bool result =
+            _10000evens.Exists(_isEven);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqCollectionExistsTrue()
+        {
+            bool expected = true;
+            bool result =
+            _10000evens1Odd.Exists(_isOdd);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqCollectionExistsFalse()
+        {
+            bool expected = false;
+            bool result =
+            _1000evens.Exists(_isOdd);
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
@@ -346,6 +376,16 @@ namespace Tango.Test.Modules.Collection
         }
 
         [TestMethod]
+        public void LinqCollectionReduceBack()
+        {
+            int expected = 5;
+            int result =
+                _0to10values.ReduceBack((accumulator, element) => element - accumulator);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
         public void LinqCollectionFoldBack2()
         {
             int expected = -10;
@@ -413,7 +453,17 @@ namespace Tango.Test.Modules.Collection
         }
 
         [TestMethod]
-        public void LinqCollectionIterate2()
+        public void LinqCollectionIterateIndexed()
+        {
+            int expected = 110;
+            int result = 0;
+            _0to10values.IterateIndexed((index, element) => result += element + index);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqLinqCollectionIterate2()
         {
             int expected = 110;
             int result = 0;
@@ -423,6 +473,15 @@ namespace Tango.Test.Modules.Collection
             Assert.AreEqual(expected, result);
         }
 
+        [TestMethod]
+        public void LinqCollectionIterateIndexed2()
+        {
+            int expected = 165;
+            int result = 0;
+            _10to0values.IterateIndexed2(_0to10values,(index, element1, element2) => result += element1 + element2 + index);
+
+            Assert.AreEqual(expected, result);
+        }
 
         [TestMethod]
         public void LinqCollectionMap()
@@ -613,11 +672,10 @@ namespace Tango.Test.Modules.Collection
                 CollectionModule.Generate(40, 35, 30, 25, 20, 15);
 
             IEnumerable<int> result =
-                CollectionModule.ScanBack2(
+                _0to5values.ScanBack2(
+                    _5to0values,
                     (accumulator, element1, element2) => accumulator + element1 + element2,
-                    _0to5values,
-                    _5to0values
-                    , 10);
+                     10);
 
             Assert.IsTrue(CollectionModule.ForAll2(_elementsAreEqual, expected, result));
         }
@@ -749,7 +807,7 @@ namespace Tango.Test.Modules.Collection
         public void LinqCollectionZip3()
         {
             IEnumerable<(int, int, int)> triples =
-                CollectionModule.Zip3(_0to10values, _10to0values, _100values);
+                _0to10values.Zip3(_10to0values, _100values);
 
             Assert.IsTrue(
                 CollectionModule.ForAll2(

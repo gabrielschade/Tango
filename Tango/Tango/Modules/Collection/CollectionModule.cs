@@ -9,7 +9,7 @@ using Tango.Types;
 namespace Tango.Modules
 {
     /// <summary>
-    /// Basic operations on IEnumerables.
+    /// Basic operations on <see cref="IEnumerable{T}"/>.
     /// </summary>
     public static class CollectionModule
     {
@@ -326,7 +326,7 @@ namespace Tango.Modules
         /// than the other then the loop runs only run until the smallest collection length.</remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
-        /// /// <typeparam name="T2">The element type of third collection.</typeparam>
+        /// <typeparam name="T3">The element type of third collection.</typeparam>
         /// <param name="predicate">The function to test the input elements.</param>
         /// <param name="source">The first input collection.</param>
         /// <param name="source2">The second input collection.</param>
@@ -443,7 +443,7 @@ namespace Tango.Modules
         /// <remarks>
         /// if one collections is longer 
         /// than the other then the loop runs only run until the smallest collection length.
-        /// <remarks>This function causes IEnumerable evaluation.
+        /// This function causes IEnumerable evaluation.
         /// </remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
@@ -477,6 +477,7 @@ namespace Tango.Modules
         /// </remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
+        /// <typeparam name="TResult">The element type of result collection.</typeparam>
         /// <param name="mapping">The function to transform pairs of elements from the input collection.</param>
         /// <param name="source">The first input collection.</param>
         /// <param name="source2">The second input collection.</param>
@@ -496,6 +497,7 @@ namespace Tango.Modules
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="T3">The element type of third collection.</typeparam>
+        /// <typeparam name="TResult">The element type of result collection.</typeparam>
         /// <param name="mapping">The function to transform triples of elements from the input collections.</param>
         /// <param name="source">The first input collection.</param>
         /// <param name="source2">The second input collection.</param>
@@ -515,6 +517,7 @@ namespace Tango.Modules
         /// to each of the elements of the collection. The integer index passed to the
         /// function indicates the index (from 0) of element being transformed.</summary>
         /// <typeparam name="T">The type of collection elements.</typeparam>
+        /// <typeparam name="TResult">The element type of result collection.</typeparam>
         /// <param name="mapping">The function to transform elements and their indices.</param>
         /// <param name="source">The input collection.</param>
         /// <returns>The collection of transformed elements.</returns>
@@ -531,6 +534,7 @@ namespace Tango.Modules
         /// </remarks>
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
+        /// <typeparam name="TResult">The element type of result collection.</typeparam>
         /// <param name="mapping">The function to transform pairs of elements from the two collections and their index.</param>
         /// <param name="source">The first input collection.</param>
         /// <param name="source2">The second input collection.</param>
@@ -548,6 +552,7 @@ namespace Tango.Modules
         /// <typeparam name="T">The element type of first collection.</typeparam>
         /// <typeparam name="T2">The element type of second collection.</typeparam>
         /// <typeparam name="T3">The element type of third collection.</typeparam>
+        /// <typeparam name="TResult">The element type of result collection.</typeparam>
         /// <param name="mapping">The function to transform trio of elements from the three collections and their index.</param>
         /// <param name="source">The first input collection.</param>
         /// <param name="source2">The second input collection.</param>
@@ -592,7 +597,7 @@ namespace Tango.Modules
         /// <typeparam name="T2">The type of resulting value.</typeparam>
         /// <param name="chooser">The function to generate options from the elements.</param>
         /// <param name="source">The input collection.</param>
-        /// <exception cref="System.Collections.Generic.InvalidOperationException">Thrown when the collection is empty.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the collection is empty.</exception>
         /// <returns>The first resulting value.</returns>
         public static T2 Pick<T, T2>(Func<T, Option<T2>> chooser, IEnumerable<T> source)
             => source.TryPick(chooser)

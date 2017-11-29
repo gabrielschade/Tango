@@ -25,7 +25,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>latest</LangVersion>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Debug\Tango.xml</DocumentationFile>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -63,7 +66,7 @@
     <Compile Include="Functional\FunctionExtensions.cs" />
     <Compile Include="Linq\EnumExtensions.cs" />
     <Compile Include="Linq\EqualityComparerBuilder.cs" />
-    <Compile Include="Modules\Collection\Collection.cs" />
+    <Compile Include="Modules\Collection\CollectionModule.cs" />
     <Compile Include="Modules\Collection\Collection.Linq.cs" />
     <Compile Include="Operations\StringOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

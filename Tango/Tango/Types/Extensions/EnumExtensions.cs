@@ -1,15 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tango.Types.Extensions
 {
+    /// <summary>
+    /// Provides extension methods to improve <see cref="Enum"/> types
+    /// </summary>
     public static class EnumExtensions
     {
+        /// <summary>
+        /// Returns the value of <see cref="DescriptionAttribute"/> of an <see cref="Enum"/> item.
+        /// </summary>
+        /// <param name="enumValue">the input value.</param>
+        /// <returns>Returns the description in <see cref="DescriptionAttribute"/>. Otherwise, returns the <see cref="Enum"/> item name.</returns>
         public static string GetDescription(this Enum enumValue)
         {
             FieldInfo fieldInfo = enumValue.GetType().GetField(enumValue.ToString());

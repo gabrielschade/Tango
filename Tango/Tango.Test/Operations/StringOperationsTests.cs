@@ -32,5 +32,38 @@ namespace Tango.Test.Types
             Assert.AreEqual(expected, generated.Reduce(StringOperations.Concat));
         }
 
+        [TestMethod]
+        public void OperationConcat3()
+        {
+            string expected = "Hello World";
+            string generated = StringOperations.Concat3("Hello", " ", "World");
+            Assert.AreEqual(expected, generated);
+        }
+
+        [TestMethod]
+        public void OperationConcat3InFold22()
+        {
+            string expected = "Hello World";
+            IEnumerable<string> generated1 = CollectionModule.Generate(" ");
+            IEnumerable<string> generated2 = CollectionModule.Generate("World");
+            Assert.AreEqual(expected, generated1.Fold2(generated2, "Hello", StringOperations.Concat3));
+        }
+
+        [TestMethod]
+        public void OperationConcat3With1()
+        {
+            string expected = "Hello World";
+            string generated = StringOperations.Concat3With("Hello")(" ", "World");
+            Assert.AreEqual(expected, generated);
+        }
+
+        [TestMethod]
+        public void OperationConcat3With2()
+        {
+            string expected = "Hello World";
+            string generated = StringOperations.Concat3With("Hello", " ")("World");
+            Assert.AreEqual(expected, generated);
+        }
+
     }
 }

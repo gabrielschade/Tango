@@ -7,9 +7,6 @@ namespace Tango.Linq
 {
     public static class OptionLinqExtensions
     {
-        public static Option<T> OfNullable<T>(this Option<T> option, T? nullableValue)
-            where T : struct
-            => OptionModule.OfNullable(nullableValue);
 
         public static T? ToNullable<T>(this Option<T> option)
             where T : struct
