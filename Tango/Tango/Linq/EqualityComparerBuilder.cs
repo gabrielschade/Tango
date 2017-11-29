@@ -6,17 +6,19 @@ namespace Tango.Linq
     /// <summary>
     /// A class to build equality comparer to any type by demand.
     /// </summary>
-    /// <typeparam name="T">Value types to equality comparer</typeparam>
+    /// <typeparam name="T">The type of objects to compare.This type parameter is contravariant. 
+    /// <para>That is, you can use either the type you specified or any type that is less derived. </para>
+    /// </typeparam>
     public class EqualityComparerBuilder<T> : IEqualityComparer<T>
     {
         /// <summary>
         /// Method used by <see cref="IEqualityComparer{T}.Equals(T, T)"/> of the <see cref="IEqualityComparer{T}"/> interface.
         /// </summary>
-        public Func<T,T,bool> Comparer { get; }
+        public Func<T, T, bool> Comparer { get; }
         /// <summary>
         /// Method used by <see cref="IEqualityComparer{T}.GetHashCode(T)"/> of the <see cref="IEqualityComparer{T}"/> interface.
         /// </summary>
-        public Func<T,int> HashCodeGetter { get;}
+        public Func<T, int> HashCodeGetter { get; }
 
         private EqualityComparerBuilder(Func<T, T, bool> comparer, Func<T, int> hashCodeGetter)
         {

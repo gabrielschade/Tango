@@ -24,7 +24,7 @@ namespace Tango.Functional
         /// Casts an action to a function that returns a new instance of <see cref="Unit"/>.
         /// </summary>
         /// <param name="action">The input action.</param>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
+        /// <typeparam name="T">The type of the parameter of <paramref name="action"/>.</typeparam>
         /// <returns>Returns a new function that internally invokes the action and returns an <see cref="Unit"/> type value.</returns>
         public static Func<T, Unit> ToFunction<T>(this Action<T> action)
             => parameter =>
@@ -37,8 +37,8 @@ namespace Tango.Functional
         /// Casts an action to a function that returns a new instance of <see cref="Unit"/>.
         /// </summary>
         /// <param name="action">The input action.</param>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
         /// <returns>Returns a new function that internally invokes the action and returns an <see cref="Unit"/> type value.</returns>
         public static Func<T, T2, Unit> ToFunction<T, T2>(this Action<T, T2> action)
             => (parameter1, parameter2) =>
@@ -52,9 +52,9 @@ namespace Tango.Functional
         /// Casts an action to a function that returns a new instance of <see cref="Unit"/>.
         /// </summary>
         /// <param name="action">The input action.</param>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
         /// <returns>Returns a new function that internally invokes the action and returns an <see cref="Unit"/> type value.</returns>
         public static Func<T, T2, T3, Unit> ToFunction<T, T2, T3>(this Action<T, T2, T3> action)
             => (parameter1, parameter2, parameter3) =>
@@ -68,10 +68,10 @@ namespace Tango.Functional
         /// Casts an action to a function that returns a new instance of <see cref="Unit"/>.
         /// </summary>
         /// <param name="action">The input action.</param>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="action"/> fourth parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="action"/>.</typeparam>
         /// <returns>Returns a new function that internally invokes the action and returns an <see cref="Unit"/> type value.</returns>
         public static Func<T, T2, T3, T4, Unit> ToFunction<T, T2, T3, T4>(this Action<T, T2, T3, T4> action)
             => (parameter1, parameter2, parameter3, parameter4) =>
@@ -91,7 +91,7 @@ namespace Tango.Functional
         /// <summary>
         /// Casts a function that returns <see cref="Unit"/> to an action.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> first parameter.</typeparam>
+        /// <typeparam name="T">The type of the parameter of <paramref name="function"/>.</typeparam>
         /// <param name="function">The input action.</param>
         /// <returns>Returns a new action that internally invokes the <paramref name="function"/>.</returns>
         public static Action<T> ToAction<T>(this Func<T, Unit> function)
@@ -100,8 +100,8 @@ namespace Tango.Functional
         /// <summary>
         /// Casts a function that returns <see cref="Unit"/> to an action.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
         /// <param name="function">The input action.</param>
         /// <returns>Returns a new action that internally invokes the <paramref name="function"/>.</returns>
         public static Action<T, T2> ToAction<T, T2>(this Func<T, T2, Unit> function)
@@ -111,9 +111,9 @@ namespace Tango.Functional
         /// <summary>
         /// Casts a function that returns <see cref="Unit"/> to an action.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
         /// <param name="function">The input action.</param>
         /// <returns>Returns a new action that internally invokes the <paramref name="function"/>.</returns>
         public static Action<T, T2, T3> ToAction<T, T2, T3>(this Func<T, T2, T3, Unit> function)
@@ -123,10 +123,10 @@ namespace Tango.Functional
         /// <summary>
         /// Casts a function that returns <see cref="Unit"/> to an action.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="function"/> fourth parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="function"/>.</typeparam>
         /// <param name="function">The input action.</param>
         /// <returns>Returns a new action that internally invokes the <paramref name="function"/>.</returns>
         public static Action<T, T2, T3, T4> ToAction<T, T2, T3, T4>(this Func<T, T2, T3, T4, Unit> function)
@@ -138,74 +138,74 @@ namespace Tango.Functional
 
 
         /// <summary>
-        /// Creates a new curried method of <paramref name="function"/> 
+        /// Creates a new curried method of <paramref name="function"/>.
         /// by using the <see cref="Currying.Curry{T, T2, TResult}(Func{T, T2, TResult})"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">Function to curry</param>
         /// <returns>Curried function</returns>
         public static Func<T, Func<T2, TResult>> Curry<T, T2, TResult>(this Func<T, T2, TResult> function)
             => Currying.Curry(function);
 
         /// <summary>
-        /// Creates a new curried method of <paramref name="function"/>
+        /// Creates a new curried method of <paramref name="function"/>.
         /// by using the <see cref="Currying.Curry{T, T2,T3, TResult}(Func{T, T2,T3, TResult})"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">Function to curry</param>
         /// <returns>Curried function</returns>
         public static Func<T, Func<T2, Func<T3, TResult>>> Curry<T, T2, T3, TResult>(this Func<T, T2, T3, TResult> function)
             => Currying.Curry(function);
 
         /// <summary>
-        /// Creates a new curried method of <paramref name="function"/>
+        /// Creates a new curried method of <paramref name="function"/>.
         /// by using the <see cref="Currying.Curry{T, T2, T3, T4, TResult}(Func{T, T2,T3, T4, TResult})"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="function"/> fourth parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">Function to curry</param>
         public static Func<T, Func<T2, Func<T3, Func<T4, TResult>>>> Curry<T, T2, T3, T4, TResult>(this Func<T, T2, T3, T4, TResult> function)
             => Currying.Curry(function);
 
         /// <summary>
-        /// Creates a new curried action of <paramref name="action"/>
+        /// Creates a new curried action of <paramref name="action"/>.
         /// by using the <see cref="Currying.Curry{T, T2, TResult}(Action{T, T2, TResult})"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">Action to curry</param>
         /// <returns>Curried action</returns>
         public static Func<T, Action<T2>> Curry<T, T2>(this Action<T, T2> action)
             => Currying.Curry(action);
 
         /// <summary>
-        /// Creates a new curried action of <paramref name="action"/>
+        /// Creates a new curried action of <paramref name="action"/>.
         /// by using the <see cref="Currying.Curry{T, T2,T3, TResult}(Action{T, T2,T3, TResult})"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">Action to curry</param>
         /// <returns>Curried action</returns>
         public static Func<T, Func<T2, Action<T3>>> Curry<T, T2, T3>(this Action<T, T2, T3> action)
             => Currying.Curry(action);
 
         /// <summary>
-        /// Creates a new curried action of <paramref name="action"/>
+        /// Creates a new curried action of <paramref name="action"/>.
         /// by using the <see cref="Currying.Curry{T, T2, T3, T4}(Action{T, T2, T3, T4})"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="action"/> fourth parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">Action to curry</param>
         /// <returns>Curried action</returns>
         public static Func<T, Func<T2, Func<T3, Action<T4>>>> Curry<T, T2, T3, T4>(this Action<T, T2, T3, T4> action)
@@ -215,8 +215,8 @@ namespace Tango.Functional
         /// Creates a new non parameter function by partial applies the <paramref name="parameter"/> into the <paramref name="function"/>
         /// by using the <see cref="PartialApplication.PartialApply{T, TResult}(Func{T, TResult}, T)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The input parameter to partial apply.</param>
         /// <returns>Returns a partial applied function.</returns>
@@ -227,9 +227,9 @@ namespace Tango.Functional
         /// Creates a new non parameter function by partial applies the <paramref name="parameter"/> and <paramref name="parameter2"/> into the <paramref name="function"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,TResult}(Func{T,T2, TResult}, T,T2)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -241,9 +241,9 @@ namespace Tango.Functional
         /// Creates a new single parameter function by partial applies the <paramref name="parameter"/> into the <paramref name="function"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2, TResult}(Func{T,T2, TResult}, T)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The input parameter to partial apply.</param>
         /// <returns>Returns a partial applied function.</returns>
@@ -254,10 +254,10 @@ namespace Tango.Functional
         /// Creates a new non parameter function by partial applies the <paramref name="parameter"/>, <paramref name="parameter2"/> and <paramref name="parameter3"/> into the <paramref name="function"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3, TResult}(Func{T,T2,T3, TResult}, T,T2,T3)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -270,10 +270,10 @@ namespace Tango.Functional
         /// Creates a new single parameter function by partial applies the <paramref name="parameter"/> and <paramref name="parameter2"/> into the <paramref name="function"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3, TResult}(Func{T,T2,T3, TResult}, T,T2)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -285,10 +285,10 @@ namespace Tango.Functional
         /// Creates a new two parameters function by partial applies the <paramref name="parameter"/> into the <paramref name="function"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3, TResult}(Func{T,T2,T3, TResult}, T)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The input parameter to partial apply.</param>
         /// <returns>Returns a partial applied function</returns>
@@ -299,11 +299,11 @@ namespace Tango.Functional
         /// Creates a new non parameter function by partial applies the <paramref name="parameter"/>, <paramref name="parameter2"/>, <paramref name="parameter3"/> and <paramref name="parameter4"/> into the <paramref name="function"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3,T4, TResult}(Func{T,T2,T3,T4, TResult}, T,T2,T3,T4)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="function"/> fourth parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -317,11 +317,11 @@ namespace Tango.Functional
         /// Creates a new single parameter function by partial applies the <paramref name="parameter"/>, <paramref name="parameter2"/> and <paramref name="parameter3"/> into the <paramref name="function"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3,T4, TResult}(Func{T,T2,T3,T4, TResult}, T,T2,T3)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="function"/> fourth parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -334,11 +334,11 @@ namespace Tango.Functional
         /// Creates a new two parameters function by partial applies the <paramref name="parameter"/> and <paramref name="parameter2"/> into the <paramref name="function"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3,T4, TResult}(Func{T,T2,T3,T4, TResult}, T,T2)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="function"/> fourth parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -350,11 +350,11 @@ namespace Tango.Functional
         /// Creates a new three parameters function by partial applies the <paramref name="parameter"/> into the <paramref name="function"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3,T4, TResult}(Func{T,T2,T3,T4, TResult}, T)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="function"/> fourth parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <returns>Returns a partial applied function.</returns>
@@ -366,7 +366,7 @@ namespace Tango.Functional
         /// Creates a new non parameter action by partial applies the <paramref name="parameter"/> into the <paramref name="action"/>
         /// by using the <see cref="PartialApplication.PartialApply{T}(Action{T},T)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> parameter.</typeparam>
+        /// <typeparam name="T">The type of the parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The input parameter to partial apply.</param>
         /// <returns>Returns a partial applied action.</returns>
@@ -377,8 +377,8 @@ namespace Tango.Functional
         /// Creates a new non parameter action by partial applies the <paramref name="parameter"/> and <paramref name="parameter2"/> into the <paramref name="action"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2}(Action{T,T2},T,T2)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -390,8 +390,8 @@ namespace Tango.Functional
         /// Creates a new non parameter action by partial applies the <paramref name="parameter"/> into the <paramref name="action"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2}(Action{T,T2},T)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The input parameter to partial apply.</param>
         /// <returns>Returns a partial applied action.</returns>
@@ -402,9 +402,9 @@ namespace Tango.Functional
         /// Creates a new non parameter action by partial applies the <paramref name="parameter"/>, <paramref name="parameter2"/> and <paramref name="parameter3"/> into the <paramref name="action"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3}(Action{T,T2,T3},T,T2,T3)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -417,9 +417,9 @@ namespace Tango.Functional
         /// Creates a new single parameter action by partial applies the <paramref name="parameter"/> and <paramref name="parameter2"/> into the <paramref name="action"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3}(Action{T,T2,T3},T,T2)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -431,9 +431,9 @@ namespace Tango.Functional
         /// Creates a new two parameters action by partial applies the <paramref name="parameter"/> into the <paramref name="action"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3}(Action{T,T2,T3},T)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <returns>Returns a partial applied action.</returns>
@@ -444,10 +444,10 @@ namespace Tango.Functional
         /// Creates a new non parameter action by partial applies the <paramref name="parameter"/>, <paramref name="parameter2"/>, <paramref name="parameter3"/> and <paramref name="parameter4"/> into the <paramref name="action"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3,T4}(Action{T,T2,T3,T4},T,T2,T3,T4)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="action"/> fourth parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -461,10 +461,10 @@ namespace Tango.Functional
         /// Creates a new single parameter action by partial applies the <paramref name="parameter"/>, <paramref name="parameter2"/> and <paramref name="parameter3"/> into the <paramref name="action"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3,T4}(Action{T,T2,T3,T4},T,T2,T3)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="action"/> fourth parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -477,10 +477,10 @@ namespace Tango.Functional
         /// Creates a new two parameters action by partial applies the <paramref name="parameter"/> and <paramref name="parameter2"/> into the <paramref name="action"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3,T4}(Action{T,T2,T3,T4},T,T2)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="action"/> fourth parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -492,10 +492,10 @@ namespace Tango.Functional
         /// Creates a new three parameter action by partial applies the <paramref name="parameter"/> into the <paramref name="action"/>
         /// by using the <see cref="PartialApplication.PartialApply{T,T2,T3,T4}(Action{T,T2,T3,T4},T)"/> method.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="action"/> fourth parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <returns>Returns a partial applied action.</returns>

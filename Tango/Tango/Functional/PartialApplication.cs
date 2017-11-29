@@ -14,8 +14,8 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new non parameter function by partial applies the <paramref name="parameter"/> into the <paramref name="function"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The input parameter to partial apply.</param>
         /// <returns>Returns a partial applied function.</returns>
@@ -25,9 +25,9 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new non parameter function by partial applies the <paramref name="parameter"/> and <paramref name="parameter2"/> into the <paramref name="function"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -38,9 +38,9 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new single parameter function by partial applies the <paramref name="parameter"/> into the <paramref name="function"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The input parameter to partial apply.</param>
         /// <returns>Returns a partial applied function.</returns>
@@ -50,10 +50,10 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new non parameter function by partial applies the <paramref name="parameter"/>, <paramref name="parameter2"/> and <paramref name="parameter3"/> into the <paramref name="function"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -65,10 +65,10 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new single parameter function by partial applies the <paramref name="parameter"/> and <paramref name="parameter2"/> into the <paramref name="function"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -92,11 +92,11 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new non parameter function by partial applies the <paramref name="parameter"/>, <paramref name="parameter2"/>, <paramref name="parameter3"/> and <paramref name="parameter4"/> into the <paramref name="function"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="function"/> fourth parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -109,11 +109,11 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new single parameter function by partial applies the <paramref name="parameter"/>, <paramref name="parameter2"/> and <paramref name="parameter3"/> into the <paramref name="function"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="function"/> fourth parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -125,11 +125,11 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new two parameters function by partial applies the <paramref name="parameter"/> and <paramref name="parameter2"/> into the <paramref name="function"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="function"/> fourth parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -140,11 +140,11 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new three parameters function by partial applies the <paramref name="parameter"/> into the <paramref name="function"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="function"/> parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="function"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="function"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="function"/> fourth parameter.</typeparam>
-        /// <typeparam name="TResult">Type of <paramref name="function"/> return.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="function"/>.</typeparam>
+        /// <typeparam name="TResult">The type of the value returned by <paramref name="function"/>.</typeparam>
         /// <param name="function">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <returns>Returns a partial applied function.</returns>
@@ -154,7 +154,7 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new non parameter action by partial applies the <paramref name="parameter"/> into the <paramref name="action"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> parameter.</typeparam>
+        /// <typeparam name="T">The type of the parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The input parameter to partial apply.</param>
         /// <returns>Returns a partial applied action.</returns>
@@ -164,8 +164,8 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new non parameter action by partial applies the <paramref name="parameter"/> and <paramref name="parameter2"/> into the <paramref name="action"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -176,8 +176,8 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new non parameter action by partial applies the <paramref name="parameter"/> into the <paramref name="action"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The input parameter to partial apply.</param>
         /// <returns>Returns a partial applied action.</returns>
@@ -187,9 +187,9 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new non parameter action by partial applies the <paramref name="parameter"/>, <paramref name="parameter2"/> and <paramref name="parameter3"/> into the <paramref name="action"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -201,9 +201,9 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new single parameter action by partial applies the <paramref name="parameter"/> and <paramref name="parameter2"/> into the <paramref name="action"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -214,9 +214,9 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new two parameters action by partial applies the <paramref name="parameter"/> into the <paramref name="action"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <returns>Returns a partial applied action.</returns>
@@ -226,10 +226,10 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new non parameter action by partial applies the <paramref name="parameter"/>, <paramref name="parameter2"/>, <paramref name="parameter3"/> and <paramref name="parameter4"/> into the <paramref name="action"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="action"/> fourth parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -242,10 +242,10 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new single parameter action by partial applies the <paramref name="parameter"/>, <paramref name="parameter2"/> and <paramref name="parameter3"/> into the <paramref name="action"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="action"/> fourth parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -257,10 +257,10 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new two parameters action by partial applies the <paramref name="parameter"/> and <paramref name="parameter2"/> into the <paramref name="action"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="action"/> fourth parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <param name="parameter2">The second input parameter to partial apply.</param>
@@ -271,10 +271,10 @@ namespace Tango.Functional
         /// <summary>
         /// Creates a new three parameter action by partial applies the <paramref name="parameter"/> into the <paramref name="action"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="action"/> first parameter.</typeparam>
-        /// <typeparam name="T2">Type of <paramref name="action"/> second parameter.</typeparam>
-        /// <typeparam name="T3">Type of <paramref name="action"/> third parameter.</typeparam>
-        /// <typeparam name="T4">Type of <paramref name="action"/> fourth parameter.</typeparam>
+        /// <typeparam name="T">The type of the first parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T3">The type of the third parameter of <paramref name="action"/>.</typeparam>
+        /// <typeparam name="T4">The type of the fourth parameter of <paramref name="action"/>.</typeparam>
         /// <param name="action">The input function.</param>
         /// <param name="parameter">The first input parameter to partial apply.</param>
         /// <returns>Returns a partial applied action.</returns>
