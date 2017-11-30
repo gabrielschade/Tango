@@ -22,8 +22,6 @@ Install-Package Tango
 > The NuGet version will be updated by the time I finished the documentation.
 >
 
-There are a lot of awesome front-end frameworks out there these days. They provide a massive quantity of useful features making our lives more comfortable. Our intention is not to create a new one as we are pretty much aware of the complexity and amount of work developers put on their creations. But as developers, we feel that nowadays front-end development is disjointed. You have to search for libraries, go through the different installation process, everything looks different, and sometimes it's just annoying that you can't just sit and start going. That's why we are on a mission to assemble together the most usefule modules and libraries, join them with a unified application and graphical interface creating a great toolkit for easier setup.
-
 ## What's included:
 
 ### Types
