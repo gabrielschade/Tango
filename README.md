@@ -62,8 +62,8 @@ I spent some time to create this library for improving the way of any dev can us
 
 Functional Programming |> C# :heart:
 
-Follow me on [Twitter](http://www.twitter.com/gabrielschade) and [LinkedIn](https://www.linkedin.com/in/gabrielschade/)
+Follow me on [Twitter](http://www.twitter.com/gabrielschade) and [LinkedIn](https://www.linkedin.com/in/gabrielschade/).
 
-And Star this GitHub repo :star:
+And Star this GitHub repository. :star:
 
 I'm always happy to receive your feedback!
