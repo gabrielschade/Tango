@@ -52,6 +52,18 @@ For a better understanding of the library concepts, methods and objects you can 
   - [English version](https://www.gitbook.com/book/gabrielschade/tango) -> in progress...
   - [Portuguese version](https://www.gitbook.com/book/gabrielschade/tango-br) -> in progress...
 
+## Dependecies
+This library depends on:
+  - [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple/#)
+  - [Microsoft.Net.Compilers](https://www.nuget.org/packages/Microsoft.Net.Compilers/)
+
+Theses dependecies will be installed automatically, but you can also install it manually with NuGet:
+
+> Install-Package System.ValueTuple
+
+> Install-Package Microsoft.Net.Compilers
+
+
 ## License
 This library works under [MIT](LICENSE.txt) license.
 
