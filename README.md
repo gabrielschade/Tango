@@ -59,9 +59,8 @@ This library works under [MIT](LICENSE.txt) license.
 ## From me, the developer
 
 I spent some time to create this library for improving the way of any dev can uses C# and functional programming concepts together.
-Functional Programming 
 
-|> C# :heart:
+Functional Programming |> C# :heart:
 
 I'm always happy to receive your feedback!
 
