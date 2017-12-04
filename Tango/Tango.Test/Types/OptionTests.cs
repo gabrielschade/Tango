@@ -18,7 +18,7 @@ namespace Tango.Test.Types
             int result = 10;
             Option<int> option = 15;
             option.Match(
-                value => result += value, 
+                value => result += value,
                 () => { result = 0; });
 
             Assert.AreEqual(expected, result);

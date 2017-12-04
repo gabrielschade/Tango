@@ -9,8 +9,8 @@ namespace Tango.Types
     ///<para>
     /// A common use of <see cref="Either{TLeft, TRight}"/> is as an alternative to <see cref="Option{T}"/> for dealing
     /// with possible missing values. But in this case, <see cref="Option{T}.None"/> is replaced
-    /// with a <typeparamref name="TRight"/> which can contain real and useful information.
-    /// Convention dictates that <typeparamref name="TLeft"/> is used for success types and <typeparamref name="TRight"/> is used for fail.
+    /// with a <typeparamref name="TLeft"/> which can contain real and useful information.
+    /// Convention dictates that <typeparamref name="TRight"/> is used for success types and <typeparamref name="TLeft"/> is used for fail.
     /// </para>
     /// </summary>
     /// <typeparam name="TLeft">The type of the left value</typeparam>

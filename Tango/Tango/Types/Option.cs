@@ -9,7 +9,7 @@ namespace Tango.Types
     /// Instances of <see cref="Option{T}"/> encapsulates the value as a container and only allow access through the method <see cref="Match{TResult}(Func{T, TResult}, Func{TResult})"/>.
     /// </summary>
     /// <typeparam name="T">The type of the <see cref="Option{T}"/> value</typeparam>
-    public partial struct Option<T>
+    public struct Option<T>
     {
         private readonly T _value;
         
