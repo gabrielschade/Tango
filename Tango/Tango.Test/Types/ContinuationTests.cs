@@ -57,7 +57,7 @@ namespace Tango.Test.Types
         [TestMethod]
         public void ContinuationWithOptionSuccess()
         {
-            Continuation<int, object> continuation = 10;
+            Continuation<object, int> continuation = 10;
 
             Option<string> optionResult =
                 continuation
@@ -74,7 +74,7 @@ namespace Tango.Test.Types
         [TestMethod]
         public void ContinuationWithMultiplesThen()
         {
-            Continuation<int, string> continuation = 1;
+            Continuation<string, int> continuation = 1;
 
             Option<int> optionResult =
                 continuation
@@ -93,7 +93,7 @@ namespace Tango.Test.Types
         public void ContinuationWithMultiplesParametersThen()
         {
             int extraInput = 5;
-            Continuation<int, string> continuation = 1;
+            Continuation<string, int> continuation = 1;
 
             Option<int> optionResult =
                 continuation
@@ -111,7 +111,7 @@ namespace Tango.Test.Types
         [TestMethod]
         public void ContinuationWithMultiplesThenOperator()
         {
-            Continuation<int, string> continuation = 1;
+            Continuation<string, int> continuation = 1;
 
             Option<int> optionResult =
                 continuation
@@ -130,7 +130,7 @@ namespace Tango.Test.Types
         [TestMethod]
         public void ContinuationWithOptionFail()
         {
-            Continuation<int, string> continuation = 1;
+            Continuation<string, int> continuation = 1;
 
             Option<bool> optionResult =
                 continuation
@@ -153,7 +153,7 @@ namespace Tango.Test.Types
         [TestMethod]
         public void ContinuationWithCatch()
         {
-            Continuation<int, string> continuation = 1;
+            Continuation<string, int> continuation = 1;
 
             Option<string> optionResult =
                 continuation
@@ -177,7 +177,7 @@ namespace Tango.Test.Types
         [TestMethod]
         public void ContinuationWithMultiplesCatches()
         {
-            Continuation<int, string> continuation = 1;
+            Continuation<string, int> continuation = 1;
 
             Option<string> optionResult =
                 continuation
@@ -205,7 +205,7 @@ namespace Tango.Test.Types
         [TestMethod]
         public void ContinuationWithChangeFailTypesCatches()
         {
-            Continuation<int, string> continuation = 1;
+            Continuation<string, int> continuation = 1;
 
             Option<int> optionResult =
                 continuation
@@ -231,7 +231,7 @@ namespace Tango.Test.Types
         [TestMethod]
         public void ContinuationWithChangeFailTypesCatchesWhenThen()
         {
-            Continuation<int, string> continuation = 2;
+            Continuation<string, int> continuation = 2;
 
             Option<double> optionResult =
                 continuation
@@ -255,7 +255,7 @@ namespace Tango.Test.Types
         [TestMethod]
         public void ContinuationWithMultiplesThenAndCatchWithOperators()
         {
-            Continuation<int, bool> continuation = 1;
+            Continuation<bool, int> continuation = 1;
 
             Option<bool> optionResult =
                 continuation
@@ -284,7 +284,7 @@ namespace Tango.Test.Types
         [ExpectedException(typeof(NotSupportedException))]
         public void ContinuationWithInvalidperatorThen()
         {
-            Continuation<int, bool> continuation = 1;
+            Continuation<bool, int> continuation = 1;
             Option<int> result =
                 continuation < (value => value + 4);
         }
