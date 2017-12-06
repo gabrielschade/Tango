@@ -1,7 +1,9 @@
 ﻿using System;
+using Tango.Functional;
+
 namespace Tango.Types
 {
-    using static Tango.Functional.FunctionExtensions;
+
 
     /// <summary>
     /// Represents a value of one of two possible types 
@@ -94,15 +96,15 @@ namespace Tango.Types
         /// This allows a sophisticated way to apply some method for <see cref="Either{TLeft, TRight}"/> values without having to check for the existence of a left or right value.
         /// </summary>
         /// <typeparam name="T">The type of value returned by functions <paramref name="methodWhenLeft"/> and <paramref name="methodWhenRight"/>.</typeparam>
-        /// <param name="methodWhenLeft">Method that will be invoked when this is in <see cref="IsLeft"/> state.</param>
         /// <param name="methodWhenRight">Method that will be invoked when this is in <see cref="IsRight"/> state.</param>
+        /// <param name="methodWhenLeft">Method that will be invoked when this is in <see cref="IsLeft"/> state.</param>
         /// <returns>
         /// returns the result of the method according to the <see cref="Either{TLeft, TRight}"/> value.
         /// The returns of <paramref name="methodWhenLeft"/> when this is in <see cref="IsLeft"/> state, Otherwise the returns of <paramref name="methodWhenRight"/>
         /// </returns>
         public T Match<T>(
-            Func<TLeft, T> methodWhenLeft,
-            Func<TRight, T> methodWhenRight)
+            Func<TRight, T> methodWhenRight,
+            Func<TLeft, T> methodWhenLeft)
             => IsLeft ?
                 methodWhenLeft(Left)
                 : methodWhenRight(Right);
@@ -110,14 +112,14 @@ namespace Tango.Types
         /// <summary>
         /// This allows a sophisticated way to apply some action for <see cref="Either{TLeft, TRight}"/> values without having to check for the existence of a left or right value.
         /// </summary>
-        /// <param name="methodWhenLeft">Method that will be invoked when this is in <see cref="IsLeft"/> state.</param>
         /// <param name="methodWhenRight">Method that will be invoked when this is in <see cref="IsRight"/> state.</param>
+        /// <param name="methodWhenLeft">Method that will be invoked when this is in <see cref="IsLeft"/> state.</param>
         public Unit Match(
-            Action<TLeft> methodWhenLeft,
-            Action<TRight> methodWhenRight)
+            Action<TRight> methodWhenRight,
+            Action<TLeft> methodWhenLeft)
             => Match(
-                methodWhenLeft.ToFunction(),
-                methodWhenRight.ToFunction()
+                methodWhenRight.ToFunction(),
+                methodWhenLeft.ToFunction()
                 );
 
         /// <summary>
@@ -127,23 +129,24 @@ namespace Tango.Types
         /// <typeparam name="TRight2">The type of <see cref="Right"/> value of second <see cref="Either{TLeft, TRight}"/> value.</typeparam>
         /// <typeparam name="T">The type of value returned by all functions of the parameters.</typeparam>
         /// <param name="either2">Second <see cref="Either{TLeft, TRight}"/> value input.</param>
-        /// <param name="methodWhenBothLeft">Method that will be invoked when both this and the <paramref name="either2"/> are in <see cref="IsLeft"/> state.</param>
-        /// <param name="methodWhenLeftRight">Method that will be invoked when this is in <see cref="IsLeft"/> state the <paramref name="either2"/> is in <see cref="IsRight"/> state.</param>
-        /// <param name="methodWhenRightLeft">Method that will be invoked when this is in <see cref="IsRight"/> state the <paramref name="either2"/> is in <see cref="IsLeft"/> state.</param>
         /// <param name="methodWhenBothRight">Method that will be invoked when both this and the <paramref name="either2"/> are in <see cref="IsRight"/> state.</param>
+        /// <param name="methodWhenRightLeft">Method that will be invoked when this is in <see cref="IsRight"/> state the <paramref name="either2"/> is in <see cref="IsLeft"/> state.</param>
+        /// <param name="methodWhenLeftRight">Method that will be invoked when this is in <see cref="IsLeft"/> state the <paramref name="either2"/> is in <see cref="IsRight"/> state.</param>
+        /// <param name="methodWhenBothLeft">Method that will be invoked when both this and the <paramref name="either2"/> are in <see cref="IsLeft"/> state.</param>
         /// <returns>
         /// returns the result of the method according to the <see cref="Either{TLeft, TRight}"/> values.
         /// </returns>
         public T Match2<TLeft2, TRight2, T>(
             Either<TLeft2, TRight2> either2,
-            Func<TLeft, TLeft2, T> methodWhenBothLeft,
-            Func<TLeft, TRight2, T> methodWhenLeftRight,
+            Func<TRight, TRight2, T> methodWhenBothRight,
             Func<TRight, TLeft2, T> methodWhenRightLeft,
-            Func<TRight, TRight2, T> methodWhenBothRight)
-            => IsLeft && either2.IsLeft ? methodWhenBothLeft(Left, either2.Left)
-                : IsLeft && either2.IsRight ? methodWhenLeftRight(Left, either2.Right)
+            Func<TLeft, TRight2, T> methodWhenLeftRight,
+            Func<TLeft, TLeft2, T> methodWhenBothLeft
+            )
+            => IsRight && either2.IsRight ? methodWhenBothRight(Right, either2.Right)
                 : IsRight && either2.IsLeft ? methodWhenRightLeft(Right, either2.Left)
-                : methodWhenBothRight(Right, either2.Right);
+                : IsLeft && either2.IsRight ? methodWhenLeftRight(Left, either2.Right)
+                : methodWhenBothLeft(Left, either2.Left);
 
         /// <summary>
         /// This allows a sophisticated way to apply some method for two different <see cref="Either{TLeft, TRight}"/> values without having to check for the existence of a left or right values of any of them.
@@ -151,23 +154,25 @@ namespace Tango.Types
         /// <typeparam name="TLeft2">The type of <see cref="Left"/> value of second <see cref="Either{TLeft, TRight}"/> value.</typeparam>
         /// <typeparam name="TRight2">The type of <see cref="Right"/> value of second <see cref="Either{TLeft, TRight}"/> value.</typeparam>
         /// <param name="either2">Second <see cref="Either{TLeft, TRight}"/> value input.</param>
-        /// <param name="methodWhenBothLeft">Method that will be invoked when both this and the <paramref name="either2"/> are in <see cref="IsLeft"/> state.</param>
-        /// <param name="methodWhenLeftRight">Method that will be invoked when this is in <see cref="IsLeft"/> state the <paramref name="either2"/> is in <see cref="IsRight"/> state.</param>
-        /// <param name="methodWhenRightLeft">Method that will be invoked when this is in <see cref="IsRight"/> state the <paramref name="either2"/> is in <see cref="IsLeft"/> state.</param>
         /// <param name="methodWhenBothRight">Method that will be invoked when both this and the <paramref name="either2"/> are in <see cref="IsRight"/> state.</param>
+        /// <param name="methodWhenRightLeft">Method that will be invoked when this is in <see cref="IsRight"/> state the <paramref name="either2"/> is in <see cref="IsLeft"/> state.</param>
+        /// <param name="methodWhenLeftRight">Method that will be invoked when this is in <see cref="IsLeft"/> state the <paramref name="either2"/> is in <see cref="IsRight"/> state.</param>
+        /// <param name="methodWhenBothLeft">Method that will be invoked when both this and the <paramref name="either2"/> are in <see cref="IsLeft"/> state.</param>
         public Unit Match2<TLeft2, TRight2>(
             Either<TLeft2, TRight2> either2,
-            Action<TLeft, TLeft2> methodWhenBothLeft,
-            Action<TLeft, TRight2> methodWhenLeftRight,
+             Action<TRight, TRight2> methodWhenBothRight,
             Action<TRight, TLeft2> methodWhenRightLeft,
-            Action<TRight, TRight2> methodWhenBothRight)
+             Action<TLeft, TRight2> methodWhenLeftRight,
+            Action<TLeft, TLeft2> methodWhenBothLeft
+           )
             => Match2(
                 either2,
-                methodWhenBothLeft.ToFunction(),
-                methodWhenLeftRight.ToFunction(),
+                methodWhenBothRight.ToFunction(),
                 methodWhenRightLeft.ToFunction(),
-                methodWhenBothRight.ToFunction());
+                methodWhenLeftRight.ToFunction(),
+                methodWhenBothLeft.ToFunction()
+                );
 
-        
+
     }
 }
