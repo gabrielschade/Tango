@@ -32,8 +32,8 @@ namespace Tango.Linq
         /// <param name="actionWhenLeft">The action to apply to left value of input <paramref name="either"/>.</param>
         /// <param name="actionWhenRight">The action to apply to right value of input <paramref name="either"/>.</param>
         /// <param name="either">the input either.</param>
-        public static void Iterate<TLeft, TRight>(this Either<TLeft, TRight> either, Action<TLeft> actionWhenLeft,Action<TRight> actionWhenRight)
-            => EitherModule.Iterate(actionWhenLeft, actionWhenRight, either);
+        public static void Iterate<TLeft, TRight>(this Either<TLeft, TRight> either,Action<TRight> actionWhenRight, Action<TLeft> actionWhenLeft)
+            => EitherModule.Iterate(actionWhenRight, actionWhenLeft, either);
 
         /// <summary>
         ///  Returns true when <paramref name="either"/> <see cref="Either{TLeft, TRight}.IsLeft"/> and given <paramref name="predicate"/> function applied to <paramref name="either"/> return true.
@@ -75,8 +75,8 @@ namespace Tango.Linq
         /// <returns>
         /// Returns true if the given predicate functions return true when applied to either value.
         /// </returns>
-        public static bool Exists<TLeft, TRight>(this Either<TLeft, TRight> either, Func<TLeft, bool> predicateWhenLeft, Func<TRight, bool> predicateWhenRight)
-            => EitherModule.Exists(predicateWhenLeft, predicateWhenRight, either);
+        public static bool Exists<TLeft, TRight>(this Either<TLeft, TRight> either, Func<TRight, bool> predicateWhenRight, Func<TLeft, bool> predicateWhenLeft)
+            => EitherModule.Exists(predicateWhenRight, predicateWhenLeft, either);
 
         /// <summary>
         /// Creates a new <see cref="Either{TLeft, TRight}"/> whose value is the result of applying the given <paramref name="mapping"/> function when <see cref="Either{TLeft, TRight}.IsLeft"/>.
@@ -127,9 +127,9 @@ namespace Tango.Linq
         /// </returns>
         public static Either<TLeftResult, TRightResult> Map<TLeft, TRight, TLeftResult, TRightResult>(
             this Either<TLeft, TRight> either,
-            Func<TLeft, TLeftResult> mappingWhenLeft,
-            Func<TRight, TRightResult> mappingWhenRight)
-            => EitherModule.Map(mappingWhenLeft, mappingWhenRight, either);
+            Func<TRight, TRightResult> mappingWhenRight,
+            Func<TLeft, TLeftResult> mappingWhenLeft)
+            => EitherModule.Map(mappingWhenRight, mappingWhenLeft, either);
 
         /// <summary>
         /// Creates a new <typeparamref name="TState"/> value by applying the given <paramref name="folder"/> function
@@ -184,8 +184,8 @@ namespace Tango.Linq
         /// Returns a new <typeparamref name="TState"/> value by applying the given folder functions
         /// to <paramref name="state"/> and <see cref="Either{TLeft, TRight}"/> value.
         /// </returns>
-        public static TState Fold<TLeft, TRight, TState>(this Either<TLeft, TRight> either, TState state, Func<TState, TLeft, TState> folderWhenLeft, Func<TState, TRight, TState> folderWhenRight)
-            => EitherModule.Fold(folderWhenLeft, folderWhenRight, state, either);
+        public static TState Fold<TLeft, TRight, TState>(this Either<TLeft, TRight> either, TState state, Func<TState, TRight, TState> folderWhenRight, Func<TState, TLeft, TState> folderWhenLeft)
+            => EitherModule.Fold(folderWhenRight, folderWhenLeft, state, either);
 
         /// <summary>
         /// Creates a new <typeparamref name="TState"/> value by applying the given <paramref name="folder"/> function
@@ -240,8 +240,8 @@ namespace Tango.Linq
         /// Returns a new <typeparamref name="TState"/> value by applying the given folder functions
         /// to <see cref="Either{TLeft, TRight}"/> value and <paramref name="state"/>
         /// </returns>
-        public static TState FoldBack<TLeft, TRight, TState>(this Either<TLeft, TRight> either, Func<TLeft, TState, TState> folderWhenLeft, Func<TRight, TState, TState> folderWhenRight, TState state)
-            => EitherModule.FoldBack(folderWhenLeft, folderWhenRight, either, state);
+        public static TState FoldBack<TLeft, TRight, TState>(this Either<TLeft, TRight> either, Func<TRight, TState, TState> folderWhenRight, Func<TLeft, TState, TState> folderWhenLeft, TState state)
+            => EitherModule.FoldBack(folderWhenRight, folderWhenLeft, either, state);
 
         /// <summary>
         /// Creates a new <see cref="Either{TLeft, TRight}"/> value by swapping <see cref="Either{TLeft, TRight}.Left"/> and <see cref="Either{TLeft, TRight}.Right"/> values.

@@ -15,22 +15,23 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqEitherToTupleWhenSomeLeft()
         {
-            int expected = 10;
-            Either<int, string> either = expected;
-            (Option<int> Left, Option<string> Right) tuple = either.ToTuple();
+            string expected = "Test";
+            Either<string, int> either = expected;
+            (Option<string> Left, Option<int> Right) tuple = either.ToTuple();
 
-            int result = tuple.Left.Match(value => value, () => 0);
+            string result = tuple.Left.Match(value => value, () => string.Empty);
+
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void LinqEitherToTupleWhenSomeRight()
         {
-            string expected = "Test";
-            Either<int, string> either = expected;
-            (Option<int> Left, Option<string> Right) tuple = either.ToTuple();
+            int expected = 10;
+            Either<string, int> either = expected;
+            (Option<string> Left, Option<int> Right) tuple = either.ToTuple();
 
-            string result = tuple.Right.Match(value => value, () => string.Empty);
+            int result = tuple.Right.Match(value => value, () => 0);
 
             Assert.AreEqual(expected, result);
         }
@@ -38,11 +39,11 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqEitherToTupleWhenNoneRight()
         {
-            string expected = string.Empty;
-            Either<int, string> either = 10;
-            (Option<int> Left, Option<string> Right) tuple = either.ToTuple();
+            int expected = 0;
+            Either<string, int> either = "Test";
+            (Option<string> Left, Option<int> Right) tuple = either.ToTuple();
 
-            string result = tuple.Right.Match(value => value, () => string.Empty);
+            int result = tuple.Right.Match(value => value, () => 0);
 
             Assert.AreEqual(expected, result);
         }
@@ -50,34 +51,11 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqEitherToTupleWhenNoneLeft()
         {
-            int expected = 0;
-            Either<int, string> either = "Test";
-            (Option<int> Left, Option<string> Right) tuple = either.ToTuple();
+            string expected = string.Empty;
+            Either<string, int> either = 10;
+            (Option<string> Left, Option<int> Right) tuple = either.ToTuple();
 
-            int result = tuple.Left.Match(value => value, () => 0);
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        public void LinqEitherIterateLeftWhenLeft()
-        {
-            int expected = 20;
-            int result = 10;
-            Either<int, string> either = 10;
-            either.IterateLeft(left => result += left);
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        public void LinqEitherIterateLeftWhenRight()
-        {
-            int expected = 10;
-            int result = 10;
-            Either<int, string> either = "Hello";
-            either.IterateLeft(
-                left => result += left);
+            string result = tuple.Left.Match(value => value, () => string.Empty);
 
             Assert.AreEqual(expected, result);
         }
@@ -85,11 +63,10 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqEitherIterateRightWhenLeft()
         {
-            string expected = "World";
-            string result = "World";
-            Either<int, string> either = 10;
-            either.IterateRight(
-                right => result = string.Concat(right, result));
+            int expected = 10;
+            int result = 10;
+            Either<string, int> either = "Hello";
+            either.IterateRight(right => result += right);
 
             Assert.AreEqual(expected, result);
         }
@@ -97,24 +74,32 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqEitherIterateRightWhenRight()
         {
-            string expected = "Hello World";
-            string result = "World";
-            Either<int, string> either = "Hello ";
-            either.IterateRight(
-                right => result = string.Concat(right, result));
+            int expected = 20;
+            int result = 10;
+            Either<string, int> either = 10;
+            either.IterateRight(right => result += right );
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void LinqEitherIterateWhenLeft()
+        public void LinqEitherIterateLeftWhenLeft()
         {
-            int expected = 20;
-            int result = 10;
-            Either<int, string> either = 10;
-            either.Iterate(
-                left => result += left,
-                right => string.Concat(right, right));
+            string expected = "Hello World";
+            string result = "World";
+            Either<string, int> either = "Hello ";
+            either.IterateLeft(left => result = string.Concat(left, result) );
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqEitherIterateLeftWhenRight()
+        {
+            string expected = "World";
+            string result = "World";
+            Either<string, int> either = 10;
+            either.IterateLeft(left => result = string.Concat(left, result));
 
             Assert.AreEqual(expected, result);
         }
@@ -122,56 +107,25 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqEitherIterateWhenRight()
         {
+            int expected = 20;
+            int result = 10;
+            Either<string, int> either = 10;
+            either.Iterate(
+                right => result += right,
+                left => string.Concat(left, left));
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqEitherIterateWhenLeft()
+        {
             string expected = "Hello World";
             string result = "World";
-            Either<int, string> either = "Hello ";
+            Either<string, int> either = "Hello ";
             either.Iterate(
-                left => left += left * 2,
-                right => result = string.Concat(right, result));
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        public void LinqEitherExistsTrueWhenLeft()
-        {
-            bool expected = true;
-            Either<int, string> either = 10;
-            bool result =
-                EitherModule.Exists(
-                left => left == 10,
-                right => right == "Test"
-                , either);
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        public void LinqEitherExistsLeftFalseWhenLeft()
-        {
-            bool expected = false;
-            Either<int, string> either = 20;
-            bool result = either.ExistsLeft(left => left == 10);
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        public void LinqEitherExistsLeftTrueWhenLeft()
-        {
-            bool expected = true;
-            Either<int, string> either = 10;
-            bool result = either.ExistsLeft(left => left == 10);
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        public void LinqEitherExistsLeftFalseWhenRight()
-        {
-            bool expected = false;
-            Either<int, string> either = "Hello";
-            bool result = either.ExistsLeft(left => left == 10);
+                right => right += right * 2,
+                left => result = string.Concat(left, result));
 
             Assert.AreEqual(expected, result);
         }
@@ -180,8 +134,10 @@ namespace Tango.Test.Types
         public void LinqEitherExistsRightFalseWhenRight()
         {
             bool expected = false;
-            Either<int, string> either = "Hello";
-            bool result = either.ExistsRight(right => right == "World");
+            Either<string, int> either = 20;
+            bool result =
+                either.ExistsRight(
+                left => left == 10 );
 
             Assert.AreEqual(expected, result);
         }
@@ -190,8 +146,9 @@ namespace Tango.Test.Types
         public void LinqEitherExistsRightTrueWhenRight()
         {
             bool expected = true;
-            Either<int, string> either = "Hello";
-            bool result = either.ExistsRight(right => right == "Hello");
+            Either<string, int> either = 10;
+            bool result =
+                either.ExistsRight(left => left == 10);
 
             Assert.AreEqual(expected, result);
         }
@@ -200,23 +157,46 @@ namespace Tango.Test.Types
         public void LinqEitherExistsRightFalseWhenLeft()
         {
             bool expected = false;
-            Either<int, string> either = 10;
-            bool result = either.ExistsRight(right => right == "Hello");
+            Either<string, int> either = "Hello";
+            bool result =
+                either.ExistsRight(left => left == 10);
 
             Assert.AreEqual(expected, result);
         }
 
-
-
         [TestMethod]
-        public void LinqEitherExistsFalseWhenLeft()
+        public void LinqEitherExistsLeftFalseWhenLeft()
         {
             bool expected = false;
-            Either<int, string> either = 20;
+            Either<string, int> either = "Hello";
             bool result =
-                either.Exists(
-                left => left == 10,
-                right => right == "Test");
+                either.ExistsLeft(
+                right => right == "World");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqEitherExistsLeftTrueWhenLeft()
+        {
+            bool expected = true;
+            Either<string, int> either = "Hello";
+            bool result =
+                either.ExistsLeft(
+                right => right == "Hello");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqEitherExistsLeftFalseWhenRight()
+        {
+            bool expected = false;
+            Either<string, int> either = 10;
+            bool result =
+                either.ExistsLeft(
+                right => right == "Hello"
+                );
 
             Assert.AreEqual(expected, result);
         }
@@ -225,11 +205,12 @@ namespace Tango.Test.Types
         public void LinqEitherExistsTrueWhenRight()
         {
             bool expected = true;
-            Either<int, string> either = "Test";
+            Either<string, int> either = 10;
             bool result =
                 either.Exists(
-                left => left == 10,
-                right => right == "Test");
+                right => right == 10,
+                left => left == "Test"
+                );
 
             Assert.AreEqual(expected, result);
         }
@@ -238,104 +219,125 @@ namespace Tango.Test.Types
         public void LinqEitherExistsFalseWhenRight()
         {
             bool expected = false;
-            Either<int, string> either = "Hello World";
-            bool result = either.Exists(
-                left => left == 10,
-                right => right == "Test");
+            Either<string, int> either = 20;
+            bool result =
+                either.Exists(
+                right => right == 10,
+                left => left == "Test"
+                );
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void LinqEitherMapLeftWhenLeft()
+        public void LinqEitherExistsTrueWhenLeft()
         {
             bool expected = true;
-            Either<int, string> either = 10;
-            Either<bool, string> eitherResult = either.MapLeft(_isEven);
+            Either<string, int> either = "Test";
+            bool result =
+                either.Exists(
+                right => right == 10,
+                left => left == "Test");
 
-            bool result = eitherResult.Match(left => left, right => false);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void LinqEitherMapLeftWhenRight()
+        public void LinqEitherExistsFalseWhenLeft()
         {
             bool expected = false;
-            Either<int, string> either = "10";
-            Either<bool, string> eitherResult = either.MapLeft(_isEven);
+            Either<string, int> either = "Hello World";
+            bool result =
+                either.Exists(
+                right => right == 10,
+                left => left == "Test"
+                );
 
-            bool result = eitherResult.Match(left => left, right => false);
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        public void LinqEitherMapRightWhenLeft()
-        {
-            double expected = 0;
-            Either<int, string> either = 10;
-            Either<int, double> eitherResult =
-                either.MapRight(right => Convert.ToDouble(right));
-
-            double result = eitherResult.Match(left => 0, right => right);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void LinqEitherMapRightWhenRight()
         {
-            double expected = 10;
-            Either<int, string> either = "10";
-            Either<int, double> eitherResult =
-                either.MapRight(right => Convert.ToDouble(right));
+            bool expected = true;
+            Either<string, int> either = 10;
+            Either<string, bool> eitherResult = either.MapRight(_isEven);
 
-            double result = eitherResult.Match(left => 0, right => right);
+            bool result = eitherResult.Match(right => right, left => false);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void LinqEitherMapWhenLeft()
+        public void LinqEitherMapRightWhenLeft()
         {
-            bool expected = true;
-            Either<int, string> either = 10;
-            Either<bool, int> eitherResult =
-                either.Map(
-                    _isEven,
-                    right => Convert.ToInt32(right));
+            bool expected = false;
+            Either<string, int> either = "10";
+            Either<string, bool> eitherResult = either.MapRight(_isEven);
 
-            bool result = eitherResult.Match(left => left, right => false);
+            bool result = eitherResult.Match(right => right, left => false);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqEitherMapLeftWhenRight()
+        {
+            double expected = 0;
+            Either<string, int> either = 10;
+            Either<double, int> eitherResult = either.MapLeft(left => Convert.ToDouble(left));
+
+            double result = eitherResult.Match(right => 0, left => left);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqEitherMapLeftWhenLeft()
+        {
+            double expected = 10;
+            Either<string, int> either = "10";
+            Either<double, int> eitherResult = either.MapLeft(left => Convert.ToDouble(left));
+
+            double result = eitherResult.Match(right => 0, left => left);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void LinqEitherMapWhenRight()
         {
-            int expected = 10;
-            Either<int, string> either = "10";
-            Either<bool, int> eitherResult =
-                either.Map( _isEven, right => Convert.ToInt32(right));
+            bool expected = true;
+            Either<string, int> either = 10;
+            Either<int, bool> eitherResult =
+            either.Map(
+                _isEven,
+                left => Convert.ToInt32(left));
 
-            int result = eitherResult.Match(left => 0, right => right);
+            bool result = eitherResult.Match(right => right, left => false);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void LinqEitherFoldLeftWhenLeft()
+        public void LinqEitherMapWhenLeft()
+        {
+            int expected = 10;
+            Either<string, int> either = "10";
+            Either<int, bool> eitherResult =
+            either.Map(
+                _isEven,
+                left => Convert.ToInt32(left));
+
+            int result = eitherResult.Match(right => 0, left => left);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqEitherFoldRightWhenRight()
         {
             int state = 10;
             int expected = 20;
-            Either<int, string> either = 10;
-            int result = either.FoldLeft(state, (_state, left) => left + _state);
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        public void LinqEitherFoldLeftWhenRight()
-        {
-            int state = 10;
-            int expected = 10;
-            Either<int, string> either = "10";
-            int result = either.FoldLeft(state,(_state, left) => left + _state);
+            Either<string, int> either = 10;
+            int result =
+            either.FoldRight(
+                state,
+                (_state, right) => right + _state);
 
             Assert.AreEqual(expected, result);
         }
@@ -343,84 +345,86 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqEitherFoldRightWhenLeft()
         {
-            string state = "Hello";
-            string expected = "Hello";
-            Either<int, string> either = 10;
-            string result =
-                either.FoldRight(state, (_state, right) => string.Concat(_state, right));
+            int state = 10;
+            int expected = 10;
+            Either<string, int> either = "10";
+            int result =
+            either.FoldRight(
+                state,
+                (_state, right) => right + _state);
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void LinqEitherFoldRightWhenRight()
+        public void LinqEitherFoldLeftWhenRight()
+        {
+            string state = "Hello";
+            string expected = "Hello";
+            Either<string, int> either = 10;
+            string result =
+            either.FoldLeft(
+                state,
+                (_state, left) => string.Concat(_state, left));
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqEitherFoldLeftWhenLeft()
         {
             string state = "Hello";
             string expected = "Hello World";
-            Either<int, string> either = " World";
+            Either<string, int> either = " World";
             string result =
-            either.FoldRight(
+            either.FoldLeft(
                 state,
-                (_state, right) => string.Concat(_state, right));
+                (_state, left) => string.Concat(_state, left));
 
             Assert.AreEqual(expected, result);
         }
 
-
-        [TestMethod]
-        public void LinqEitherFoldWhenLeft()
-        {
-            int state = 10;
-            int expected = 20;
-            Either<int, string> either = 10;
-            int result =
-            either.Fold(
-                state,
-                (_state, left) => left + _state,
-                (_state, right) => _state);
-
-            Assert.AreEqual(expected, result);
-        }
 
         [TestMethod]
         public void LinqEitherFoldWhenRight()
         {
             int state = 10;
-            int expected = 10;
-            Either<int, string> either = "10";
+            int expected = 20;
+            Either<string, int> either = 10;
             int result =
             either.Fold(
                 state,
-                (_state, left) => left + _state,
-                (_state, right) => _state);
-
-            Assert.AreEqual(expected, result);
-        }
-
-
-        [TestMethod]
-        public void LinqEitherFoldBackLeftWhenLeft()
-        {
-            int state = 10;
-            int expected = 20;
-            Either<int, string> either = 10;
-            int result =
-            either.FoldBackLeft(
-                (left, _state) => left + _state,
-                state);
+                (_state, right) => right + _state,
+                (_state, left) => _state);
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void LinqEitherFoldBackLeftWhenRight()
+        public void LinqEitherFoldWhenLeft()
         {
             int state = 10;
             int expected = 10;
-            Either<int, string> either = "10";
+            Either<string, int> either = "10";
             int result =
-            either.FoldBackLeft(
-                (left, _state) => left + _state,
+            either.Fold(
+                state,
+                (_state, right) => right + _state,
+                (_state, left) => _state);
+
+            Assert.AreEqual(expected, result);
+        }
+
+
+        [TestMethod]
+        public void LinqEitherFoldBackRightWhenRight()
+        {
+            int state = 10;
+            int expected = 20;
+            Either<string, int> either = 10;
+            int result =
+            either.FoldBackRight(
+                (right, _state) => right + _state,
                 state);
 
             Assert.AreEqual(expected, result);
@@ -429,92 +433,105 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqEitherFoldBackRightWhenLeft()
         {
-            string state = "Hello";
-            string expected = "Hello";
-            Either<int, string> either = 10;
-            string result =
+            int state = 10;
+            int expected = 10;
+            Either<string, int> either = "10";
+            int result =
             either.FoldBackRight(
-                (right, _state) => string.Concat(_state, right),
-                state);
+                (right, _state) => right + _state,
+                 state);
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void LinqEitherFoldBackRightWhenRight()
+        public void LinqEitherFoldBackLeftWhenRight()
+        {
+            string state = "Hello";
+            string expected = "Hello";
+            Either<string, int> either = 10;
+            string result =
+            either.FoldBackLeft(
+                (right, _state) => string.Concat(_state, right), state);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqEitherFoldBackLeftWhenLeft()
         {
             string state = "Hello";
             string expected = "Hello World";
-            Either<int, string> either = " World";
+            Either<string, int> either = " World";
             string result =
-            either.FoldBackRight(
-                (right, _state) => string.Concat(_state, right),
+            either.FoldBackLeft(
+                (left, _state) => string.Concat(_state, left),
                 state);
 
             Assert.AreEqual(expected, result);
         }
 
-
-        [TestMethod]
-        public void LinqEitherFoldBackWhenLeft()
-        {
-            int state = 10;
-            int expected = 20;
-            Either<int, string> either = 10;
-            int result =
-            either.FoldBack(
-                (left, _state) => left + _state,
-                (right, _state) => _state,
-                state);
-
-            Assert.AreEqual(expected, result);
-        }
 
         [TestMethod]
         public void LinqEitherFoldBackWhenRight()
         {
             int state = 10;
-            int expected = 10;
-            Either<int, string> either = "10";
+            int expected = 20;
+            Either<string, int> either = 10;
             int result =
             either.FoldBack(
-                (left, _state) => left + _state,
-                (right, _state) => _state,
+                (right, _state) => right + _state,
+                (left, _state) => _state,
                 state);
 
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void LinqEitherSwapWhenLeft()
+        public void LinqEitherFoldBackWhenLeft()
         {
+            int state = 10;
             int expected = 10;
-            Either<int, string> either = 10;
-            Either<string, int> swappedEither = either.Swap();
+            Either<string, int> either = "10";
+            int result =
+            either.FoldBack(
+                (right, _state) => right + _state,
+                (left, _state) => _state,
+                state);
 
-            int result = swappedEither.Match(left => 0, right => right);
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        public void LinqEitherSwapWhenLeft2()
-        {
-            int expected = 0;
-            Either<int, string> either = "Hello";
-            Either<string, int> swappedEither = either.Swap();
-
-            int result = swappedEither.Match(left => 0, right => right);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void LinqEitherSwapWhenRight()
         {
-            string expected = "Hello";
-            Either<int, string> either = expected;
-            Either<string, int> swappedEither = either.Swap();
+            int expected = 10;
+            Either<string, int> either = 10;
+            Either<int, string> swappedEither = either.Swap();
 
-            string result = swappedEither.Match(left => left, right => string.Empty);
+            int result = swappedEither.Match(right => 0, left => left);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqEitherSwapWhenLeft()
+        {
+            int expected = 0;
+            Either<string, int> either = "Hello";
+            Either<int, string> swappedEither = either.Swap();
+
+            int result = swappedEither.Match(right => 0, left => left);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqEitherSwapWhenLeft2()
+        {
+            string expected = "Hello";
+            Either<string, int> either = expected;
+            Either<int, string> swappedEither = either.Swap();
+
+            string result = swappedEither.Match(right => right, left => string.Empty);
             Assert.AreEqual(expected, result);
         }
 
@@ -522,30 +539,19 @@ namespace Tango.Test.Types
         public void LinqEitherSwapWhenRight2()
         {
             string expected = string.Empty;
-            Either<int, string> either = 10;
-            Either<string, int> swappedEither = either.Swap();
+            Either<string, int> either = 10;
+            Either<int, string> swappedEither = either.Swap();
 
-            string result = swappedEither.Match(left => left, right => string.Empty);
+            string result = swappedEither.Match(right => right, left => string.Empty);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void LinqEitherToOptionLeftWhenLeft()
+        public void LinqEitherToOptioRightWhenRight()
         {
             int expected = 10;
-            Either<int, string> either = 10;
-            Option<int> optionResult = either.ToOptionLeft();
-
-            int result = optionResult.Match(value => value, () => 0);
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        public void LinqEitherToOptionLeftWhenRight()
-        {
-            int expected = 0;
-            Either<int, string> either = "Hello World";
-            Option<int> optionResult = either.ToOptionLeft();
+            Either<string, int> either = 10;
+            Option<int> optionResult = either.ToOptionRight();
 
             int result = optionResult.Match(value => value, () => 0);
             Assert.AreEqual(expected, result);
@@ -554,24 +560,37 @@ namespace Tango.Test.Types
         [TestMethod]
         public void LinqEitherToOptionRightWhenLeft()
         {
+            int expected = 0;
+            Either<string, int> either = "Hello World";
+            Option<int> optionResult = either.ToOptionRight();
+
+            int result = optionResult.Match(value => value, () => 0);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void LinqEitherToOptionLeftWhenRight()
+        {
             string expected = string.Empty;
-            Either<int, string> either = 10;
-            Option<string> optionResult = either.ToOptionRight();
+            Either<string, int> either = 10;
+            Option<string> optionResult = either.ToOptionLeft();
 
             string result = optionResult.Match(value => value, () => string.Empty);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void LinqEitherToOptionRightWhenRight()
+        public void LinqEitherToOptionLeftWhenLeft()
         {
             string expected = "Hello World";
-            Either<int, string> either = expected;
-            Option<string> optionResult = either.ToOptionRight();
+            Either<string, int> either = expected;
+            Option<string> optionResult = either.ToOptionLeft();
 
             string result = optionResult.Match(value => value, () => string.Empty);
             Assert.AreEqual(expected, result);
         }
+
+
 
 
     }

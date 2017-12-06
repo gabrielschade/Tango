@@ -1,4 +1,5 @@
 ﻿using System;
+using Tango.Functional;
 
 namespace Tango.Types
 {
@@ -107,6 +108,36 @@ namespace Tango.Types
             => continuation.IsFail ?
                  continuation.Fail
                 : Option<TFail>.None();
+
+        /// <summary>
+        /// This allows a sophisticated way to apply some method for <see cref="Continuation{TFail, TSuccess}"/> values without having to check for the existence of a fail or success value.
+        /// </summary>
+        /// <typeparam name="T">The type of value returned by functions <paramref name="methodWhenFail"/> and <paramref name="methodWhenSuccess"/>.</typeparam>
+        /// <param name="methodWhenSuccess">Method that will be invoked when this is in <see cref="IsSuccess"/> state.</param>
+        /// <param name="methodWhenFail">Method that will be invoked when this is in <see cref="IsFail"/> state.</param>
+        /// <returns>
+        /// returns the result of the method according to the <see cref="Continuation{TFail, TSuccess}"/> value.
+        /// The returns of <paramref name="methodWhenFail"/> when this is in <see cref="IsFail"/> state, Otherwise the returns of <paramref name="methodWhenSuccess"/>
+        /// </returns>
+        public T Match<T>(
+            Func<TSuccess, T> methodWhenSuccess,
+            Func<TFail, T> methodWhenFail)
+            => IsFail ?
+                methodWhenFail(Fail)
+                : methodWhenSuccess(Success);
+
+        /// <summary>
+        /// This allows a sophisticated way to apply some action for <see cref="Continuation{TFail, TSuccess}"/> values without having to check for the existence of a fail or success value.
+        /// </summary>
+        /// <param name="methodWhenSuccess">Method that will be invoked when this is in <see cref="IsSuccess"/> state.</param>
+        /// <param name="methodWhenFail">Method that will be invoked when this is in <see cref="IsFail"/> state.</param>
+        public Unit Match(
+            Action<TSuccess> methodWhenSuccess,
+            Action<TFail> methodWhenFail)
+            => Match(
+                methodWhenSuccess.ToFunction(),
+                methodWhenFail.ToFunction()
+                );
 
         /// <summary>
         /// This allows a sophisticated and powerful way to apply some method in order to compose an operation with different functions.

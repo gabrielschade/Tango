@@ -14,7 +14,7 @@ namespace Tango.Modules
         /// <param name="action">The action to apply to left value of input <paramref name="either"/>.</param>
         /// <param name="either">the input either.</param>
         public static void IterateLeft<TLeft, TRight>(Action<TLeft> action, Either<TLeft, TRight> either)
-            => Iterate(action, right => new Unit(), either);
+            => Iterate(right => new Unit(), action, either);
 
         /// <summary>Applies the given function to <see cref="Either{TLeft, TRight}"/> value when <see cref="Either{TLeft, TRight}.IsRight"/>.</summary>
         /// <typeparam name="TLeft">The type of the left value.</typeparam>
@@ -22,7 +22,7 @@ namespace Tango.Modules
         /// <param name="action">The action to apply to right value of input <paramref name="either"/>.</param>
         /// <param name="either">the input either.</param>
         public static void IterateRight<TLeft, TRight>(Action<TRight> action, Either<TLeft, TRight> either)
-            => Iterate(left => new Unit(), action, either);
+            => Iterate(action, left => new Unit(), either);
 
         /// <summary>Applies the given functions to <see cref="Either{TLeft, TRight}"/> value depends on its state.</summary>
         /// <typeparam name="TLeft">The type of the left value.</typeparam>
@@ -30,8 +30,8 @@ namespace Tango.Modules
         /// <param name="actionWhenLeft">The action to apply to left value of input <paramref name="either"/>.</param>
         /// <param name="actionWhenRight">The action to apply to right value of input <paramref name="either"/>.</param>
         /// <param name="either">the input either.</param>
-        public static void Iterate<TLeft, TRight>(Action<TLeft> actionWhenLeft, Action<TRight> actionWhenRight, Either<TLeft, TRight> either)
-            => either.Match(actionWhenLeft, actionWhenRight);
+        public static void Iterate<TLeft, TRight>(Action<TRight> actionWhenRight, Action<TLeft> actionWhenLeft, Either<TLeft, TRight> either)
+            => either.Match(actionWhenRight, actionWhenLeft);
 
         /// <summary>
         ///  Returns true when <paramref name="either"/> <see cref="Either{TLeft, TRight}.IsLeft"/> and given <paramref name="predicate"/> function applied to <paramref name="either"/> return true.
@@ -45,7 +45,7 @@ namespace Tango.Modules
         /// Returns true if the given predicate functions return true when applied to either value.
         /// </returns>
         public static bool ExistsLeft<TLeft, TRight>(Func<TLeft, bool> predicate, Either<TLeft, TRight> either)
-            => Exists(predicate, right => false, either);
+            => Exists(right => false, predicate, either);
 
         /// <summary>
         ///  Returns true when <paramref name="either"/> <see cref="Either{TLeft, TRight}.IsRight"/> and given <paramref name="predicate"/> function applied to <paramref name="either"/> return true.
@@ -59,7 +59,7 @@ namespace Tango.Modules
         /// Returns true if the given predicate functions return true when applied to either value.
         /// </returns>
         public static bool ExistsRight<TLeft, TRight>(Func<TRight, bool> predicate, Either<TLeft, TRight> either)
-            => Exists(left => false, predicate, either);
+            => Exists(predicate, left => false, either);
 
         /// <summary>
         ///  Returns true if the given predicate functions return true when applied to either value.
@@ -73,8 +73,8 @@ namespace Tango.Modules
         /// <returns>
         /// Returns true if the given predicate functions return true when applied to either value.
         /// </returns>
-        public static bool Exists<TLeft, TRight>(Func<TLeft, bool> predicateWhenLeft, Func<TRight, bool> predicateWhenRight, Either<TLeft, TRight> either)
-            => either.Match(predicateWhenLeft, predicateWhenRight);
+        public static bool Exists<TLeft, TRight>(Func<TRight, bool> predicateWhenRight, Func<TLeft, bool> predicateWhenLeft, Either<TLeft, TRight> either)
+            => either.Match(predicateWhenRight, predicateWhenLeft);
 
         /// <summary>
         /// Creates a new <see cref="Either{TLeft, TRight}"/> whose value is the result of applying the given <paramref name="mapping"/> function when <see cref="Either{TLeft, TRight}.IsLeft"/>.
@@ -91,7 +91,7 @@ namespace Tango.Modules
         public static Either<TLeftResult, TRight> MapLeft<TLeft, TRight, TLeftResult>(
             Func<TLeft, TLeftResult> mapping,
             Either<TLeft, TRight> either)
-            => Map(mapping, right => right, either);
+            => Map(right => right, mapping, either);
 
         /// <summary>
         /// Creates a new <see cref="Either{TLeft, TRight}"/> whose value is the result of applying the given <paramref name="mapping"/> function when <see cref="Either{TLeft, TRight}.IsRight"/>.
@@ -108,7 +108,7 @@ namespace Tango.Modules
         public static Either<TLeft, TRightResult> MapRight<TLeft, TRight, TRightResult>(
             Func<TRight, TRightResult> mapping,
             Either<TLeft, TRight> either)
-            => Map(left => left, mapping, either);
+            => Map(mapping, left => left, either);
 
         /// <summary>
         /// Creates a new <see cref="Either{TLeft, TRight}"/> whose value is the result of applying the given mapping functions.
@@ -124,12 +124,12 @@ namespace Tango.Modules
         /// Returns a new <see cref="Either{TLeft, TRight}"/> whose value is the result of applying the given mapping functions.
         /// </returns>
         public static Either<TLeftResult, TRightResult> Map<TLeft, TRight, TLeftResult, TRightResult>(
-            Func<TLeft, TLeftResult> mappingWhenLeft,
             Func<TRight, TRightResult> mappingWhenRight,
+            Func<TLeft, TLeftResult> mappingWhenLeft,
             Either<TLeft, TRight> either)
             => either.Match<Either<TLeftResult, TRightResult>>(
-                left => mappingWhenLeft(left),
-                right => mappingWhenRight(right));
+                right => mappingWhenRight(right),
+                left => mappingWhenLeft(left));
 
         /// <summary>
         /// Creates a new <typeparamref name="TState"/> value by applying the given <paramref name="folder"/> function
@@ -148,7 +148,7 @@ namespace Tango.Modules
         /// Otherwise, returns the input <paramref name="either"/>.
         /// </returns>
         public static TState FoldLeft<TLeft, TRight, TState>(Func<TState, TLeft, TState> folder, TState state, Either<TLeft, TRight> either)
-            => Fold(folder, (_state, right) => _state, state, either);
+            => Fold((_state, right) => _state, folder, state, either);
 
         /// <summary>
         /// Creates a new <typeparamref name="TState"/> value by applying the given <paramref name="folder"/> function
@@ -167,7 +167,7 @@ namespace Tango.Modules
         /// Otherwise, returns the input <paramref name="either"/>.
         /// </returns>
         public static TState FoldRight<TLeft, TRight, TState>(Func<TState, TRight, TState> folder, TState state, Either<TLeft, TRight> either)
-            => Fold((_state, left) => _state, folder, state, either);
+            => Fold(folder, (_state, left) => _state, state, either);
 
         /// <summary>
         /// Creates a new <typeparamref name="TState"/> value by applying the given folder functions
@@ -184,10 +184,10 @@ namespace Tango.Modules
         /// Returns a new <typeparamref name="TState"/> value by applying the given folder functions
         /// to <paramref name="state"/> and <see cref="Either{TLeft, TRight}"/> value.
         /// </returns>
-        public static TState Fold<TLeft, TRight, TState>(Func<TState, TLeft, TState> folderWhenLeft, Func<TState, TRight, TState> folderWhenRight, TState state, Either<TLeft, TRight> either)
+        public static TState Fold<TLeft, TRight, TState>(Func<TState, TRight, TState> folderWhenRight, Func<TState, TLeft, TState> folderWhenLeft, TState state, Either<TLeft, TRight> either)
             => either.Match(
-                left => folderWhenLeft(state, left),
-                right => folderWhenRight(state, right));
+                right => folderWhenRight(state, right),
+                left => folderWhenLeft(state, left));
 
         /// <summary>
         /// Creates a new <typeparamref name="TState"/> value by applying the given <paramref name="folder"/> function
@@ -206,7 +206,7 @@ namespace Tango.Modules
         /// Otherwise, returns the input <paramref name="either"/>.
         /// </returns>
         public static TState FoldBackLeft<TLeft, TRight, TState>(Func<TLeft, TState, TState> folder, Either<TLeft, TRight> either, TState state)
-            => FoldBack(folder, (right, _state) => _state, either, state);
+            => FoldBack((right, _state) => _state, folder, either, state);
 
         /// <summary>
         /// Creates a new <typeparamref name="TState"/> value by applying the given <paramref name="folder"/> function
@@ -225,7 +225,7 @@ namespace Tango.Modules
         /// Otherwise, returns the input <paramref name="either"/>.
         /// </returns>
         public static TState FoldBackRight<TLeft, TRight, TState>(Func<TRight, TState, TState> folder, Either<TLeft, TRight> either, TState state)
-            => FoldBack((left, _state) => _state, folder, either, state);
+            => FoldBack(folder, (left, _state) => _state, either, state);
 
         /// <summary>
         /// Creates a new <typeparamref name="TState"/> value by applying the given folder functions
@@ -242,10 +242,10 @@ namespace Tango.Modules
         /// Returns a new <typeparamref name="TState"/> value by applying the given folder functions
         /// to <see cref="Either{TLeft, TRight}"/> value and <paramref name="state"/>
         /// </returns>
-        public static TState FoldBack<TLeft, TRight, TState>(Func<TLeft, TState, TState> folderWhenLeft, Func<TRight, TState, TState> folderWhenRight, Either<TLeft, TRight> either, TState state)
+        public static TState FoldBack<TLeft, TRight, TState>(Func<TRight, TState, TState> folderWhenRight, Func<TLeft, TState, TState> folderWhenLeft, Either<TLeft, TRight> either, TState state)
             => either.Match(
-                left => folderWhenLeft(left, state),
-                right => folderWhenRight(right, state));
+                right => folderWhenRight(right, state),
+                left => folderWhenLeft(left, state));
 
         /// <summary>
         /// Creates a new <see cref="Either{TLeft, TRight}"/> value by swapping <see cref="Either{TLeft, TRight}.Left"/> and <see cref="Either{TLeft, TRight}.Right"/> values.
@@ -287,8 +287,8 @@ namespace Tango.Modules
         /// </returns>
         public static Option<TLeft> ToOptionLeft<TLeft, TRight>(Either<TLeft, TRight> either)
             => either.Match(
-                left => left,
-                right => Option<TLeft>.None()
+                right => Option<TLeft>.None(),
+                left => left
                 );
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace Tango.Modules
         /// </returns>
         public static Option<TRight> ToOptionRight<TLeft, TRight>(Either<TLeft, TRight> either)
             => either.Match(
-                left => Option<TRight>.None(),
-                right => right);
+                right => right,
+                left => Option<TRight>.None());
     }
 }

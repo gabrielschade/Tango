@@ -14,7 +14,7 @@ namespace Tango.Test.Types
         public void ContinuationReturnToSuccessWhenSuccess()
         {
             int expected = 10;
-            Continuation<int, bool> continuation = Continuation<int, bool>.Return(10);
+            Continuation<bool, int> continuation = Continuation<bool, int>.Return(10);
             Option<int> option = continuation;
             int result = option.Match(value => value, () => 0);
 
@@ -25,7 +25,7 @@ namespace Tango.Test.Types
         public void ContinuationReturnToSuccessWhenFail()
         {
             int expected = 0;
-            Continuation<int, bool> continuation = Continuation<int, bool>.Return(true);
+            Continuation<bool, int> continuation = Continuation<bool, int>.Return(true);
             Option<int> option = continuation;
             int result = option.Match(value => value, () => 0);
 
@@ -36,7 +36,7 @@ namespace Tango.Test.Types
         public void ContinuationReturnToFailWhenSuccess()
         {
             bool expected = false;
-            Continuation<int, bool> continuation = Continuation<int, bool>.Return(10);
+            Continuation<bool, int> continuation = Continuation<bool, int>.Return(10);
             Option<bool> option = continuation;
             bool result = option.Match(value => value, () => false);
 
@@ -47,9 +47,29 @@ namespace Tango.Test.Types
         public void ContinuationReturnToFailWhenFail()
         {
             bool expected = true;
-            Continuation<int, bool> continuation = Continuation<int, bool>.Return(true);
+            Continuation<bool, int> continuation = Continuation<bool, int>.Return(true);
             Option<bool> option = continuation;
             bool result = option.Match(value => value, () => false);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void ContinuationMatchWhenSuccess()
+        {
+            int expected = 10;
+            Continuation<bool, int> continuation = 10;
+            int result = continuation.Match(success => success, fail => 0);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void ContinuationMatchWhenFail()
+        {
+            int expected = 0;
+            Continuation<bool, int> continuation = true;
+            int result = continuation.Match(success => success, fail => 0);
 
             Assert.AreEqual(expected, result);
         }
