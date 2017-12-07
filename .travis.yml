@@ -1,8 +1,0 @@
-language: csharp
-solution: Tango/Tango.sln
-before_install:
-  - sudo apt-get install nunit-console
-before_script:
-  - nuget restore Tango/Tango.sln
-after_script:
-  - nunit-console Tango/Tango.Test/bin/Debug/Tango.Test.dll
