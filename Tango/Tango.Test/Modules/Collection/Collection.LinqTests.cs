@@ -186,6 +186,35 @@ namespace Tango.Test.Modules.Collection
         }
 
         [TestMethod]
+        public void LinqCollectionChunkAndConcat100WithHeadAndTail()
+        {
+            IEnumerable<IEnumerable<int>> chunks =
+                _100evens.ChunkBySize(10);
+
+            IEnumerable<int> concat = chunks.Head().Concat(chunks.Tail().ToArray());
+            Assert.AreEqual(concat.Count(), _100evens.Count());
+        }
+
+        [TestMethod]
+        public void LinqCollectionChunkAndConcat1000WithHeadAndTail()
+        {
+            IEnumerable<IEnumerable<int>> chunks =
+                _1000evens.ChunkBySize(10);
+
+            IEnumerable<int> concat = chunks.Head().Concat(chunks.Tail().ToArray());
+            Assert.AreEqual(concat.Count(), _1000evens.Count());
+        }
+
+        [TestMethod]
+        public void LinqCollectionChunkAndConcat10000WithHeadAndTail()
+        {
+            IEnumerable<IEnumerable<int>> chunks =
+                _10000evens.ChunkBySize(10);
+            IEnumerable<int> concat = chunks.Head().Concat(chunks.Tail().ToArray());
+            Assert.AreEqual(concat.Count(), _10000evens.Count());
+        }
+
+        [TestMethod]
         public void LinqCollectionCollect()
         {
             int expected = 5050;
