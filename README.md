@@ -29,12 +29,6 @@ This library is avaiable at [NuGet](https://www.nuget.org/packages/Tango/).
 Install-Package Tango
 ```
 
-> *WARNING*
->
-> The current version at NuGet is not the lastest version.
-> The NuGet version will be updated by the time I finished the documentation.
->
-
 ## What's included:
 
 ### Types
