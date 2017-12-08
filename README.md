@@ -6,6 +6,8 @@
 
 ----
 
+Everyone deserves to enjoy the benefits of functional programming, the Tango provides a series of implementations to facilitate the use of functional programming concepts in C#.
+
 In a certain way any C# developer work with some functional concepts like anonymous methods with lambda expressions and high order functions with Linq library, and so on.
 
 C# is an amazing programming language and we as a dev, can improve it a lot more. In this library I implements some of the core functional concepts in order to enhances the experience of developers.
@@ -17,6 +19,8 @@ Besides that, Tango provides an extension for IEnumerables, Options and Either w
 Functional programming brings a lot of benefits to your application, and the do you know the best of all? 
 
 It makes development more **fun**!
+
+Stop to struggle with your code and take it to dance a **Tango**!
 
 ## How to use
 This library is avaiable at [NuGet](https://www.nuget.org/packages/Tango/).
