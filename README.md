@@ -1,4 +1,12 @@
-# Tango
+[![Build status](https://ci.appveyor.com/api/projects/status/y516sjww553xnq63?svg=true)](https://ci.appveyor.com/project/gabrielschade/tango)
+
+# Welcome to
+
+![Introdução](https://gabrielschade.gitbooks.io/tango-br/content/assets/logo%20tango.png)
+
+----
+
+Everyone deserves to enjoy the benefits of functional programming, the Tango provides a series of implementations to facilitate the use of functional programming concepts in C#.
 
 In a certain way any C# developer work with some functional concepts like anonymous methods with lambda expressions and high order functions with Linq library, and so on.
 
@@ -12,18 +20,14 @@ Functional programming brings a lot of benefits to your application, and the do 
 
 It makes development more **fun**!
 
+Stop to struggle with your code and take it to dance a **Tango**!
+
 ## How to use
 This library is avaiable at [NuGet](https://www.nuget.org/packages/Tango/).
 
 ```
 Install-Package Tango
 ```
-
-> *WARNING*
->
-> The current version at NuGet is not the lastest version.
-> The NuGet version will be updated by the time I finished the documentation.
->
 
 ## What's included:
 
@@ -49,8 +53,8 @@ Install-Package Tango
 
 ## Documentation
 For a better understanding of the library concepts, methods and objects you can access the documentation:
-  - [English version](https://gabrielschade.gitbooks.io/tango-br/content/) -> in progress...
-  - [Portuguese version](https://gabrielschade.gitbooks.io/tango/content/) -> in progress...
+  - [English version](https://gabrielschade.gitbooks.io/tango/content/) -> in progress...
+  - [Portuguese version](https://gabrielschade.gitbooks.io/tango-br/content/) -> in progress...
 
 ## Dependecies
 This library depends on:
