@@ -1,7 +1,10 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/y516sjww553xnq63?svg=true)](https://ci.appveyor.com/project/gabrielschade/tango)
 
+# Welcome to
 
-# Tango
+![Introdução](https://gabrielschade.gitbooks.io/tango-br/content/assets/logo%20tango.png)
+
+----
 
 In a certain way any C# developer work with some functional concepts like anonymous methods with lambda expressions and high order functions with Linq library, and so on.
 
