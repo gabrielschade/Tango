@@ -73,6 +73,19 @@ namespace Tango.Types
             => new Either<TLeft, TRight>(right);
 
         /// <summary>
+        /// Creates an <see cref="Either{TLeft, TRight}"/> from an <see cref="Continuation{TFail, TSuccess}"/> value
+        /// </summary>
+        /// <param name="continuation">input Continuation value</param>
+        /// <returns>
+        /// New instance of <see cref="Either{TLeft, TRight}"/> in <see cref="IsLeft"/> state when the <paramref name="continuation"/> <see cref="Continuation{TFail, TSuccess}.IsFail"/>.
+        /// Otherwise returns a <see cref="Either{TLeft, TRight}"/> in <see cref="IsRight"/> state.
+        /// </returns>
+        public static implicit operator Either<TLeft, TRight>(Continuation<TLeft, TRight> continuation)
+            => continuation.Match<Continuation<TLeft, TRight>>(
+                right => right,
+                left => left);
+
+        /// <summary>
         /// Creates an <see cref="Option{T}"/> of <see typeparamref="TLeft"/> value by <see cref="Either{TLeft, TRight}"/> value <see cref="Left"/> property.
         /// </summary>
         /// <param name="either">The input <see cref="Either{TLeft, TRight}"/> value.</param>

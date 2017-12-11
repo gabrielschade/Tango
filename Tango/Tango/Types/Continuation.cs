@@ -110,6 +110,19 @@ namespace Tango.Types
                 : Option<TFail>.None();
 
         /// <summary>
+        /// Creates an <see cref="Continuation{TFail, TSuccess}"/> from an <see cref="Either{TLeft, TRight}"/> value
+        /// </summary>
+        /// <param name="either">input Either value</param>
+        /// <returns>
+        /// New instance of <see cref="Continuation{TFail, TSuccess}"/> in <see cref="IsFail"/> state when the <paramref name="either"/> <see cref="Either{TLeft, TRight}.IsLeft"/>.
+        /// Otherwise returns a <see cref="Continuation{TFail, TSuccess}"/> in <see cref="IsSuccess"/> state.
+        /// </returns>
+        public static implicit operator Continuation<TFail, TSuccess>(Either<TFail, TSuccess> either)
+            => either.Match<Continuation<TFail,TSuccess>>(
+                right => right,
+                left => left);
+
+        /// <summary>
         /// This allows a sophisticated way to apply some method for <see cref="Continuation{TFail, TSuccess}"/> values without having to check for the existence of a fail or success value.
         /// </summary>
         /// <typeparam name="T">The type of value returned by functions <paramref name="methodWhenFail"/> and <paramref name="methodWhenSuccess"/>.</typeparam>
@@ -167,6 +180,21 @@ namespace Tango.Types
         public Continuation<TFail, TSuccess> Then(
             Func<TSuccess, Continuation<TFail, TSuccess>> thenMethod)
             => Then<TSuccess>(thenMethod);
+
+        /// <summary>
+        /// This allows a sophisticated and powerful way to apply some method in order to compose an operation with different functions.
+        /// When the current <see cref="Continuation{TFail, TSuccess}"/> is <see cref="IsSuccess"/> the <paramref name="thenMethod"/> is applied.
+        /// Otherwise, returns itself until encounter a <see cref="Catch"/> function.
+        /// <para>
+        /// In this case, the <paramref name="thenMethod"/> can return just a regular result instead of a <see cref="Continuation{TFail, TSuccess}"/> instance.
+        /// </para>
+        /// </summary>
+        /// <typeparam name="TNewSuccess"></typeparam>
+        /// <param name="thenMethod"></param>
+        /// <returns></returns>
+        public Continuation<TFail, TNewSuccess> Then<TNewSuccess>(
+            Func<TSuccess, TNewSuccess> thenMethod)
+            => Then(success => thenMethod(success));
 
         /// <summary>
         /// This allows a sophisticated and powerful way to apply some method in order to compose an operation with different functions.
@@ -239,6 +267,37 @@ namespace Tango.Types
         public static Continuation<TFail, TSuccess> operator <
             (Continuation<TFail, TSuccess> first,
                 Func<TSuccess, Continuation<TFail,TSuccess>> thenMethod)
+            => throw new NotSupportedException();
+
+        /// <summary>
+        /// This allows a sophisticated and powerful way to apply some method in order to compose an operation with different functions.
+        /// When the current <see cref="Continuation{TFail, TSuccess}"/> is <see cref="IsSuccess"/> the <paramref name="thenMethod"/> is applied.
+        /// Otherwise, returns itself until encounter a <see cref="Catch"/> function.
+        /// </summary>
+        /// <para>
+        /// In this case, the <paramref name="thenMethod"/> can return just a regular result instead of a <see cref="Continuation{TFail, TSuccess}"/> instance.
+        /// </para>
+        /// <param name="first">The continuation itself.</param>
+        /// <param name="thenMethod">The function to apply when it is in <see cref="IsSuccess"/> state.</param>
+        /// <returns>
+        /// Returns a new <see cref="Continuation{TFail, TSuccess }"/> value when the current value <see cref="IsSuccess"/>.
+        /// Otherwise, returns itself.</returns>
+        public static Continuation<TFail, TSuccess> operator >
+            (Continuation<TFail, TSuccess> first,
+                Func<TSuccess, TSuccess> thenMethod)
+            => first.Then(thenMethod);
+
+        /// <summary>
+        /// Always raises a <see cref="NotSupportedException"/>.
+        /// </summary>
+        /// <param name="first">The continuation itself.</param>
+        /// <param name="thenMethod">The function to apply when it is in <see cref="IsSuccess"/> state.</param>
+        /// <returns>
+        /// Always raises a <see cref="NotSupportedException"/>.
+        /// </returns>
+        public static Continuation<TFail, TSuccess> operator <
+            (Continuation<TFail, TSuccess> first,
+                Func<TSuccess, TSuccess> thenMethod)
             => throw new NotSupportedException();
 
         /// <summary>

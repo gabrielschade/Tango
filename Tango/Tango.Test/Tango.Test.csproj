@@ -58,6 +58,7 @@
     <Compile Include="Functional\FunctionExtensionTests.cs" />
     <Compile Include="Functional\CurryTests.cs" />
     <Compile Include="Functional\PartialApplicationTests.cs" />
+    <Compile Include="Functional\QuickDelegateCastTests.cs" />
     <Compile Include="Linq\EnumExtensionsTests.cs" />
     <Compile Include="Modules\Collection\Collection.LinqTests.cs" />
     <Compile Include="Modules\Collection\CollectionModuleTests.cs" />

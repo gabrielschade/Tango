@@ -141,5 +141,28 @@ namespace Tango.Test.Types
 
             Assert.AreEqual(expected, result);
         }
+
+        [TestMethod]
+        public void EitherFromContinuationRight()
+        {
+            int expected = 10;
+            Continuation<string, int> continuation = 10;
+            Either<string, int> either = continuation;
+            int result = either.Match(success => success, fail => 0);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void EitherFromContinuationLeft()
+        {
+            int expected = 0;
+            Continuation<string, int> continuation = "Hello World";
+            Either<string, int> either = continuation;
+            int result = either.Match(success => success, fail => 0);
+
+            Assert.AreEqual(expected, result);
+        }
+
     }
 }

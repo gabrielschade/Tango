@@ -72,14 +72,36 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
+        public void ContinuationFromEitherSuccess()
+        {
+            int expected = 10;
+            Either<string, int> either = 10;
+            Continuation<string, int> continuation = either;
+            int result = continuation.Match(success => success, fail => 0);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void ContinuationFromEitherFail()
+        {
+            int expected = 0;
+            Either<string, int> either = "Hello World";
+            Continuation<string, int> continuation = either;
+            int result = continuation.Match(success => success, fail => 0);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
         public void ContinuationWithOptionSuccess()
         {
             Continuation<object, int> continuation = 10;
 
             Option<string> optionResult =
                 continuation
-                .Then<bool>(value => value % 2 == 0)
-                .Then<string>(value => value ? "Even" : "Odd");
+                .Then(value => value % 2 == 0)
+                .Then(value => value ? "Even" : "Odd");
 
             string result = optionResult.Match(
                 value => value,

@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\ExceptionMessages.cs" />
     <Compile Include="Functional\Currying.cs" />
+    <Compile Include="Functional\QuickDelegateCast.cs" />
     <Compile Include="Modules\Either\Either.Linq.cs" />
     <Compile Include="Modules\Either\EitherModule.cs" />
     <Compile Include="Modules\Option\OptionModule.cs" />
