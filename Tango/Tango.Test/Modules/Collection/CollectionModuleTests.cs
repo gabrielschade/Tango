@@ -717,7 +717,7 @@ namespace Tango.Test.Modules.Collection
         [TestMethod]
         public void CollectionScan()
         {
-            IEnumerable<int> expected =
+            IEnumerable < int> expected =
                 CollectionModule.Generate(10, 11, 13, 16, 20, 25, 31, 38, 46, 55, 65);
 
             IEnumerable<int> result =

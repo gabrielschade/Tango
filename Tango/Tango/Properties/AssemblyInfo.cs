@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Tango")]
-[assembly: AssemblyDescription("Functional framework to work with continuation, optional and potential types on C#. Don´t fight with your code, dance with it. =)")]
+[assembly: AssemblyDescription("Everyone deserves to enjoy the benefits of functional programming, the Tango provides a series of implementations to facilitate the use of functional programming concepts in C#. Stop to struggle with your code and take it to dance a Tango!")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Gabriel Schade Cardoso")]
 [assembly: AssemblyProduct("Tango")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.3")]
-[assembly: AssemblyFileVersion("1.0.0.3")]
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]

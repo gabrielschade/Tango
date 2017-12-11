@@ -671,6 +671,7 @@ namespace Tango.Modules
             return source.LazyLoop(
                 (index, element) =>
                 {
+                    accumulator = index == 0 ? state : accumulator;
                     accumulator = folder(accumulator, element);
                     return accumulator;
                 });
@@ -699,6 +700,7 @@ namespace Tango.Modules
                 source2,
                 (index, element1, element2) =>
                 {
+                    accumulator = accumulator = index == 0 ? state : accumulator;
                     accumulator = folder(accumulator, element1, element2);
                     return accumulator;
                 });
@@ -720,6 +722,7 @@ namespace Tango.Modules
             return source.Reverse().LazyLoop(
                 (index, element) =>
                 {
+                    accumulator = index == 0 ? state : accumulator;
                     accumulator = folder(element, accumulator);
                     return accumulator;
                 }).Reverse();
@@ -748,6 +751,7 @@ namespace Tango.Modules
                 source2.Reverse(),
                 (index, element1, element2) =>
                 {
+                    accumulator = index == 0 ? state: accumulator;
                     accumulator = folder(element1, element2, accumulator);
                     return accumulator;
                 })
@@ -825,7 +829,7 @@ namespace Tango.Modules
         /// <param name="source3">The third input collection.</param>
         /// <returns>A single collection containing triples of matching elements from the input collections.</returns>
         public static IEnumerable<(T, T2, T3)> Zip3<T, T2, T3>(IEnumerable<T> source, IEnumerable<T2> source2, IEnumerable<T3> source3)
-        => source.LazyLoop3(source2,source3,
+        => source.LazyLoop3(source2, source3,
             (_, element1, element2, element3) => (element1, element2, element3));
 
     }
