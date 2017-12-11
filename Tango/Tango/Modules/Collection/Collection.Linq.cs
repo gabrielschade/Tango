@@ -87,6 +87,14 @@ namespace Tango.Linq
         public static IEnumerable<T> Concat<T>(this IEnumerable<IEnumerable<T>> sources)
             => CollectionModule.Concat(sources);
 
+        /// <summary>Returns a new collection that contains the elements of each the collection in order.</summary>
+        /// <typeparam name="T">The type of elements of source.</typeparam>
+        /// <param name="source">The input collection.</param>
+        /// <param name="sources">The input sequence of collections.</param>
+        /// <returns>The resulting concatenated collection.</returns>
+        public static IEnumerable<T> Concat<T>(this IEnumerable<T> source, params IEnumerable<T>[] sources)
+            => source.Append(CollectionModule.Concat(sources));
+
         /// <summary>Returns a collection that contains no duplicate entries according to <paramref name="comparer"/> and <paramref name="hashCodeGetter"/> functions.
         /// If an element occurs multiple times in the collection then the later occurrences are discarded.</summary>
         /// <typeparam name="T">The type of elements of source.</typeparam>

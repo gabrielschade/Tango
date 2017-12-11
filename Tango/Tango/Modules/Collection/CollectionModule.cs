@@ -65,9 +65,7 @@ namespace Tango.Modules
             => source.SelectMany(mapping);
 
         /// <summary>Compares two collections using the given comparison function, element by element.
-        /// Returns the first non-zero result from the comparison function.  If the end of a collection
-        /// is reached it returns a -1 if the first collection is shorter and a 1 if the second collection
-        /// is shorter.
+        /// Returns the first non-zero result from the comparison function.  
         /// </summary>
         /// <remarks>
         /// if one collections is longer 
