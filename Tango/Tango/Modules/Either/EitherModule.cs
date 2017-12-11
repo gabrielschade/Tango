@@ -258,8 +258,8 @@ namespace Tango.Modules
         /// </returns>
         public static Either<TRight, TLeft> Swap<TLeft, TRight>(Either<TLeft, TRight> either)
             => either.Match<Either<TRight, TLeft>>(
-                left => left,
-                right => right);
+                right => right,
+                left => left);
 
         /// <summary>
         /// Convert the <see cref="Either{TLeft, TRight}"/> to a <see cref="Tuple{T1,T2}"/> where T1 and T2 are <see cref="Option{T}"/> value of <typeparamref name="TLeft"/> and <typeparamref name="TRight"/> respectively.
