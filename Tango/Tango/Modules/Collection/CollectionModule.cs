@@ -379,7 +379,7 @@ namespace Tango.Modules
                  : Generate(first, second, (value) => value >= second, (value) => value - 1);
         }
 
-        /// <summary>Creates a collection by by the given values</summary>
+        /// <summary>Creates a collection by the given values</summary>
         /// <typeparam name="T">The type of elements of source.</typeparam>
         /// <param name="values">Elements of the collection.</param>
         /// <returns>The collection of generated elements.</returns>
