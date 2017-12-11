@@ -81,7 +81,7 @@ namespace Tango.Types
         /// Otherwise returns a <see cref="Either{TLeft, TRight}"/> in <see cref="IsRight"/> state.
         /// </returns>
         public static implicit operator Either<TLeft, TRight>(Continuation<TLeft, TRight> continuation)
-            => continuation.Match<Continuation<TLeft, TRight>>(
+            => continuation.Match<Either<TLeft, TRight>>(
                 right => right,
                 left => left);
 

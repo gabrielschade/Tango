@@ -118,7 +118,7 @@ namespace Tango.Types
         /// Otherwise returns a <see cref="Continuation{TFail, TSuccess}"/> in <see cref="IsSuccess"/> state.
         /// </returns>
         public static implicit operator Continuation<TFail, TSuccess>(Either<TFail, TSuccess> either)
-            => either.Match<Continuation<TFail,TSuccess>>(
+            => either.Match<Continuation<TFail, TSuccess>>(
                 right => right,
                 left => left);
 
@@ -194,7 +194,7 @@ namespace Tango.Types
         /// <returns></returns>
         public Continuation<TFail, TNewSuccess> Then<TNewSuccess>(
             Func<TSuccess, TNewSuccess> thenMethod)
-            => Then(success => thenMethod(success));
+            => Then(success => Continuation<TFail, TNewSuccess>.Return(thenMethod(success)));
 
         /// <summary>
         /// This allows a sophisticated and powerful way to apply some method in order to compose an operation with different functions.
@@ -238,7 +238,7 @@ namespace Tango.Types
         /// Returns a new <see cref="Continuation{TFail, TSuccess}"/> value when the current value <see cref="IsFail"/>.
         /// Otherwise, returns itself.
         /// </returns>
-        public Continuation<TFail, TSuccess> Catch(Func<TFail, Continuation<TFail,TSuccess>> catchMethod)
+        public Continuation<TFail, TSuccess> Catch(Func<TFail, Continuation<TFail, TSuccess>> catchMethod)
             => Catch<TFail>(catchMethod);
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace Tango.Types
         /// </returns>
         public static Continuation<TFail, TSuccess> operator <
             (Continuation<TFail, TSuccess> first,
-                Func<TSuccess, Continuation<TFail,TSuccess>> thenMethod)
+                Func<TSuccess, Continuation<TFail, TSuccess>> thenMethod)
             => throw new NotSupportedException();
 
         /// <summary>

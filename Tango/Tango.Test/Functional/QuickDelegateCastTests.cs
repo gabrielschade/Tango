@@ -29,6 +29,14 @@ namespace Tango.Test.Functional
             F<int, string>(TestFunction).PartialApply(1);
 
             Assert.AreEqual("1", result());
+
+
+            int SampleAdd(int value1, int value2)
+                => value1 + value2;
+
+
+            F<int, int, int>(SampleAdd).Curry();
+            F<int, int, int>(SampleAdd).PartialApply(1);
         }
 
         [TestMethod]
