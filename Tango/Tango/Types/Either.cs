@@ -23,19 +23,19 @@ namespace Tango.Types
         private TRight Right { get; }
 
         /// <summary>
-        /// Returns true when the value is an <see typeparamref="TLeft"/> value.
+        /// Returns true when the value is a <see typeparamref="TLeft"/> value.
         /// Otherwise, returns false.
         /// </summary>
         public bool IsLeft { get; }
 
         /// <summary>
-        /// Returns true when the value is an <see typeparamref="TRight"/> value.
+        /// Returns true when the value is a <see typeparamref="TRight"/> value.
         /// Otherwise, returns false.
         /// </summary>
         public bool IsRight => !IsLeft;
 
         /// <summary>
-        /// Initialize a new instance of <see cref="Either{TLeft, TRight}"/> value with an <see typeparamref="TLeft"/> value.
+        /// Initialize a new instance of <see cref="Either{TLeft, TRight}"/> value with a <see typeparamref="TLeft"/> value.
         /// </summary>
         /// <param name="left">The input <see typeparamref="TLeft"/> value.</param>
         public Either(TLeft left)
@@ -45,7 +45,7 @@ namespace Tango.Types
             Right = default(TRight);
         }
         /// <summary>
-        /// Initialize a new instance of <see cref="Either{TLeft, TRight}"/> value with an <see typeparamref="TRight"/> value.
+        /// Initialize a new instance of <see cref="Either{TLeft, TRight}"/> value with a <see typeparamref="TRight"/> value.
         /// </summary>
         /// <param name="right">The input <see typeparamref="TRight"/> value.</param>
         public Either(TRight right)
@@ -57,7 +57,7 @@ namespace Tango.Types
         }
 
         /// <summary>
-        /// Creates an <see typeparamref="TLeft"/> value.
+        /// Creates a <see typeparamref="TLeft"/> value.
         /// </summary>
         /// <param name="left">The input left value.</param>
         /// <returns>New instance of <see cref="Either{TLeft, TRight}"/> value with <see cref="IsLeft"/> state.</returns>
@@ -65,7 +65,7 @@ namespace Tango.Types
             => new Either<TLeft, TRight>(left);
 
         /// <summary>
-        /// Creates an <see typeparamref="TRight"/> value.
+        /// Creates a <see typeparamref="TRight"/> value.
         /// </summary>
         /// <param name="right">The input right value.</param>
         /// <returns>New instance of <see cref="Either{TLeft, TRight}"/> value with <see cref="IsRight"/> state.</returns>
@@ -73,7 +73,7 @@ namespace Tango.Types
             => new Either<TLeft, TRight>(right);
 
         /// <summary>
-        /// Creates an <see cref="Either{TLeft, TRight}"/> from an <see cref="Continuation{TFail, TSuccess}"/> value
+        /// Creates an <see cref="Either{TLeft, TRight}"/> from a <see cref="Continuation{TFail, TSuccess}"/> value
         /// </summary>
         /// <param name="continuation">input Continuation value</param>
         /// <returns>
