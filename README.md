@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/y516sjww553xnq63?svg=true)](https://ci.appveyor.com/project/gabrielschade/tango)
+[![Build status](https://ci.appveyor.com/api/projects/status/y516sjww553xnq63?svg=true)](https://ci.appveyor.com/project/gabrielschade/tango) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f817db56926045d3b220b3e455c58547)](https://www.codacy.com/app/gabrielschade/Tango?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gabrielschade/Tango&amp;utm_campaign=Badge_Grade)
 
 # Welcome to
 
