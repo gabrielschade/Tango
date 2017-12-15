@@ -8,7 +8,7 @@ namespace Tango.Linq
     /// <summary>
     /// Provides extension methods to enum types in order to cast enums to IEnumerables
     /// </summary>
-    public class EnumExtensions
+    public static class EnumExtensions
     {
         /// <summary>
         /// Cast a <typeparamref name="T"/> type enum to an <see cref="System.Collections.Generic.IEnumerable{T}"/> which each element is an enum option.

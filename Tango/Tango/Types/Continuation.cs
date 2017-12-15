@@ -13,7 +13,7 @@ namespace Tango.Types
     ///<para>
     /// A <see cref="Continuation{TFail, TSuccess}"/> value is a powerful tool to chaining operations in a sophisticated and idiomatic way dealing
     /// with possible fails without throwing exceptions.
-    /// A <see cref="Continuation{TFail, TSuccess}"/> value behaves like an promise of JavaScript, with Then and Catch operations.
+    /// A <see cref="Continuation{TFail, TSuccess}"/> value behaves like a promise of JavaScript, with Then and Catch operations.
     /// </para>
     /// </summary>
     /// <typeparam name="TFail">The type of the fail value</typeparam>
@@ -24,19 +24,19 @@ namespace Tango.Types
         private TFail Fail { get; }
 
         /// <summary>
-        /// Returns true when the result value is an <see typeparamref="TSuccess"/> value.
+        /// Returns true when the result value is a <see typeparamref="TSuccess"/> value.
         /// Otherwise, returns false.
         /// </summary>
         public bool IsSuccess { get; }
 
         /// <summary>
-        /// Returns true when the result value is an <see typeparamref="TFail"/> value.
+        /// Returns true when the result value is a <see typeparamref="TFail"/> value.
         /// Otherwise, returns false.
         /// </summary>
         public bool IsFail => !IsSuccess;
 
         /// <summary>
-        /// Initialize a new instance of <see cref="Continuation{TFail,TSuccess}"/> value with an <see typeparamref="TSuccess"/> value.
+        /// Initialize a new instance of <see cref="Continuation{TFail,TSuccess}"/> value with a <see typeparamref="TSuccess"/> value.
         /// </summary>
         /// <param name="success">The input <see typeparamref="TSuccess"/> value.</param>
         public Continuation(TSuccess success)
@@ -47,7 +47,7 @@ namespace Tango.Types
         }
 
         /// <summary>
-        /// Initialize a new instance of <see cref="Continuation{TFail, TSuccess}"/> value with an <see typeparamref="TFail"/> value.
+        /// Initialize a new instance of <see cref="Continuation{TFail, TSuccess}"/> value with a <see typeparamref="TFail"/> value.
         /// </summary>
         /// <param name="fail">The input <see typeparamref="TFail"/> value.</param>
         public Continuation(TFail fail)
@@ -58,28 +58,28 @@ namespace Tango.Types
         }
 
         /// <summary>
-        /// Initialize a new instance of <see cref="Continuation{TFail,TSuccess}"/> value with an <see typeparamref="TSuccess"/> value.
+        /// Initialize a new instance of <see cref="Continuation{TFail,TSuccess}"/> value with a <see typeparamref="TSuccess"/> value.
         /// </summary>
         /// <param name="success">The input <see typeparamref="TSuccess"/> value.</param>
         public static Continuation<TFail, TSuccess> Return(TSuccess success)
             => new Continuation<TFail, TSuccess>(success);
 
         /// <summary>
-        /// Initialize a new instance of <see cref="Continuation{TFail, TSuccess}"/> value with an <see typeparamref="TFail"/> value.
+        /// Initialize a new instance of <see cref="Continuation{TFail, TSuccess}"/> value with a <see typeparamref="TFail"/> value.
         /// </summary>
         /// <param name="fail">The input <see typeparamref="TFail"/> value.</param>
         public static Continuation<TFail, TSuccess> Return(TFail fail)
             => new Continuation<TFail, TSuccess>(fail);
 
         /// <summary>
-        /// Initialize a new instance of <see cref="Continuation{TFail, TSuccess}"/> value with an <see typeparamref="TSuccess"/> value.
+        /// Initialize a new instance of <see cref="Continuation{TFail, TSuccess}"/> value with a <see typeparamref="TSuccess"/> value.
         /// </summary>
         /// <param name="success">The input <see typeparamref="TSuccess"/> value.</param>
         public static implicit operator Continuation<TFail, TSuccess>(TSuccess success)
             => new Continuation<TFail, TSuccess>(success);
 
         /// <summary>
-        /// Initialize a new instance of <see cref="Continuation{TFail, TSuccess}"/> value with an <see typeparamref="TFail"/> value.
+        /// Initialize a new instance of <see cref="Continuation{TFail, TSuccess}"/> value with a <see typeparamref="TFail"/> value.
         /// </summary>
         /// <param name="fail">The input <see typeparamref="TFail"/> value.</param>
         public static implicit operator Continuation<TFail, TSuccess>(TFail fail)
@@ -110,7 +110,7 @@ namespace Tango.Types
                 : Option<TFail>.None();
 
         /// <summary>
-        /// Creates an <see cref="Continuation{TFail, TSuccess}"/> from an <see cref="Either{TLeft, TRight}"/> value
+        /// Creates a <see cref="Continuation{TFail, TSuccess}"/> from an <see cref="Either{TLeft, TRight}"/> value
         /// </summary>
         /// <param name="either">input Either value</param>
         /// <returns>

@@ -47,8 +47,9 @@ namespace Tango.Modules
         public static IEnumerable<IEnumerable<T>> ChunkBySize<T>(int chunkSize, IEnumerable<T> source)
         {
             if (chunkSize <= 0)
+            {
                 throw new ArgumentException(ExceptionMessages.MustBePositive.GetMessage(nameof(chunkSize)));
-
+            }
             return source.MapIndexed((index, element) => new { Index = index, Value = element })
                        .GroupBy(element => element.Index / chunkSize)
                        .Map(groupedElement => groupedElement.Map(element => element.Value));
@@ -371,7 +372,9 @@ namespace Tango.Modules
                 Func<int, int> step)
             {
                 for (int value = start; condition(value); value = step(value))
+                {
                     yield return value;
+                }
             };
 
             return first < second ?
@@ -386,7 +389,9 @@ namespace Tango.Modules
         public static IEnumerable<T> Generate<T>(params T[] values)
         {
             foreach (T value in values)
+            {
                 yield return value;
+            }
         }
 
         /// <summary>Creates a collection by calling the given <paramref name="initializer"/> on each index.</summary>
@@ -700,7 +705,7 @@ namespace Tango.Modules
                 source2,
                 (index, element1, element2) =>
                 {
-                    accumulator = accumulator = index == 0 ? state : accumulator;
+                    accumulator = index == 0 ? state : accumulator;
                     accumulator = folder(accumulator, element1, element2);
                     return accumulator;
                 });

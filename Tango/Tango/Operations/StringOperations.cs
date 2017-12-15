@@ -6,7 +6,7 @@ namespace Tango.CommonOperations
     /// <summary>
     /// Basic operations on string values.
     /// </summary>
-    public class StringOperations
+    public static class StringOperations
     {
         /// <summary>
         /// Function to represents concatenation operation <see cref="string.Concat(object)"/> between two values.
