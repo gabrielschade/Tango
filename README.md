@@ -1,4 +1,6 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/y516sjww553xnq63?svg=true)](https://ci.appveyor.com/project/gabrielschade/tango) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f817db56926045d3b220b3e455c58547)](https://www.codacy.com/app/gabrielschade/Tango?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gabrielschade/Tango&amp;utm_campaign=Badge_Grade)
+[![Build status](https://ci.appveyor.com/api/projects/status/y516sjww553xnq63?svg=true)](https://ci.appveyor.com/project/gabrielschade/tango) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f817db56926045d3b220b3e455c58547)](https://www.codacy.com/app/gabrielschade/Tango?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gabrielschade/Tango&amp;utm_campaign=Badge_Grade) [![NuGet Badge](https://buildstats.info/nuget/Tango)](https://www.nuget.org/packages/Tango/)
+
+[![Build history](https://buildstats.info/appveyor/chart/gabrielschade/tango?buildCount=15)](https://ci.appveyor.com/project/gabrielschade/tango/history)
 
 # Welcome to
 
