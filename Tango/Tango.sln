@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tango.Test", "Tango.Test\Tango.Test.csproj", "{76CD6156-32AD-45D5-AB88-5B684B1FBAD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tango", "Tango\Tango.csproj", "{780BE12E-09D8-4423-A06F-685D919EF8AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tango.Framework", "Tango.Framework\Tango.Framework.csproj", "{780BE12E-09D8-4423-A06F-685D919EF8AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tango", "Tango\Tango.csproj", "{58C0CD1F-6B73-4600-A411-028F6FA79AC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{780BE12E-09D8-4423-A06F-685D919EF8AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{780BE12E-09D8-4423-A06F-685D919EF8AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{780BE12E-09D8-4423-A06F-685D919EF8AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58C0CD1F-6B73-4600-A411-028F6FA79AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58C0CD1F-6B73-4600-A411-028F6FA79AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58C0CD1F-6B73-4600-A411-028F6FA79AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58C0CD1F-6B73-4600-A411-028F6FA79AC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {67BD3B8E-7C2F-420E-8326-0583C0EFC761}
 	EndGlobalSection
 EndGlobal
