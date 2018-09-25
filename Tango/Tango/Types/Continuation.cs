@@ -242,12 +242,32 @@ namespace Tango.Types
         public Continuation<TFail, TSuccess> Catch(Func<TFail, Continuation<TFail, TSuccess>> catchMethod)
             => Catch<TFail>(catchMethod);
 
+        /// <summary>
+        /// This provides a way for code that must be executed once the <see cref="Continuation{TFail, TSuccess}"/> has been dealt with to be run whether the <see cref="Continuation{TFail, TSuccess}"/> was fulfilled successfully or failed.
+        /// <para>
+        /// This lets you avoid duplicating code in both the <see cref="Continuation{TFail, TSuccess}.Then(Func{TSuccess, Continuation{TFail, TSuccess}})"/> and <see cref="Continuation{TFail, TSuccess}.Catch(Func{TFail, Continuation{TFail, TSuccess}})"/> methods.
+        /// </para>
+        /// </summary>
+        /// <param name="finallyMethod">The function to apply independent of the <see cref="Continuation{TFail, TSuccess}"/> state.</param>
+        /// <returns>
+        /// Returns the <see cref="Continuation{TFail, TSuccess}"/> itself.
+        /// </returns>
         public Continuation<TFail, TSuccess> Finally(Action finallyMethod)
         {
             finallyMethod();
             return this;
         }
 
+        /// <summary>
+        /// This provides a way for code that must be executed once the <see cref="Continuation{TFail, TSuccess}"/> has been dealt with to be run whether the <see cref="Continuation{TFail, TSuccess}"/> was fulfilled successfully or failed.
+        /// <para>
+        /// This lets you avoid duplicating code in both the <see cref="Continuation{TFail, TSuccess}.Then(Func{TSuccess, Continuation{TFail, TSuccess}})"/> and <see cref="Continuation{TFail, TSuccess}.Catch(Func{TFail, Continuation{TFail, TSuccess}})"/> methods.
+        /// </para>
+        /// </summary>
+        /// <param name="finallyMethod">The function to apply independent of the <see cref="Continuation{TFail, TSuccess}"/> state.</param>
+        /// <returns>
+        /// Returns the <see cref="Continuation{TFail, TSuccess}"/> itself.
+        /// </returns>
         public Continuation<TFail, TSuccess> Finally(Action<Either<TFail,TSuccess>> finallyMethod)
         {
             Either<TFail, TSuccess> either = Match(
