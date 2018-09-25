@@ -148,6 +148,93 @@ namespace Tango.Test.Types
         }
 
         [TestMethod]
+        public void ContinuationWithFinallyEitherSuccessed()
+        {
+            Continuation<string, int> continuation = 10;
+            int sideEffectValue = 0;
+            double result =
+                continuation.Then(value => value + 2)
+                            .Then(value => value - 3)
+                            .Finally(value => value.Match(number => sideEffectValue = number+1, _ => 0))
+                            .Match(value => value, _ => 0);
+
+            Assert.AreEqual(10, sideEffectValue);
+            Assert.AreEqual(9, result);
+        }
+
+        [TestMethod]
+        public void ContinuationWithFinallyEitherFailed()
+        {
+            Continuation<string, int> continuation = 10;
+            int sideEffectValue = 0;
+            double result =
+                continuation.Then(value => value + 2)
+                            .Then<int>(value => "fail")
+                            .Finally(value => value.Match(number => 0, _ => sideEffectValue = 5))
+                            .Match(value => value, _ => 0);
+
+            Assert.AreEqual(5, sideEffectValue);
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ContinuationWithFinallySuccess()
+        {
+            Continuation<string, int> continuation = 8;
+            int sideEffectValue = 0;
+            int result = continuation.Then(value => value + 2)
+                                     .Finally(() => sideEffectValue = 5)
+                                     .Match(value => value, _ => 0);
+
+            Assert.AreEqual(5, sideEffectValue);
+            Assert.AreEqual(10, result);
+        }
+
+
+        [TestMethod]
+        public void ContinuationWithFinallyFailed()
+        {
+            Continuation<string, int> continuation = 8;
+            int sideEffectValue = 0;
+            int result = continuation.Then(value => value + 2)
+                                     .Then<int>(value => "fail")
+                                     .Finally(() => sideEffectValue = 5)
+                                     .Match(value => value, _ => 0);
+
+            Assert.AreEqual(5, sideEffectValue);
+            Assert.AreEqual(0, result);
+        }
+
+
+        [TestMethod]
+        public void ContinuationWithMergeSuccessed()
+        {
+            Continuation<string, int> continuation = 10;
+            Continuation<bool, double> continuation2 = 28.5;
+            double result =
+                continuation.Then(value => value + 2)
+                            .Merge(value => continuation2)
+                            .Then(values => values.Item1 + values.Item2)
+                            .Match(value => value, _ => 0);
+
+            Assert.AreEqual(40.5, result);
+        }
+
+        [TestMethod]
+        public void ContinuationWithMergeFailed()
+        {
+            Continuation<string, int> continuation = 10;
+            Continuation<bool, double> continuation2 = false;
+            double result =
+                continuation.Then(value => value + 2)
+                            .Merge(value => continuation2)
+                            .Then(values => values.Item1 + values.Item2)
+                            .Match(value => value, _ => 0);
+
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
         public void ContinuationWithMultiplesThenOperator()
         {
             Continuation<string, int> continuation = 1;

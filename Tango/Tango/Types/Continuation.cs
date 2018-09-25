@@ -1,5 +1,6 @@
 ﻿using System;
 using Tango.Functional;
+using Tango.Modules;
 
 namespace Tango.Types
 {
@@ -20,8 +21,8 @@ namespace Tango.Types
     /// <typeparam name="TSuccess">The type of the success value</typeparam>
     public struct Continuation<TFail, TSuccess>
     {
-        private TSuccess Success { get; }
-        private TFail Fail { get; }
+        internal TSuccess Success { get; }
+        internal TFail Fail { get; }
 
         /// <summary>
         /// Returns true when the result value is a <see typeparamref="TSuccess"/> value.
@@ -240,6 +241,35 @@ namespace Tango.Types
         /// </returns>
         public Continuation<TFail, TSuccess> Catch(Func<TFail, Continuation<TFail, TSuccess>> catchMethod)
             => Catch<TFail>(catchMethod);
+
+        public Continuation<TFail, TSuccess> Finally(Action finallyMethod)
+        {
+            finallyMethod();
+            return this;
+        }
+
+        public Continuation<TFail, TSuccess> Finally(Action<Either<TFail,TSuccess>> finallyMethod)
+        {
+            Either<TFail, TSuccess> either = Match(
+                success => new Either<TFail, TSuccess>(success), 
+                fail => fail);
+
+            finallyMethod(either);
+            return this;
+        }
+
+        /// <summary>
+        /// This allows a powerful way to merge two different Continuations in a single tuppled <see cref="Continuation{(TFail,TNewFail), (TSuccess, TNewSuccess)}"/>
+        /// with the <see cref="Continuation.All{TFail1, TSuccess1, TFail2, TSuccess2}(Continuation{TFail1, TSuccess1}, Continuation{TFail2, TSuccess2})"/> method.
+        /// </summary>
+        /// <typeparam name="TNewFail">The type of the value returned by <paramref name="catchMethod"/> of the second <see cref="Continuation{TNewFail, TNewSuccess}"/>.</typeparam>
+        /// <typeparam name="TNewSuccess">The type of the value returned by <paramref name="thenMethod"/> of the second <see cref="Continuation{TNewFail, TNewSuccess}"/>.</typeparam>
+        /// <param name="mergeMethod">The function that returns a new <see cref="Continuation{TNewFail, TNewSuccess}"/>.</param>
+        /// <returns>
+        /// Returns a new <see cref="Continuation{(TFail,TNewFail), (TSuccess, TNewSuccess)}"/>
+        /// </returns>
+        public Continuation<(TFail, TNewFail), (TSuccess, TNewSuccess)> Merge<TNewFail, TNewSuccess>(Func<TSuccess, Continuation<TNewFail, TNewSuccess>> mergeMethod)
+            => ContinuationModule.All(this, mergeMethod(Success));
 
         /// <summary>
         /// This allows a sophisticated and powerful way to apply some method in order to compose an operation with different functions.

@@ -3,7 +3,7 @@ using System;
 using Tango.Modules;
 using Tango.Types;
 
-namespace Tango.Test.Types
+namespace Tango.Test.Modules
 {
     [TestClass]
     public class EitherModuleTests

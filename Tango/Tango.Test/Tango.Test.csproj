@@ -60,6 +60,8 @@
     <Compile Include="Linq\EnumExtensionsTests.cs" />
     <Compile Include="Modules\Collection\Collection.LinqTests.cs" />
     <Compile Include="Modules\Collection\CollectionModuleTests.cs" />
+    <Compile Include="Modules\Continuation\Continuation.LinqTests.cs" />
+    <Compile Include="Modules\Continuation\ContinuationModuleTests.cs" />
     <Compile Include="Modules\Either\Either.LinqTests.cs" />
     <Compile Include="Modules\Either\EitherModuleTests.cs" />
     <Compile Include="Modules\Option\Option.LinqTests.cs" />

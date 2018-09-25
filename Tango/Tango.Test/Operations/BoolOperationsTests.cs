@@ -4,7 +4,7 @@ using Tango.CommonOperations;
 using Tango.Linq;
 using Tango.Modules;
 
-namespace Tango.Test.Types
+namespace Tango.Test.Operations
 {
     [TestClass]
     public class BoolOperationsTests

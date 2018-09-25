@@ -4,7 +4,7 @@ using Tango.Modules;
 using Tango.Types;
 using Tango.Linq;
 
-namespace Tango.Test.Types
+namespace Tango.Test.Modules
 {
     [TestClass]
     public class EitherLinqTests
