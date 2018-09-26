@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>3.1.0.0</AssemblyVersion>
-    <Version>3.1.0</Version>
+    <AssemblyVersion>3.1.1.0</AssemblyVersion>
+    <Version>3.1.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Everyone deserves to enjoy the benefits of functional programming. 
 
@@ -37,6 +37,10 @@ Stop to struggle with your code and take it to dance a Tango!</Description>
    - Resolve, Reject and All methods;
 - Create a extension called Continuation.Linq
    - AsContinuation&lt;TFail, TSuccess&gt; extension for any value or reference type;</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\Tango.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
