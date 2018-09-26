@@ -69,12 +69,12 @@ namespace Tango.Modules
         /// <returns>
         /// A new instance of <see cref= "Continuation{TFail,TSuccess}" /> based on parameters.
         /// </returns>
-        public static Continuation<(TFail1, TFail2), (TSuccess1, TSuccess2)> All<TFail1, TSuccess1, TFail2, TSuccess2>(
+        public static Continuation<(Option<TFail1>, Option<TFail2>), (TSuccess1, TSuccess2)> All<TFail1, TSuccess1, TFail2, TSuccess2>(
             Continuation<TFail1, TSuccess1> continuation1,
             Continuation<TFail2, TSuccess2> continuation2
             )
         => continuation1.IsSuccess && continuation2.IsSuccess ?
-                Resolve<(TFail1, TFail2), (TSuccess1, TSuccess2)>((continuation1.Success, continuation2.Success))
+                Resolve<(Option<TFail1>, Option<TFail2>), (TSuccess1, TSuccess2)>((continuation1.Success, continuation2.Success))
                 : (continuation1.Fail, continuation2.Fail);
 
         /// <summary>
@@ -96,13 +96,13 @@ namespace Tango.Modules
         /// <returns>
         /// A new instance of <see cref= "Continuation{TFail,TSuccess}" /> based on parameters.
         /// </returns>
-        public static Continuation<(TFail1, TFail2, TFail3), (TSuccess1, TSuccess2, TSuccess3)> All<TFail1, TSuccess1, TFail2, TSuccess2, TFail3, TSuccess3>(
+        public static Continuation<(Option<TFail1>, Option<TFail2>, Option<TFail3>), (TSuccess1, TSuccess2, TSuccess3)> All<TFail1, TSuccess1, TFail2, TSuccess2, TFail3, TSuccess3>(
             Continuation<TFail1, TSuccess1> continuation1,
             Continuation<TFail2, TSuccess2> continuation2,
             Continuation<TFail3, TSuccess3> continuation3
             )
         => continuation1.IsSuccess && continuation2.IsSuccess && continuation3.IsSuccess ?
-                Resolve<(TFail1, TFail2, TFail3), (TSuccess1, TSuccess2, TSuccess3)>((continuation1.Success, continuation2.Success, continuation3.Success))
+                Resolve<(Option<TFail1>, Option<TFail2>, Option<TFail3>), (TSuccess1, TSuccess2, TSuccess3)>((continuation1.Success, continuation2.Success, continuation3.Success))
                 : (continuation1.Fail, continuation2.Fail, continuation3.Fail);
 
         /// <summary>
@@ -127,14 +127,14 @@ namespace Tango.Modules
         /// <returns>
         /// A new instance of <see cref= "Continuation{TFail,TSuccess}" /> based on parameters.
         /// </returns>
-        public static Continuation<(TFail1, TFail2, TFail3, TFail4), (TSuccess1, TSuccess2, TSuccess3, TSuccess4)> All<TFail1, TSuccess1, TFail2, TSuccess2, TFail3, TSuccess3, TFail4, TSuccess4>(
+        public static Continuation<(Option<TFail1>, Option<TFail2>, Option<TFail3>, Option<TFail4>), (TSuccess1, TSuccess2, TSuccess3, TSuccess4)> All<TFail1, TSuccess1, TFail2, TSuccess2, TFail3, TSuccess3, TFail4, TSuccess4>(
             Continuation<TFail1, TSuccess1> continuation1,
             Continuation<TFail2, TSuccess2> continuation2,
             Continuation<TFail3, TSuccess3> continuation3,
             Continuation<TFail4, TSuccess4> continuation4
             )
         => continuation1.IsSuccess && continuation2.IsSuccess && continuation3.IsSuccess && continuation4.IsSuccess ?
-                Resolve<(TFail1, TFail2, TFail3, TFail4), (TSuccess1, TSuccess2, TSuccess3, TSuccess4)>((continuation1.Success, continuation2.Success, continuation3.Success, continuation4.Success))
+                Resolve<(Option<TFail1>, Option<TFail2>, Option<TFail3>, Option<TFail4>), (TSuccess1, TSuccess2, TSuccess3, TSuccess4)>((continuation1.Success, continuation2.Success, continuation3.Success, continuation4.Success))
                 : (continuation1.Fail, continuation2.Fail, continuation3.Fail, continuation4.Fail);
     }
 }

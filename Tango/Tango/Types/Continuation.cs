@@ -268,10 +268,10 @@ namespace Tango.Types
         /// <returns>
         /// Returns the <see cref="Continuation{TFail, TSuccess}"/> itself.
         /// </returns>
-        public Continuation<TFail, TSuccess> Finally(Action<Either<TFail,TSuccess>> finallyMethod)
+        public Continuation<TFail, TSuccess> Finally(Action<Either<TFail, TSuccess>> finallyMethod)
         {
             Either<TFail, TSuccess> either = Match(
-                success => new Either<TFail, TSuccess>(success), 
+                success => new Either<TFail, TSuccess>(success),
                 fail => fail);
 
             finallyMethod(either);
@@ -288,7 +288,7 @@ namespace Tango.Types
         /// <returns>
         /// Returns a new <see cref="Continuation{(TFail,TNewFail), (TSuccess, TNewSuccess)}"/>
         /// </returns>
-        public Continuation<(TFail, TNewFail), (TSuccess, TNewSuccess)> Merge<TNewFail, TNewSuccess>(Func<TSuccess, Continuation<TNewFail, TNewSuccess>> mergeMethod)
+        public Continuation<(Option<TFail>, Option<TNewFail>), (TSuccess, TNewSuccess)> Merge<TNewFail, TNewSuccess>(Func<Continuation<TFail, TSuccess>, Continuation<TNewFail, TNewSuccess>> mergeMethod)
             => ContinuationModule.All(this, mergeMethod(Success));
 
         /// <summary>
