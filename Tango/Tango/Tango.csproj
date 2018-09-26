@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>3.0.0.0</AssemblyVersion>
-    <Version>3.0.0</Version>
+    <AssemblyVersion>3.1.0.0</AssemblyVersion>
+    <Version>3.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Everyone deserves to enjoy the benefits of functional programming. 
 
@@ -29,7 +29,14 @@ Stop to struggle with your code and take it to dance a Tango!</Description>
     <RepositoryUrl>https://github.com/gabrielschade/Tango</RepositoryUrl>
     <PackageTags>Functional Programming FSharp</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/gabrielschade/Tango/f377270dda8f09820c06c0a10ecf99e963757a9a/icon64.png</PackageIconUrl>
-    <PackageReleaseNotes>- .NET Standard Support;</PackageReleaseNotes>
+    <PackageReleaseNotes>Continuation Updates:
+
+- Create Merge method in order to merge two Continuation with different TFail and TSuccess types;
+- Create Finally Method in order to create a method that execute in both cases (Success and Fail);
+- Create a brand new ContinuationModule
+   - Resolve, Reject and All methods;
+- Create a extension called Continuation.Linq
+   - AsContinuation&lt;TFail, TSuccess&gt; extension for any value or reference type;</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
