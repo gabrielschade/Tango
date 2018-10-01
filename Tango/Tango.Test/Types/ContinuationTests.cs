@@ -207,6 +207,54 @@ namespace Tango.Test.Types
 
 
         [TestMethod]
+        public void ContinuationWithFinallySuccessOperator()
+        {
+            Continuation<string, int> continuation = 8;
+            int sideEffectValue = 0;
+            var continuationResult =
+                continuation
+                > (value => value + 2)
+                > (value => value + 1)
+                == (() => sideEffectValue = 5);
+            int result = continuationResult.Match(value => value, _ => 0);
+
+            Assert.AreEqual(5, sideEffectValue);
+            Assert.AreEqual(11, result);
+        }
+
+        [TestMethod]
+        public void ContinuationWithFinallyFailedOperator()
+        {
+            Continuation<string, int> continuation = 8;
+            int sideEffectValue = 0;
+            var continuationResult =
+                continuation
+                >  (value => value + 2)
+                >  (value => { if (value == 0) return value; else return "falha"; })
+                == (() => sideEffectValue = 5);
+            int result = continuationResult.Match(value => value, _ => 0);
+
+            Assert.AreEqual(5, sideEffectValue);
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ContinuationWithFinallyWithEitherSuccessOperator()
+        {
+            Continuation<string, int> continuation = 8;
+            bool sideEffectValue = false;
+            var continuationResult =
+                continuation
+                > (value => value + 2)
+                > (value => value + 1)
+                == (values => sideEffectValue = values.IsRight);
+            int result = continuationResult.Match(value => value, _ => 0);
+
+            Assert.AreEqual(true, sideEffectValue);
+            Assert.AreEqual(11, result);
+        }
+
+        [TestMethod]
         public void ContinuationWithMergeSuccessed()
         {
             Continuation<string, int> continuation = 10;

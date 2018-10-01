@@ -54,7 +54,7 @@ namespace Tango.Modules
         => fail;
 
         /// <summary>
-        /// Initialize a new instance of <see cref= "Continuation{(TFail1,TFail2),(TSuccess1,TSuccess2)}" /> value according to the <see cref="Continuation{TFail, TSuccess}"/>parameters.
+        /// Initialize a new instance of <see cref= "Continuation{TFail, TSuccess}" /> value according to the <see cref="Continuation{TFail, TSuccess}"/>parameters.
         /// <para>
         /// The new <see cref="Continuation{TFail, TSuccess}"/> will be in Success state only when all parameters are also in this state.
         /// </para>
@@ -78,7 +78,7 @@ namespace Tango.Modules
                 : (continuation1.Fail, continuation2.Fail);
 
         /// <summary>
-        /// Initialize a new instance of <see cref= "Continuation{(TFail1,TFail2, TFail3),(TSuccess1,TSuccess2,TSuccess3)}" /> value according to the <see cref="Continuation{TFail, TSuccess}"/>parameters.
+        /// Initialize a new instance of <see cref= "Continuation{TFail, TSuccess}" /> value according to the <see cref="Continuation{TFail, TSuccess}"/>parameters.
         /// <para>
         /// The new <see cref="Continuation{TFail, TSuccess}"/> will be in Success state only when all parameters are also in this state.
         /// </para>
@@ -106,7 +106,7 @@ namespace Tango.Modules
                 : (continuation1.Fail, continuation2.Fail, continuation3.Fail);
 
         /// <summary>
-        /// Initialize a new instance of <see cref= "Continuation{(TFail1,TFail2, TFail3, TFail4),(TSuccess1,TSuccess2,TSuccess3,TSuccess4)}" /> value according to the <see cref="Continuation{TFail, TSuccess}"/>parameters.
+        /// Initialize a new instance of <see cref= "Continuation{TFail, TSuccess}" /> value according to the <see cref="Continuation{TFail, TSuccess}"/>parameters.
         /// <para>
         /// The new <see cref="Continuation{TFail, TSuccess}"/> will be in Success state only when all parameters are also in this state.
         /// </para>

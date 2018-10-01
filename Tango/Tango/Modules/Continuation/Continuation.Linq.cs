@@ -9,7 +9,7 @@ namespace Tango.Modules
     public static class ContinuationLinqExtensions
     {
         /// <summary>
-        /// Creates a new instance of <see cref= "Continuation{TFail,TSuccess}" /> by invoking the <see cref="Continuation.Resolve{TFail, TSuccess}(TSuccess)"/> method.
+        /// Creates a new instance of <see cref= "Continuation{TFail,TSuccess}" /> by invoking the <see cref="ContinuationModule.Resolve{TFail, TSuccess}(TSuccess)"/> method.
         /// </summary>
         /// <typeparam name="TSuccess">Type of Success value</typeparam>
         /// <typeparam name="TFail">Type of Fail value</typeparam>
@@ -21,7 +21,7 @@ namespace Tango.Modules
             => ContinuationModule.Resolve<TFail, TSuccess>(value);
 
         /// <summary>
-        /// Creates a new instance of <see cref= "Continuation{TFail,TSuccess}" /> by invoking the <see cref="Continuation.Reject{TFail}(TFail)"/> method.
+        /// Creates a new instance of <see cref= "Continuation{TFail,TSuccess}" /> by invoking the <see cref="ContinuationModule.Reject{TFail}(TFail)"/> method.
         /// </summary>
         /// <typeparam name="TSuccess">Type of Success value</typeparam>
         /// <typeparam name="TFail">Type of Fail value</typeparam>
@@ -29,7 +29,7 @@ namespace Tango.Modules
         /// <returns>
         /// A new instance of <see cref= "Continuation{TFail,TSuccess}" /> in Fail state.
         /// </returns>
-        public static Continuation<TFail, TSuccess> AsContinuation<TFail, TSuccess>(this TFail value)
-            => ContinuationModule.Reject<TFail, TSuccess>(value);
+        public static Continuation<TFail, TSuccess> AsContinuation<TFail, TSuccess>(this TFail fail)
+            => ContinuationModule.Reject<TFail, TSuccess>(fail);
     }
 }

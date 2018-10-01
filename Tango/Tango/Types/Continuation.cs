@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Tango.Functional;
 using Tango.Modules;
 
@@ -279,17 +280,54 @@ namespace Tango.Types
         }
 
         /// <summary>
-        /// This allows a powerful way to merge two different Continuations in a single tuppled <see cref="Continuation{(TFail,TNewFail), (TSuccess, TNewSuccess)}"/>
-        /// with the <see cref="Continuation.All{TFail1, TSuccess1, TFail2, TSuccess2}(Continuation{TFail1, TSuccess1}, Continuation{TFail2, TSuccess2})"/> method.
+        /// This allows a powerful way to merge two different Continuations in a single tuppled <see cref="Continuation{TFail, TSuccess}"/>
+        /// with the <see cref="ContinuationModule.All{TFail1, TSuccess1, TFail2, TSuccess2}(Continuation{TFail1, TSuccess1}, Continuation{TFail2, TSuccess2})"/> method.
         /// </summary>
-        /// <typeparam name="TNewFail">The type of the value returned by <paramref name="catchMethod"/> of the second <see cref="Continuation{TNewFail, TNewSuccess}"/>.</typeparam>
-        /// <typeparam name="TNewSuccess">The type of the value returned by <paramref name="thenMethod"/> of the second <see cref="Continuation{TNewFail, TNewSuccess}"/>.</typeparam>
+        /// <typeparam name="TNewFail">The type of the value returned by <see cref="Continuation{TFail, TSuccess}.Fail"/> of the second <see cref="Continuation{TNewFail, TNewSuccess}"/>.</typeparam>
+        /// <typeparam name="TNewSuccess">The type of the value returned by <see cref="Continuation{TFail, TSuccess}.Success"/> of the second <see cref="Continuation{TNewFail, TNewSuccess}"/>.</typeparam>
         /// <param name="mergeMethod">The function that returns a new <see cref="Continuation{TNewFail, TNewSuccess}"/>.</param>
         /// <returns>
-        /// Returns a new <see cref="Continuation{(TFail,TNewFail), (TSuccess, TNewSuccess)}"/>
+        /// Returns a new <see cref="Continuation{TFail, TSuccess}"/>
         /// </returns>
         public Continuation<(Option<TFail>, Option<TNewFail>), (TSuccess, TNewSuccess)> Merge<TNewFail, TNewSuccess>(Func<Continuation<TFail, TSuccess>, Continuation<TNewFail, TNewSuccess>> mergeMethod)
             => ContinuationModule.All(this, mergeMethod(Success));
+
+        /// <summary>
+        /// Basic equals method
+        /// </summary>
+        /// <param name="obj">object to compare</param>
+        /// <returns>
+        /// True if <paramref name="obj"/> is equals to it. Otherwise returns false.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Continuation<TFail, TSuccess>))
+            {
+                return false;
+            }
+
+            var continuation = (Continuation<TFail, TSuccess>)obj;
+            return EqualityComparer<TSuccess>.Default.Equals(Success, continuation.Success) &&
+                   EqualityComparer<TFail>.Default.Equals(Fail, continuation.Fail) &&
+                   IsSuccess == continuation.IsSuccess &&
+                   IsFail == continuation.IsFail;
+        }
+
+        /// <summary>
+        /// Basic GetHashCode method
+        /// </summary>
+        /// <returns>
+        /// Returns the Hashcode of this object
+        /// </returns>
+        public override int GetHashCode()
+        {
+            var hashCode = -242521718;
+            hashCode = hashCode * -1521134295 + EqualityComparer<TSuccess>.Default.GetHashCode(Success);
+            hashCode = hashCode * -1521134295 + EqualityComparer<TFail>.Default.GetHashCode(Fail);
+            hashCode = hashCode * -1521134295 + IsSuccess.GetHashCode();
+            hashCode = hashCode * -1521134295 + IsFail.GetHashCode();
+            return hashCode;
+        }
 
         /// <summary>
         /// This allows a sophisticated and powerful way to apply some method in order to compose an operation with different functions.
@@ -377,6 +415,60 @@ namespace Tango.Types
         public static Continuation<TFail, TSuccess> operator <=
             (Continuation<TFail, TSuccess> first, Func<TFail,
                 Continuation<TFail, TSuccess>> catchMethod)
+            => throw new NotSupportedException();
+
+        /// <summary>
+        /// This provides a way for code that must be executed once the <see cref="Continuation{TFail, TSuccess}"/> has been dealt with to be run whether the <see cref="Continuation{TFail, TSuccess}"/> was fulfilled successfully or failed.
+        /// <para>
+        /// This lets you avoid duplicating code in both the <see cref="Continuation{TFail, TSuccess}.Then(Func{TSuccess, Continuation{TFail, TSuccess}})"/> and <see cref="Continuation{TFail, TSuccess}.Catch(Func{TFail, Continuation{TFail, TSuccess}})"/> methods.
+        /// </para>
+        /// </summary>
+        /// <param name="first">The continuation itself.</param>
+        /// <param name="finallyMethod">The function to apply independent of the <see cref="Continuation{TFail, TSuccess}"/> state.</param>
+        /// <returns>
+        /// Returns the <see cref="Continuation{TFail, TSuccess}"/> itself.
+        /// </returns>
+        public static Continuation<TFail, TSuccess> operator ==
+            (Continuation<TFail, TSuccess> first, Action finallyMethod)
+            => first.Finally(finallyMethod);
+
+        /// <summary>
+        /// Always raises a <see cref="NotSupportedException"/>.
+        /// </summary>
+        /// <param name="first">The continuation itself.</param>
+        /// <param name="finallyMethod">The function to apply.</param>
+        /// <returns>
+        /// Always raises a <see cref="NotSupportedException"/>.
+        /// </returns>
+        public static Continuation<TFail, TSuccess> operator !=
+            (Continuation<TFail, TSuccess> first, Action finallyMethod)
+            => throw new NotSupportedException();
+
+        /// <summary>
+        /// This provides a way for code that must be executed once the <see cref="Continuation{TFail, TSuccess}"/> has been dealt with to be run whether the <see cref="Continuation{TFail, TSuccess}"/> was fulfilled successfully or failed.
+        /// <para>
+        /// This lets you avoid duplicating code in both the <see cref="Continuation{TFail, TSuccess}.Then(Func{TSuccess, Continuation{TFail, TSuccess}})"/> and <see cref="Continuation{TFail, TSuccess}.Catch(Func{TFail, Continuation{TFail, TSuccess}})"/> methods.
+        /// </para>
+        /// </summary>
+        /// <param name="first">The continuation itself.</param>
+        /// <param name="finallyMethod">The function to apply independent of the <see cref="Continuation{TFail, TSuccess}"/> state.</param>
+        /// <returns>
+        /// Returns the <see cref="Continuation{TFail, TSuccess}"/> itself.
+        /// </returns>
+        public static Continuation<TFail, TSuccess> operator ==
+            (Continuation<TFail, TSuccess> first, Action<Either<TFail, TSuccess>> finallyMethod)
+            => first.Finally(finallyMethod);
+
+        /// <summary>
+        /// Always raises a <see cref="NotSupportedException"/>.
+        /// </summary>
+        /// <param name="first">The continuation itself.</param>
+        /// <param name="finallyMethod">The function to apply.</param>
+        /// <returns>
+        /// Always raises a <see cref="NotSupportedException"/>.
+        /// </returns>
+        public static Continuation<TFail, TSuccess> operator !=
+            (Continuation<TFail, TSuccess> first, Action<Either<TFail, TSuccess>> finallyMethod)
             => throw new NotSupportedException();
     }
 }
