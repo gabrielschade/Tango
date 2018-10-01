@@ -40,6 +40,7 @@ Install-Package Tango
   - Unit
   
 ### Modules
+  - Continuation
   - Collection
   - Option
   - Either
