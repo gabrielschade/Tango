@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>3.1.1.0</AssemblyVersion>
-    <Version>3.1.1</Version>
+    <AssemblyVersion>3.1.2.0</AssemblyVersion>
+    <Version>3.1.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Everyone deserves to enjoy the benefits of functional programming. 
 
@@ -33,6 +33,7 @@ Stop to struggle with your code and take it to dance a Tango!</Description>
 
 - Create Merge method in order to merge two Continuation with different TFail and TSuccess types;
 - Create Finally Method in order to create a method that execute in both cases (Success and Fail);
+   - Similar to Then and Catch, this method is accessible as == operator
 - Create a brand new ContinuationModule
    - Resolve, Reject and All methods;
 - Create a extension called Continuation.Linq
