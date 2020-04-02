@@ -56,8 +56,8 @@ Install-Package Tango
 
 ## Documentation
 For a better understanding of the library concepts, methods and objects you can access the documentation:
-  - [English version](https://gabrielschade.gitbooks.io/tango/content/)
-  - [Portuguese version](https://gabrielschade.gitbooks.io/tango-br/content/)
+  - [English version](https://gabriel-schade-cardoso.gitbook.io/tango/)
+  - [Versão em Português](https://gabriel-schade-cardoso.gitbook.io/tango-br/)
 
 ## Dependecies
 This library depends on:
